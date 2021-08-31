@@ -1,0 +1,1912 @@
+---
+title: ''
+output: pdf_document
+---
+```{r}
+#library
+library(tidyverse)
+library(data.table)
+library(plyr)
+library(readr)
+library(BBmisc)
+library(stringr)
+library(plot3D)
+library(ggfortify)
+library(ggforce)
+library(reshape2)
+library(mixtools)
+library(pracma)
+library(missMDA)
+library(cluster)
+
+#summarySE
+## Summarizes data.
+## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+##   data: a data frame.
+##   measurevar: the name of a column that contains the variable to be summarized
+##   groupvars: a vector containing names of columns that contain grouping variables
+##   na.rm: a boolean that indicates whether to ignore NA's
+##   conf.interval: the percent range of the confidence interval (default is 95%)
+summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
+                      conf.interval=.95, .drop=TRUE) {
+    library(plyr)
+
+    # New version of length which can handle NA's: if na.rm==T, don't count them
+    length2 <- function (x, na.rm=FALSE) {
+        if (na.rm) sum(!is.na(x))
+        else       length(x)
+    }
+
+    # This does the summary. For each group's data frame, return a vector with
+    # N, mean, and sd
+    datac <- ddply(data, groupvars, .drop=.drop,
+      .fun = function(xx, col) {
+        c(N    = length2(xx[[col]], na.rm=na.rm),
+          mean = mean   (xx[[col]], na.rm=na.rm),
+          sd   = sd     (xx[[col]], na.rm=na.rm)
+        )
+      },
+      measurevar
+    )
+
+    # Rename the "mean" column    
+    datac <- rename(datac, c("mean" = measurevar))
+
+    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+
+    # Confidence interval multiplier for standard error
+    # Calculate t-statistic for confidence interval: 
+    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
+    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+    datac$ci <- datac$se * ciMult
+
+    return(datac)
+}
+```
+
+
+```{r}
+#data wrangling chapter Iadd
+sum_rheo_on.data <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/summary_rheo_online.csv")
+sum_rheo_on.data <- sum_rheo_on.data[-31,]
+sum_rheo_on <- mutate(sum_rheo_on.data, "sample" = paste(source,tm,cup,sep="_"))
+sum_rheo_on$`time[s]` <- sum_rheo_on$`time[s]`/60
+sum_rheo_on$`time[s]` <- round(sum_rheo_on$`time[s]`)
+colnames(sum_rheo_on)[10] <- "time[min]"
+
+sum_visco <- summarySE(sum_rheo_on, measurevar = "value", groupvars = c("sample", "sm"))
+View(sum_visco)
+
+sum_time <- summarySE(sum_rheo_on, measurevar = "time[min]", groupvars = c("sample", "sm"))
+
+sum_t.v <- bind_cols(sum_visco, sum_time$`time[min]`)
+colnames(sum_t.v)[8] <- "process time[min]"
+
+sum_t.v_plot <- sum_t.v %>% ggplot(., mapping = aes(
+  x=`process time[min]`, y=value, color=sample, group = sample))+
+  theme_bw()+geom_point()+geom_line(linetype=2)+scale_y_log10(breaks=1:10)+
+  facet_zoom(xlim = c(0,250))
+
+sum_t.v_param <- strsplit(sum_t.v$sample,"_") %>% as.data.frame()
+sum_t.v_param <- t(sum_t.v_param) %>% as.data.frame()
+sum_t.v_wide <- bind_cols(sum_t.v_param, sum_t.v)
+colnames(sum_t.v_wide)[1:3] <- c("source", "tm", "cup")
+rownames(sum_t.v_wide) <- NULL
+
+sum_t.v_2 <- sum_t.v_wide %>% filter(str_detect(cup, "alu-100"))
+sum_t.v_plot_2 <- sum_t.v_2 %>% ggplot(., mapping = aes(
+  x=`process time[min]`, y=value, color=tm, group = sample))+
+  theme_bw()+theme(legend.position = "none")+
+  geom_point()+geom_line(linetype=2)+facet_zoom(xlim = c(0,250))
+
+sum_t.v_3 <- sum_t.v_wide %>% filter(str_detect(source, "sodium"))
+sum_t.v_plot_3 <- sum_t.v_3 %>% ggplot(., mapping = aes(
+  x=`process time[min]`, y=value, color=tm, group = tm))+
+  theme_bw()+theme(legend.position = "none")+
+  geom_point()+geom_line(linetype=2)
+
+sum_t.v_4 <- sum_t.v_wide %>% filter(str_detect(cup, "steel"))
+sum_t.v_plot_4 <- sum_t.v_4 %>% ggplot(., mapping = aes(
+  x=`process time[min]`, y=value, color=source, group = sample))+
+  theme_bw()+theme(legend.position = "none")+
+  geom_point()+geom_line(linetype=2)
+
+sum_t.v_5 <- sum_t.v_wide %>% filter(sample %in% c("rennet_emS_alu", "native_emS_alu", "sodium_emS_alu"))
+sum_t.v_plot_5 <- sum_t.v_5 %>% ggplot(., mapping = aes(
+  x=`process time[min]`, y=value, color=source, group = sample))+
+  theme_bw()+theme(legend.position = "none")+
+  geom_point()+geom_line(linetype=2)
+
+```
+
+```{r}
+#data wrangling chapter I
+file_list <- list.files(path = "./data_chapterI", full.names = T)
+
+### DATA WRANGLING SODIUM CASEINATE
+data.names <- c("sample", "shear.stress", "viscosity", "pr.time", "normal.stress", "time")
+
+##### plot_3: NC dependent on salts and pH:
+#####         NC_no-S pH 5.8 (HCl) duplicate: ID[14], ID[15]
+#####         NC_no-S pH 5.8 (CitrAc) duplicate: ID[16], ID[17]
+#####         NC_all-S pH 5.8 triplicate: ID[7], ID[8], ID[19]
+
+SoCas.HCl_1 <- read.csv(file_list[14], header=F, skip = 1)
+sample <- rep("Sodium.Cas.HCl_1", 602)
+SoCas.HCl_1$V1 <- sample
+SoCas.HCl_1 <- mutate(SoCas.HCl_1, "time" = V4*1)
+colnames(SoCas.HCl_1) <- data.names
+SoCas.HCl_1 <- head(SoCas.HCl_1, 450)
+
+SoCas.HCl_2 <- read.csv(file_list[15], header=F, skip = 1)
+sample <- rep("Sodium.Cas.HCl_2", 454)
+SoCas.HCl_2$V1 <- sample
+SoCas.HCl_2 <- mutate(SoCas.HCl_2, "time" = V4*1)
+colnames(SoCas.HCl_2) <- data.names
+SoCas.HCl_2 <- head(SoCas.HCl_2, 450)
+
+
+SoCas.CitAc_1 <- read.csv(file_list[16], header=F, skip = 1)
+sample <- rep("Sodium.Cas.CitAc_1", 720)
+SoCas.CitAc_1$V1 <- sample
+SoCas.CitAc_1 <- mutate(SoCas.CitAc_1, "time" = V4*1)
+colnames(SoCas.CitAc_1) <- data.names
+SoCas.CitAc_1 <- head(SoCas.CitAc_1, 450)
+
+
+SoCas.CitAc_2 <- read.csv(file_list[17], header=F, skip = 1)
+sample <- rep("Sodium.Cas.CitAc_2", 541)
+SoCas.CitAc_2$V1 <- sample
+SoCas.CitAc_2 <- mutate(SoCas.CitAc_2, "time" = V4*1)
+colnames(SoCas.CitAc_2) <- data.names
+SoCas.CitAc_2 <- head(SoCas.CitAc_2, 450)
+                      
+SoCas.emS_1 <- read.csv(file_list[7], header=F, skip = 1)
+sample <- rep("Sodium.Cas.emS_1", 637)
+SoCas.emS_1$V1 <- sample
+SoCas.emS_1 <- mutate(SoCas.emS_1, "time" = V4*1)
+colnames(SoCas.emS_1) <- data.names
+SoCas.emS_1 <- head(SoCas.emS_1, 450)
+
+SoCas.emS_2 <- read.csv(file_list[8], header=F, skip = 1)
+sample <- rep("Sodium.Cas.emS_2", 621)
+SoCas.emS_2$V1 <- sample
+SoCas.emS_2 <- mutate(SoCas.emS_2, "time" = V4*1)
+colnames(SoCas.emS_2) <- data.names
+SoCas.emS_2 <- head(SoCas.emS_2, 450)
+
+SoCas.emS_3 <- read.csv(file_list[19], header=F, skip = 1)
+sample <- rep("Sodium.Cas.emS_3", 571)
+SoCas.emS_3$V1 <- sample
+SoCas.emS_3 <- mutate(SoCas.emS_3, "time" = V4*1)
+colnames(SoCas.emS_3) <- data.names
+SoCas.emS_3 <- head(SoCas.emS_3, 450)
+
+plot.data3 <- bind_rows(SoCas.emS_1, SoCas.emS_2, SoCas.emS_3, SoCas.CitAc_1, SoCas.CitAc_2, SoCas.HCl_1, SoCas.HCl_2)
+
+
+plot.data3.1 <- separate(plot.data3, sample, into = c("protein", "rep"), sep = "_", remove = FALSE, convert = FALSE, extra = "merge", fill = "right")
+
+plot.data3.1$time <- round(plot.data3.1$time)
+plot.data3.2 <- plot.data3.1 %>% group_by(., "protein", "time")
+
+
+#### PLOT DATA SODIUM CASEINATE
+
+plot.data3.2 <- summarySE(plot.data3.2, measurevar="viscosity", groupvars=c("protein", "time"))
+plot.data3.2 <- mutate(plot.data3.2, "mins" = time/60) 
+
+plot1 <- ggplot(plot.data3.2, aes(x=mins, y=viscosity, colour=protein)) + 
+    geom_errorbar(aes(ymin=viscosity-se, ymax=viscosity+se), color= "grey", width=.1) +
+    geom_point() + theme_bw()
+
+### DATA WRANGLING NATIVE VS RENNET
+
+
+######plot_4: MC duplicate with more similar time values: ID[2], ID [12]
+######        LC                                        : ID[1], ID[4]
+
+NatCas.rep_1 <- read.csv(file_list[2], header=F, skip = 1)
+sample <- rep("Native.Cas_1", 510)
+NatCas.rep_1$V1 <- sample
+NatCas.rep_1 <- mutate(NatCas.rep_1, "time" = V4*1)
+NatCas.rep_1$time <- round(NatCas.rep_1$time)
+colnames(NatCas.rep_1) <- data.names
+NatCas.rep_1 <- head(NatCas.rep_1, 478)
+
+NatCas.rep_2 <- read.csv(file_list[12], header=F, skip = 1)
+sample <- rep("Native.Cas_2", 478)
+NatCas.rep_2$V1 <- sample
+NatCas.rep_2 <- mutate(NatCas.rep_2, "time" = V4*1)
+NatCas.rep_2$time <- round(NatCas.rep_2$time)
+colnames(NatCas.rep_2) <- data.names
+
+RenCas.rep_1 <- read.csv(file_list[1], header=F, skip = 1)
+sample <- rep("Rennet.Cas_1", 616)
+RenCas.rep_1$V1 <- sample
+RenCas.rep_1 <- mutate(RenCas.rep_1, "time" = V4*1)
+RenCas.rep_1$time <- round(RenCas.rep_1$time)
+colnames(RenCas.rep_1) <- data.names
+RenCas.rep_1 <- head(RenCas.rep_1, 606)
+
+
+RenCas.rep_2 <- read.csv(file_list[4], header=F, skip = 1)
+sample <- rep("Rennet.Cas_2", 606)
+RenCas.rep_2$V1 <- sample
+RenCas.rep_2 <- mutate(RenCas.rep_2, "time" = V4*1)
+RenCas.rep_2$time <- round(RenCas.rep_2$time)
+colnames(RenCas.rep_2) <- data.names
+
+plot.data4 <- bind_rows(NatCas.rep_1, NatCas.rep_2, RenCas.rep_1, RenCas.rep_2)
+
+plot.data4.1 <- separate(plot.data4, sample, into = c("protein", "rep"), sep = "_", remove = FALSE, convert = FALSE, extra = "merge", fill = "right")
+
+plot.data4.2 <- plot.data4.1 %>% group_by(., "protein", "time")
+
+###  PLOT NATIVE VS RENNET
+
+
+plot.data4.2 <- summarySE(plot.data4.2, measurevar="viscosity", groupvars=c("protein", "time"))
+plot.data4.2 <- mutate(plot.data4.2, "mins" = time/60) 
+
+plot2 <- ggplot(plot.data4.2, aes(x=mins, y=viscosity, colour=protein)) + 
+    geom_errorbar(aes(ymin=viscosity-se, ymax=viscosity+se), color= "grey", width=.1) +
+    geom_point()+ theme_bw()
+
+### PLOT CONTROLS
+
+
+##### plot_5: NC and MC w/o salts (native) --> controls
+#####           NC single measurement: ID[18]
+#####           MC single measurement: ID[13]
+
+SoCas_control <- read.csv(file_list[18], header=F, skip = 1)
+sample <- rep("Sodium.Cas", 594)
+SoCas_control$V1 <- sample
+SoCas_control <- mutate(SoCas_control, "time" = V4*1)
+SoCas_control$time <- round(SoCas_control$time)
+colnames(SoCas_control) <- data.names
+#NatCas.rep_1 <- head(NatCas.rep_1, 478)
+
+NatCas_control <- read.csv(file_list[13], header=F, skip = 1)
+sample <- rep("Native.Cas", 537)
+NatCas_control$V1 <- sample
+NatCas_control <- mutate(NatCas_control, "time" = V4*1)
+NatCas_control$time <- round(NatCas_control$time)
+colnames(NatCas_control) <- data.names
+
+plot.data5 <- bind_rows(NatCas_control, SoCas_control)
+plot.data5 <- mutate(plot.data5, "mins" = time/60) 
+
+
+plot3 <- ggplot(plot.data5, mapping = aes(x=mins, y=viscosity, color=sample))+geom_point() + theme_bw()
+
+### RESULTS TABLE (WITH PH):
+
+pr.smp <- c("Sodium.Cas_control", "Native.Cas_control", "Rennet.Cas", "Rennet.Cas", "Native.Cas", "Native.Cas", "Sodium.Cas.HCl", "Sodium.Cas.HCl", "Sodium.Cas.CitrAc", "Sodium.Cas.CitrAc", "Sodium.Cas.emS", "Sodium.Cas.emS")
+
+str.form.shape <- c("linear", "linear", "2nd_log", "2nd_log", "2nd_log", "2nd_log", "1st_log", "1st_log", "linear", "linear", "scattered", "scattered")
+
+str.form <- c("low", "very_low", "high", "high", "high", "high", "high", "high", "medium", "medium", "low", "low")
+
+pH_start <- c("6.58", "6.40", rep("5.80", 10))
+
+pH_end <- c("6.59", "6.42", "6.07", "6.04", "6.17", "6.12", "5.20", "5.23", "5.86" , "5.87", "6.44", "6.47")
+
+pH_start <- pH_start %>% as.numeric()
+pH_end <- pH_end %>% as.numeric()
+
+results_tbl <- bind_cols(pr.smp, str.form.shape, str.form, pH_start, pH_end)
+results_tbl <- results_tbl %>% mutate(., "d.pH" = ...5-...4)
+
+results_header <- c("sample", "shape flow", "structure formation", "pH start", "pH end", "delta pH")
+colnames(results_tbl) <- results_header
+
+sample_type <- c(LETTERS[1:7])
+samples <- unique(results_tbl$sample)
+pH.diff <- c(0.01, 0.02, ((0.27+0.24)/2), ((0.37+0.32)/2), (((-0.6)+(-0.57))/2), ((0.06+0.07)/2), ((0.64+0.67)/2))
+flow <- unique(results_tbl$`shape flow`)
+structure <- unique(results_tbl$`structure formation`)
+results_final <- bind_cols(sample_type, samples, pH.diff)
+
+colnames(results_final) <- c("type", "source", "pH.diff")
+
+
+### BOXPLOT PH
+
+pH <- ggplot(results_final, aes(type, pH.diff))+geom_bar(stat = "identity", aes(color=source, fill=source)) + theme_bw()
+
+# data development dM, dM cream, pH over process time
+
+##### DRY MATTER NATIVE CASEIN PRODUCT
+dM_MC <- read_csv2("data_chap_2/dM_MC4.csv")
+
+dM_MC$sm <- revalue(dM_MC$sm,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+dM_MC$sm <- as.numeric(dM_MC$sm)
+dM_MC <- na.omit(dM_MC)
+
+plot.dM_MC <- gather(dM_MC, key = "rep", value = "dM", dM_1, dm_2)
+colnames(plot.dM_MC) <- c("time", "measurement", "dry.matter")
+plot.dM_MC <- summarySE(plot.dM_MC, measurevar="dry.matter", groupvars="time")
+plot.dM_MC$protein <- rep("Native.Casein", 9)
+
+
+
+##### DRY MATTER SODIUM CASEIN PRODUCT
+
+dM_NC <- read_csv2("data_chap_2/dM_NC1.csv")
+dM_NC <- dM_NC %>% select(-X4)
+dM_NC$sm <- revalue(dM_NC$sm,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+dM_NC$sm <- as.numeric(dM_NC$sm)
+dM_NC <- na.omit(dM_NC)
+
+plot.dM_NC <- gather(dM_NC, key = "rep", value = "dM", dM_1, dm_2)
+colnames(plot.dM_NC) <- c("time", "measurement", "dry.matter")
+plot.dM_NC <- summarySE(plot.dM_NC, measurevar="dry.matter", groupvars="time")
+plot.dM_NC$protein <- rep("Sodium.Casein", 6)
+
+
+#### PLOT : DRY MATTER PRODUCT
+plot.dM <- bind_rows(plot.dM_MC, plot.dM_NC)
+plot.dM <- plot.dM %>% filter(., time > 0)
+
+p.dM <- plot.dM %>% ggplot(., mapping = aes(x = time, y = dry.matter, color = protein, group = protein, shape = protein))+ geom_point(size=3)+ geom_line(linetype=2) +
+  geom_errorbar(aes(ymin=dry.matter-se, ymax=dry.matter+se),linetype=1 , color= "black", width=1) +
+theme_bw()
+
+#### DRY MATTER MC CREAM
+
+dM_MC4.cream <- read_csv2("data_chap_2/dM_MC4_cream.csv")
+dM_MC4.cream$sm <- revalue(dM_MC4.cream$sm,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+dM_MC4.cream$sm <- as.numeric(dM_MC4.cream$sm)
+dM_MC4.cream <- na.omit(dM_MC4.cream)
+colnames(dM_MC4.cream) <- c("time", "r1.1", "r1.2", "r2.1", "r2.2")
+plot.dM_MC4.cream <- gather(dM_MC4.cream, key = "rep", value = "dM", r1.1, r1.2, r2.1, r2.2 )
+
+
+dM_MC5.cream <- read_csv2("data_chap_2/dM_MC5_cream.csv")
+dM_MC5.cream$sm <- revalue(dM_MC5.cream$sm,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+dM_MC5.cream$sm <- as.numeric(dM_MC5.cream$sm)
+dM_MC5.cream <- na.omit(dM_MC5.cream)
+colnames(dM_MC5.cream) <- c("time", "r3.1", "r3.2", "r4.1", "r4.2")
+plot.dM_MC5.cream <- gather(dM_MC5.cream, key = "rep", value = "dM", r3.1, r3.2, r4.1, r4.2 )
+
+dM_MC.cream <- bind_rows(plot.dM_MC4.cream, plot.dM_MC5.cream)
+colnames(dM_MC.cream) <- c("time", "measurement", "dry.matter")
+
+plot.dM_MC.cream <- summarySE(dM_MC.cream, measurevar="dry.matter", groupvars="time")
+plot.dM_MC.cream$protein <- rep("Native.Casein", 10)
+
+#### DRY MATTER NC CREAM
+
+dM_NC1.cream <- read_csv2("data_chap_2/dM_NC1_cream.csv")
+dM_NC1.cream$sm <- revalue(dM_NC1.cream$sm,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+dM_NC1.cream$sm <- as.numeric(dM_NC1.cream$sm)
+dM_NC1.cream <- na.omit(dM_NC1.cream)
+colnames(dM_NC1.cream) <- c("time", "r1.1", "r1.2", "r2.1", "r2.2")
+plot.dM_NC1.cream<- gather(dM_NC1.cream, key = "rep", value = "dM", r1.1, r1.2, r2.1, r2.2 )
+
+dM_NC2.cream <- read_csv2("data_chap_2/dM_NC2_cream.csv")
+dM_NC2.cream$sm <- revalue(dM_NC2.cream$sm,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+dM_NC2.cream$sm <- as.numeric(dM_NC2.cream$sm)
+dM_NC2.cream <- na.omit(dM_NC2.cream)
+colnames(dM_NC2.cream) <- c("time", "r3.1", "r3.2", "r4.1", "r4.2")
+plot.dM_NC2.cream<- gather(dM_NC2.cream, key = "rep", value = "dM", r3.1, r3.2, r4.1, r4.2 )
+
+dM_NC.cream <- bind_rows(plot.dM_NC1.cream, plot.dM_NC2.cream)
+colnames(dM_NC.cream) <- c("time", "measurement", "dry.matter")
+
+plot.dM_NC.cream <- summarySE(dM_NC.cream, measurevar="dry.matter", groupvars="time")
+plot.dM_NC.cream$protein <- rep("Sodium.Casein", 6)
+
+#### PLOT : DRY MATTER CREAM
+
+plot.dM.cream <- bind_rows(plot.dM_MC.cream,plot.dM_NC.cream)
+plot.dM.cream <- plot.dM.cream %>% filter(., time > 0)
+
+p.dM.cream <- plot.dM.cream %>% ggplot(., mapping = aes(x = time, y = dry.matter, color = protein)) +  geom_point(aes(x = time, y = dry.matter), size=3)+
+  geom_errorbar(aes(ymin=dry.matter-se, ymax=dry.matter+se),linetype=1 , color= "black", width=1) + 
+theme_bw()+ theme(legend.position = "none") + xlab("process time [min]") + ylab("dry matter in cream [%]")
+
+#### pH PRODUCT
+
+ph_MC1 <- read_csv2("data_chap_2/pH_MC1.csv")
+ph_MC5 <- read_csv2("data_chap_2/pH_MC5.csv")
+pH_native <- bind_cols(ph_MC1, ph_MC5)
+pH_native <- pH_native %>% select(-sm...3)
+colnames(pH_native) <- c("time", "r1", "r2")
+pH_native$time <- revalue(pH_native$time,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+pH_native$time <- as.numeric(pH_native$time)
+pH_native <- na.omit(pH_native)
+pH_native <- gather(pH_native, key = "rep", value = "pH", r1, r2)
+plot.pH_native <- summarySE(pH_native, measurevar = "pH", groupvars = "time" )
+plot.pH_native$protein <- rep("Native.Casein", 10)
+
+ph_NC1 <- read_csv2("data_chap_2/pH_NC1.csv")
+ph_NC2 <- read_csv2("data_chap_2/pH_NC2.csv")
+pH_sodium <- bind_cols(ph_NC1, ph_NC2)
+pH_sodium <- pH_sodium %>% select(-sm...3)
+colnames(pH_sodium) <- c("time", "r1", "r2")
+pH_sodium$time <- revalue(pH_sodium$time,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+pH_sodium$time <- as.numeric(pH_sodium$time)
+pH_sodium <- na.omit(pH_sodium)
+pH_sodium <- gather(pH_sodium, key = "rep", value = "pH", r1, r2)
+plot.pH_sodium <- summarySE(pH_sodium, measurevar = "pH", groupvars = "time" )
+plot.pH_sodium$protein <- rep("Sodium.Casein", 6)
+
+plot.pH <- bind_rows(plot.pH_native, plot.pH_sodium)
+
+p.pH <- plot.pH %>% ggplot(., mapping = aes(x = time, y = pH, color = protein))  + geom_point(aes(x = time, y = pH, color = protein), size=3)+
+  geom_errorbar(aes(ymin=pH-se, ymax=pH+se),linetype=1 , color= "black", width=1) + 
+theme_bw()+theme(legend.position = "none")+xlab("process time [min]")
+```
+
+```{r eval=FALSE, include=FALSE}
+#data wrangling chapter II
+file_list <- list.files("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/HPLC_raw", recursive = T, full.names = T)
+
+data_list <- lapply(file_list, function(x) {
+  x <- read_csv2(x, col_names = T)
+  x})
+
+df <- bind_rows(data_list)
+#TP <- df[,7]+df[,8]+df[,9]+df[,10]
+
+HPLC_raw <- df
+HPLC <- pivot_longer(HPLC_raw, c(kap, as2, as1, bet), names_to = "protein", values_to = "amount")
+
+calculate_HPLC <- function(data=NULL, dil.Volume){
+  cream <- filter(data, str_detect(tm, "Cream")) %>% mutate(., value = amount*0.5)
+  pellet <- filter(data, str_detect(tm, "Pellet")) %>% mutate(., value = amount*5*dil.Volume)
+  serum <- filter(data, str_detect(tm, "Serum")) %>% mutate(., value = amount*10)
+  wash <- filter(data, str_detect(tm, "Waschung")) %>% mutate(., value = amount*1)
+  
+  calc <- bind_rows(cream, pellet, serum, wash)
+  calc <- select(calc, -amount)
+  
+  return(calc)
+}
+
+HPLC.calc <- calculate_HPLC(HPLC, dil.Volume = 5)
+
+HPLC1 <- summarySE(HPLC.calc, measurevar = "value", groupvars = c("source", "tm", "sm", "protein", "mea.type", "data.type"))
+#medium <- rep("VE", 480)
+#separation <- rep("6000g", 480)
+HPLC.full <- HPLC1 %>% filter(str_detect(protein,c("kap", "as2", "as1", "bet" )))
+#HPLC.full <- bind_cols(HPLC1, medium, separation)
+HPLC.full$sm <- revalue(HPLC.full$sm, c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+HPLC.full$sm <- as.numeric(HPLC.full$sm)
+
+pd <- position_dodge(0.5)
+
+# HPLC PLOT FUNCTION
+
+plot.HPLC <- function(df){ggplot(df, mapping = aes(x = sm, y = value, color = tm, group = tm))+ geom_point(aes(shape=protein))+
+    geom_errorbar(aes(ymin=value-se, ymax=value+se),linetype=1 , color= "black", width=5, position = pd) +
+    geom_line(linetype=2)+theme_bw()+theme(legend.position = "none")+
+    xlab("process time [min]")+ylab("protein concentration [mg/ml]")}
+
+#### CREAM (fatty phase)
+cream <- HPLC.full %>% filter(str_detect(tm, "Cream"))
+native.cream <- cream %>% filter(source == "native")
+sodium.cream <- cream %>% filter(source == "sodium")
+
+#### PELLET (insoluble phase)
+pellet <- HPLC.full %>% filter(str_detect(tm, "Pellet"))
+native.pellet <- pellet %>% filter(source == "native")
+sodium.pellet <- pellet %>% filter(source == "sodium")
+
+#### SERUM (soluble phase)
+serum <- HPLC.full %>% filter(str_detect(tm, "Serum"))
+native.serum <- serum %>% filter(source == "native")
+sodium.serum <- serum %>% filter(source == "sodium")
+
+#### WASH 1 (intermediate)
+wash1 <- HPLC.full %>% filter(str_detect(tm, "Waschung 1"))
+native.wash1 <- wash1 %>% filter(source == "native")
+sodium.wash1 <- wash1 %>% filter(source == "sodium")
+
+
+#### WASH 2
+wash2 <- HPLC.full %>% filter(str_detect(tm, "Waschung 2"))
+native.wash2 <- wash2 %>% filter(source == "native")
+sodium.wash2 <- wash2 %>% filter(source == "sodium")
+
+#### WASH 3
+wash3 <- HPLC.full %>% filter(str_detect(tm, "Waschung 3"))
+native.wash3 <- wash3 %>% filter(source == "native")
+sodium.wash3 <- wash3 %>% filter(source == "sodium")
+
+#### WASH 4
+wash4 <- HPLC.full %>% filter(str_detect(tm, "Waschung 4"))
+native.wash4 <- wash4 %>% filter(source == "native")
+sodium.wash4 <- wash4 %>% filter(source == "sodium")
+
+```
+
+```{r}
+#data wrangling chapter IIIb
+set.seed(1)
+#data
+raw.pgv <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/data_chapterIII/cb_Cream.csv", col_names = F)
+##data wrangling
+### make sample time
+sm <- raw.pgv$X1
+ID <- sm
+ID <- ID %>% str_split_fixed(., "[[:upper:]]", 2)
+ID <- ID[42:82]
+sm <- sm %>% str_split_fixed(., "_", 2)
+sm <- sm[42:82]
+sm <- sm %>% str_split_fixed(., "[[:digit:]]", 2)
+sm <- sm[1:41]
+sm <- sm %>% str_split_fixed(., "[[:lower:]]", 6)
+sm <- sm[,6]
+raw.pgv$X1 <- sm
+raw.pgv <- bind_cols(ID, raw.pgv)
+library(plyr)
+raw.pgv$X1 <- revalue(raw.pgv$X1,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="110", "H"="130", "J"="147", "K"= "160")
+)
+### size as colnames
+Diameter <- raw.pgv[1, 3:104] %>% as.numeric()
+Diameter <- Diameter[-102]
+pgv <- raw.pgv[-1,-103]
+nms <- c("ID","time", Diameter)
+colnames(pgv) <- nms
+pgv$time <- as.numeric(pgv$time)
+
+
+##for eb
+long.pgv <- pivot_longer(pgv, paste(Diameter), names_to = "size", values_to = "volume")
+long.pgv <- na.omit(long.pgv)
+long.pgv$size <- as.numeric(long.pgv$size)
+
+# select datapoints which are not lim -> 0 or lim -> 1
+test.pgv <- long.pgv %>% filter(., volume > 0)
+
+filter_sm <- function(data=NULL, sm) {x <- data %>% filter(., time == sm)}
+
+mtA <- filter_sm(test.pgv, 0)
+mtB <- filter_sm(test.pgv, 8)
+mtC <- filter_sm(test.pgv, 25)
+mtD <- filter_sm(test.pgv, 33)
+mtE <- filter_sm(test.pgv, 45)
+mtF <- filter_sm(test.pgv, 70)
+mtG <- filter_sm(test.pgv, 110)
+mtH <- filter_sm(test.pgv, 130)
+mtJ <- filter_sm(test.pgv, 147)
+mtK <- filter_sm(test.pgv, 160)
+
+mt.list <- list(mtA, mtB, mtC, mtD, mtE, mtF, mtG, mtH, mtJ, mtK)
+```
+```{r}
+set.seed(1)
+#results 1 component
+dens.data1 <- function(data){
+  prob <- data$loglik
+  dens1 <- data$lambda[1]
+  size1 <- data$mu[1]
+  sigma1 <- data$sigma[1]
+  dens <- c(prob, dens1, size1, sigma1)
+  return(dens)}
+
+cream.1results <- lapply(mt.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l)
+    dens <- dens.data1(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens1.nms <- c("loglik.1comp", "dens1.1", "size1.1", "sigma1.1")
+dens1cream <- as.data.frame(cream.1results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens1.nms)
+
+# results 2 components
+dens.data2 <- function(data){
+  prob <- data$loglik
+  dens1 <- data$lambda[1]
+  dens2 <- data$lambda[2]
+  size1 <- data$mu[1]
+  size2 <- data$mu[2]
+  sigma1 <- data$sigma[1]
+  sigma2 <- data$sigma[2]
+  dens <- c(prob, dens1, dens2, size1, size2, sigma1, sigma2)
+  if (size1 < size2){
+  return(dens)}
+  else {
+    dens.alt <- c(prob, dens2, dens1, size2, size1, sigma2,sigma1)
+    return(dens.alt)
+  }}
+
+cream.2results <- lapply(mt.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=2)
+    dens <- dens.data2(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens2.nms <- c("loglik.2comp", "dens2.1", "dens2.2", "size2.1", "size2.2", "sigma2.1", "sigma2.2")
+dens2cream <- as.data.frame(cream.2results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens2.nms)
+
+# results 3 components
+dens.data3 <- function(data){
+     prob <- data$loglik
+     dens1 <- data$lambda[1]
+     dens2 <- data$lambda[2]
+     dens3 <- data$lambda[3]
+     size1 <- data$mu[1]
+     size2 <- data$mu[2]
+     size3 <- data$mu[3]
+     sigma1 <- data$sigma[1]
+     sigma2 <- data$sigma[2]
+     sigma3 <- data$sigma[3]
+     if (size1<size2 && size2<size3 && size1<size3){
+        dens <- c(prob, dens1, dens2, dens3, size1, size2, size3, sigma1, sigma2, sigma3)
+       return(dens)}
+     else if (size1<size2 && size1<size3 && size3<size2){
+        dens2 <- c(prob, dens1, dens3, dens2, size1, size3, size2, sigma1, sigma3, sigma2)
+       return(dens2)}
+     else if (size2<size1 && size2<size3 && size1<size3){
+        dens3 <- c(prob, dens2, dens1, dens3, size2, size1, size3, sigma2, sigma1, sigma3)
+      return(dens3)}
+     else if (size2<size3 && size2<size1 && size3<size1){
+        dens4 <- c(prob, dens2, dens3, dens1, size2, size3, size1, sigma2, sigma3, sigma1)
+       return(dens4)}
+     else if (size3<size1 && size3<size2 && size2<size1){
+        dens5 <- c(prob, dens3, dens2, dens1, size3, size2, size1, sigma3, sigma2, sigma1)
+       return(dens5)} 
+     else {
+        dens6 <- c(prob, dens3, dens1, dens2, size3, size1, size2, sigma3, sigma1, sigma2)
+       return(dens6)}}
+```
+```{r}
+
+cream.3results <- lapply(mt.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens3.nms <- c("loglik.3comp", "dens3.1", "dens3.2", "dens3.3", "size3.1", "size3.2", "size3.3", "sigma3.1", "sigma3.2", "sigma3.3")
+
+
+cream.3results <- lapply(mt.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens3cream <- as.data.frame(cream.3results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens3.nms)
+
+#results 4 components
+dens.data4 <- function(data){
+  prob <- data$loglik
+  dens1 <- data$lambda[1]
+  dens2 <- data$lambda[2]
+  dens3 <- data$lambda[3]
+  dens4 <- data$lambda[4]
+  size1 <- data$mu[1]
+  size2 <- data$mu[2]
+  size3 <- data$mu[3]
+  size4 <- data$mu[4]
+  sigma1 <- data$sigma[1]
+  sigma2 <- data$sigma[2]
+  sigma3 <- data$sigma[3]
+  sigma4 <- data$sigma[4]
+  dens <- c(prob, dens1, dens2, dens3, dens4, size1, size2, size3, size4, sigma1, sigma2, sigma3, sigma4)
+  return(dens)}
+
+cream.4results <- lapply(mt.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=4)
+    dens <- dens.data4(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens4.nms <- c("loglik.4comp", "dens4.1", "dens4.2", "dens4.3", "dens4.4", "size4.1", "size4.2", "size4.3", "size4.4", "sigma4.1", "sigma4.2", "sigma4.3", "sigma4.4")
+dens4cream <- as.data.frame(cream.4results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens4.nms)
+
+
+log.compare <- bind_rows(dens1cream[1,], dens2cream[1,], dens3cream[1,], dens4cream[1,])
+log.comp.cream <- t(log.compare) %>% as.data.frame()
+log.comp.cream <- rownames_to_column(log.comp.cream)
+rm(log.compare)
+
+log.comp.cream$rowname <- revalue(log.comp.cream$rowname, c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+
+log.comp.cream$rowname <- as.numeric(log.comp.cream$rowname)
+p.cream.log <- pivot_longer(log.comp.cream, cols = (-rowname), names_to = "parameter")
+
+plot.cream.loglik <- ggplot(p.cream.log, mapping = aes(x=rowname, y=value, color = parameter, shape=parameter)) + theme_bw() + geom_point(size=3)+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="log.lik")
+
+#two and one component model has best fit
+##1comp
+cream.dist <- t(dens1cream) %>% as.data.frame() %>% rownames_to_column()
+cream.dist$rowname<- revalue(cream.dist$rowname,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+cream.dist$rowname <- as.numeric(cream.dist$rowname)
+p.cream.dist <- pivot_longer(cream.dist, cols = (-rowname), names_to = "parameter")
+
+size1comp <- filter(p.cream.dist, str_detect(parameter, "size1."))
+p.size1comp<- ggplot(size1comp, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point()+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()
+
+##2 comp
+cream.dist <- t(dens2cream) %>% as.data.frame() %>% rownames_to_column()
+cream.dist$rowname<- revalue(cream.dist$rowname,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+cream.dist$rowname <- as.numeric(cream.dist$rowname)
+p.cream.dist <- pivot_longer(cream.dist, cols = (-rowname), names_to = "parameter")
+
+size2comp <- filter(p.cream.dist, str_detect(parameter, "size2."))
+p.size2comp<- ggplot(size2comp, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point()+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="particle volume [um]")
+
+dens2comp <- filter(p.cream.dist, str_detect(parameter, "dens2."))
+p.dens2comp<- ggplot(dens2comp, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point(aes(shape=parameter))+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="density distribution")
+
+# particle size distribution pellet
+##data
+pellet <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/data_chapterIII/as_pellet.csv")
+pellet <- head(pellet, -12) ##duplicate data (copying error)
+Diameter <- pellet[1, -1] %>% as.numeric()
+Diameter <- Diameter[-102]
+###data wrangling
+sm.pellet <- pellet[,1]
+colnames(sm.pellet) <- "sample"
+sm.pellet <- sm.pellet[-1,]
+nms <- str_split_fixed(sm.pellet$sample, "_", 6) %>% as.data.frame()
+nms <- select(nms, c(V3: V6))
+nms2 <- str_split_fixed(nms$V3, "Punkt", 2) %>% as.data.frame()
+nms$V3 <- NULL
+nms3  <- bind_cols(nms2, nms)
+nms3[30:41,2] <- nms3[30:41,4]
+nms3[30:41,3] <- nms3[30:41,1]
+nms3[30:41,4] <- nms3[30:41,5]
+nms3 <- nms3[,2:4]
+pellet[1,1] <- "sample"
+colnames(pellet) <- pellet[1,]
+pellet <- pellet[-1,]
+pgv.pellet <- bind_cols(nms3, pellet)
+pgv.pellet <- pgv.pellet[,-106]
+colnames(pgv.pellet) <- c("time", "medium", "rep", "ID", Diameter)
+pgv.pellet$time <- revalue(pgv.pellet$time,c("B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="110", "H"="130", "J"="147", "K"= "160")
+)
+
+
+##additional K measurements
+Kk <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/data_chapterIII/as_pellet_Kk.csv", col_names = F)
+tiK <- rep("165", 4)
+medK <- rep("VE", 4)
+repK <- c("", "", "DB", "DB")
+addK <- bind_cols(tiK, medK, repK, Kk) %>% as.data.frame()
+colnames(addK) <- c("time", "medium", "rep", Diameter)
+
+addK$time <- as.numeric(addK$time)
+pgv.pellet$time <- as.numeric(pgv.pellet$time)
+
+### by rep
+pellet.rep <- arrange(pgv.pellet, time) %>% select(., -c(ID))
+pellet.rep <- bind_rows(pellet.rep, addK)
+
+
+long.pellet.rep <- pivot_longer(pellet.rep, paste(Diameter), names_to = "size", values_to = "volume")
+
+### prepare for modeling
+long.pellet.rep$size <- as.numeric(long.pellet.rep$size)
+long.pellet.rep$...105 <- NULL
+long.pellet.rep <- na.omit(long.pellet.rep)
+long.pellet.rep <- long.pellet.rep %>% filter(., volume > 0)
+
+                                             
+
+
+pB <- filter_sm(long.pellet.rep, 8)
+pC <- filter_sm(long.pellet.rep, 25)
+pD <- filter_sm(long.pellet.rep, 33)
+pE <- filter_sm(long.pellet.rep, 45)
+pF <- filter_sm(long.pellet.rep, 70)
+pG <- filter_sm(long.pellet.rep, 110)
+pH <- filter_sm(long.pellet.rep, 130)
+pJ <- filter_sm(long.pellet.rep, 147)
+pK <- filter_sm(long.pellet.rep, 160)
+pKk <- filter_sm(long.pellet.rep, 165)
+
+
+p.list <- list(pB, pC, pD, pE, pF, pG, pH, pJ, pK, pKk)
+
+#results 1 component
+pellet.1results <- lapply(p.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l)
+    dens <- dens.data1(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens1pellet <- as.data.frame(pellet.1results, col.names = c("B", "C", "D", "E", "F", "G", "H", "J", "K", "Kk"))
+
+pellet.2results <- lapply(p.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=2)
+    dens <- dens.data2(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens2pellet <- as.data.frame(pellet.2results, col.names = c("B", "C", "D", "E", "F", "G", "H", "J", "K", "Kk"), row.names = dens2.nms)
+
+
+# results 3 components
+pellet.3results <- lapply(p.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+pellet.3results <- lapply(p.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens3pellet <- as.data.frame(pellet.3results, col.names = c("B", "C", "D", "E", "F", "G", "H", "J", "K", "Kk"), row.names = dens3.nms)
+
+# results 4 components
+pellet.4results <- lapply(p.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=4)
+    dens <- dens.data4(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens4pellet <- as.data.frame(pellet.4results, col.names = c("B", "C", "D", "E", "F", "G", "H", "J", "K", "Kk"), row.names = dens4.nms)
+
+
+log.compare <- bind_rows(dens1pellet[1,], dens2pellet[1,], dens3pellet[1,], dens4pellet[1,]) %>% as.data.frame()
+log.comp.pellet <- t(log.compare) %>% as.data.frame()
+log.comp.pellet <- rownames_to_column(log.comp.pellet)
+rm(log.compare)
+
+log.comp.pellet$rowname <- revalue(log.comp.pellet$rowname, c("B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145", "Kk"="165"))
+
+log.comp.pellet$rowname <- as.numeric(log.comp.pellet$rowname)
+p.pellet.log <- pivot_longer(log.comp.pellet, cols = (-rowname), names_to = "parameter")
+
+plot.pellet.loglik <- ggplot(p.pellet.log, mapping = aes(x=rowname, y=value, color = parameter, shape=parameter)) + theme_bw() + geom_point(size=3)+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="log.lik")
+
+##2 comp
+pellet.dist <- t(dens2pellet) %>% as.data.frame() %>% rownames_to_column()
+pellet.dist$rowname<- revalue(pellet.dist$rowname,c("B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145", "Kk"="165")
+)
+pellet.dist$rowname <- as.numeric(pellet.dist$rowname)
+p.pellet.dist <- pivot_longer(pellet.dist, cols = (-rowname), names_to = "parameter")
+
+size2comp <- filter(p.pellet.dist, str_detect(parameter, "size2."))
+p.size2comp<- ggplot(size2comp, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point()+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="particle volume [um]")
+
+dens2comp <- filter(p.pellet.dist, str_detect(parameter, "dens2."))
+p.dens2comp<- ggplot(dens2comp, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point(aes(shape=parameter))+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="density distribution")
+
+# particle size distribution serum
+##data
+serum <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/data_chapterIII/as_serum_zeta.csv", col_names = F)
+Diameter <- serum[1, -1] %>% as.numeric()
+
+###data wrangling
+sm.serum <- serum[,1]
+colnames(sm.serum) <- "sample"
+sm.serum <- sm.serum[-1,]
+
+sm_70 <- sm.serum[1:70,]
+nms_70 <- str_split_fixed(sm_70$sample, "_", 2) %>% as.data.frame()
+nms_70 <- str_split_fixed(nms_70$V2, ",", 3) %>% as.data.frame()
+
+nms20 <- nms_70[1:20,]
+sm20 <- str_split_fixed(nms20$V3, " ", 2) %>% as.data.frame()
+sm20[11:20, 1] <- str_split_fixed(sm20[11:20, 1], "_", 2)
+##ignore warning
+sm20 <- str_split_fixed(sm20$V1, "Punkt", 2) %>% as.data.frame()
+nms20$V3 <- sm20$V2
+
+nms70 <- nms_70[21:70,]
+sm70 <- str_split_fixed(nms70$V2, " ", 2) %>% as.data.frame()
+sm70 <- str_split_fixed(sm70$V1, "_", 3) %>% as.data.frame()
+nms70$V2 <- sm70$V1
+sm70 <- str_split_fixed(sm70$V2, "Punkt", 2) %>% as.data.frame()
+nms70$V3 <- sm70$V2
+
+sm1 <- bind_rows(nms20, nms70)
+
+nms710 <- sm.serum[71:710,]
+nms710 <- str_split_fixed(nms710$sample, " ", 2) %>% as.data.frame()
+nms710 <- str_split_fixed(nms710$V1, "_", 5) %>% as.data.frame()
+nms710$V4 <- revalue(nms710$V4, c("Premix"="PunktA"))
+sm710 <- str_split_fixed(nms710$V4, "Punkt", 2) %>% as.data.frame()
+nms710$V4 <- sm710$V2
+
+sm2 <- nms710[,2:4]
+colnames(sm2) <- c("V1", "V2", "V3")
+
+serum.nms <- bind_rows(sm1, sm2)
+
+serum[1,1] <- "sample"
+colnames(serum) <- serum[1,]
+serum <- serum[-1,]
+pgv.serum <- bind_cols(serum.nms, serum)
+colnames(pgv.serum) <- c("medium", "tm","time", "ID", Diameter)
+pgv.serum$time <- revalue(pgv.serum$time,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="110", "H"="130", "J"="147", "K"= "160")
+)
+pgv.serum$time <- as.numeric(pgv.serum$time)
+
+long.serum <- pivot_longer(pgv.serum, paste(Diameter), names_to = "size", values_to = "volume")
+
+### prepare for modeling
+long.serum$size <- as.numeric(long.serum$size)
+long.serum <- na.omit(long.serum)
+long.serum <- long.serum %>% filter(., volume > 0)
+long.serum <- long.serum %>% filter(., size < 2500)
+
+### separate by centrifugation method
+long.serum.UZ <- long.serum %>% filter(., str_detect(tm, "UZ"))
+long.serum.ZF <- long.serum %>% filter(., str_detect(tm, "4000"))
+
+#### model all cutoff 2500 nm
+
+UZsA <- filter_sm(long.serum.UZ, 0)
+UZsB <- filter_sm(long.serum.UZ, 8)
+UZsC <- filter_sm(long.serum.UZ, 25)
+UZsD <- filter_sm(long.serum.UZ, 33)
+UZsE <- filter_sm(long.serum.UZ, 45)
+UZsF <- filter_sm(long.serum.UZ, 70)
+UZsG <- filter_sm(long.serum.UZ, 110)
+UZsH <- filter_sm(long.serum.UZ, 130)
+UZsJ <- filter_sm(long.serum.UZ, 147)
+UZsK <- filter_sm(long.serum.UZ, 160)
+
+UZs.list <- list(UZsA, UZsB, UZsC, UZsD, UZsE, UZsF, UZsG, UZsH, UZsJ, UZsK)
+
+ZFsA <- filter_sm(long.serum.ZF, 0)
+ZFsB <- filter_sm(long.serum.ZF, 8)
+ZFsC <- filter_sm(long.serum.ZF, 25)
+ZFsD <- filter_sm(long.serum.ZF, 33)
+ZFsE <- filter_sm(long.serum.ZF, 45)
+ZFsF <- filter_sm(long.serum.ZF, 70)
+ZFsG <- filter_sm(long.serum.ZF, 110)
+ZFsH <- filter_sm(long.serum.ZF, 130)
+ZFsJ <- filter_sm(long.serum.ZF, 147)
+ZFsK <- filter_sm(long.serum.ZF, 160)
+
+ZFs.list <- list(ZFsA, ZFsB, ZFsC, ZFsD, ZFsE, ZFsF, ZFsG, ZFsH, ZFsJ, ZFsK)
+
+serumUZ.1results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l)
+    dens <- dens.data1(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens1serumUZ <- as.data.frame(serumUZ.1results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens1.nms)
+
+
+serumUZ.2results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=2)
+    dens <- dens.data2(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens2serumUZ <- as.data.frame(serumUZ.2results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens2.nms)
+
+
+serumUZ.3results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+serumUZ.3results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+serumUZ.3results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+serumUZ.3results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens3serumUZ <- as.data.frame(serumUZ.3results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens3.nms)
+
+
+serumUZ.4results <- lapply(UZs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=4)
+    dens <- dens.data4(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens4serumUZ <- as.data.frame(serumUZ.4results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens4.nms)
+
+log.compareUZ <- bind_rows(dens1serumUZ[1,], dens2serumUZ[1,], dens3serumUZ[1,], dens4serumUZ[1,])
+log.comp.serumUZ <- t(log.compareUZ) %>% as.data.frame()
+log.comp.serumUZ <- rownames_to_column(log.comp.serumUZ)
+rm(log.compareUZ)
+
+log.comp.serumUZ$rowname <- revalue(log.comp.serumUZ$rowname, c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+
+log.comp.serumUZ$rowname <- as.numeric(log.comp.serumUZ$rowname)
+p.serumUZ.log <- pivot_longer(log.comp.serumUZ, cols = (-rowname), names_to = "parameter")
+
+plot.serumUZ.loglik <- ggplot(p.serumUZ.log, mapping = aes(x=rowname, y=value, color = parameter, shape=parameter)) + theme_bw() + geom_point(size=3)+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="log.lik")
+
+##2 comp
+serumUZ.dist <- t(dens2serumUZ) %>% as.data.frame() %>% rownames_to_column()
+serumUZ.dist$rowname<- revalue(serumUZ.dist$rowname,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+serumUZ.dist$rowname <- as.numeric(serumUZ.dist$rowname)
+p.serumUZ.dist <- pivot_longer(serumUZ.dist, cols = (-rowname), names_to = "parameter")
+
+size2compUZ <- filter(p.serumUZ.dist, str_detect(parameter, "size2."))
+p.size2compUZ<- ggplot(size2compUZ, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point()+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="particle volume [nm]")
+
+dens2compUZ <- filter(p.serumUZ.dist, str_detect(parameter, "dens2."))
+p.dens2compUZ<- ggplot(dens2compUZ, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point(aes(shape=parameter))+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="density distribution")
+
+
+#results 1 component
+serumZF.1results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l)
+    dens <- dens.data1(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens1serumZF <- as.data.frame(serumZF.1results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens1.nms)
+
+#results 2 components
+serumZF.2results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=2)
+    dens <- dens.data2(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens2serumZF <- as.data.frame(serumZF.2results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens2.nms)
+
+
+serumZF.3results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+serumZF.3results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens3serumZF <- as.data.frame(serumZF.3results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens3.nms)
+
+serumZF.4results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=4)
+    dens <- dens.data4(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens4serumZF <- as.data.frame(serumZF.4results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens4.nms)
+
+
+log.compareZF <- bind_rows(dens1serumZF[1,], dens2serumZF[1,], dens3serumZF[1,], dens4serumZF[1,])
+log.comp.serumZF <- t(log.compareZF) %>% as.data.frame()
+log.comp.serumZF <- rownames_to_column(log.comp.serumZF)
+rm(log.compare)
+
+log.comp.serumZF$rowname <- revalue(log.comp.serumZF$rowname, c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+
+log.comp.serumZF$rowname <- as.numeric(log.comp.serumZF$rowname)
+p.serumZF.log <- pivot_longer(log.comp.serumZF, cols = (-rowname), names_to = "parameter")
+
+plot.serumZF.loglik <- ggplot(p.serumZF.log, mapping = aes(x=rowname, y=value, color = parameter, shape=parameter)) + theme_bw() + geom_point(size=3)+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="log.lik")
+
+##3 comp fit looks best
+serumZF.dist <- t(dens3serumZF) %>% as.data.frame() %>% rownames_to_column()
+serumZF.dist$rowname<- revalue(serumZF.dist$rowname,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+serumZF.dist$rowname <- as.numeric(serumZF.dist$rowname)
+p.serumZF.dist <- pivot_longer(serumZF.dist, cols = (-rowname), names_to = "parameter")
+
+size3compZF <- filter(p.serumZF.dist, str_detect(parameter, "size3."))
+p.size3compZF<- ggplot(size3compZF, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point()+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="particle volume [nm]")
+
+dens3compZF <- filter(p.serumZF.dist, str_detect(parameter, "dens3."))
+p.dens3compZF<- ggplot(dens3compZF, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point(aes(shape=parameter))+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="density distribution")
+
+#results 1 component
+serumZF.1results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l)
+    dens <- dens.data1(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens1serumZF <- as.data.frame(serumZF.1results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens1.nms)
+
+
+
+serumZF.2results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=2)
+    dens <- dens.data2(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens2serumZF <- as.data.frame(serumZF.2results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens2.nms)
+
+
+serumZF.3results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+serumZF.3results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+dens3serumZF <- as.data.frame(serumZF.3results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens3.nms)
+
+serumZF.4results <- lapply(ZFs.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=4)
+    dens <- dens.data4(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+dens4serumZF <- as.data.frame(serumZF.4results, col.names = c("A","B", "C", "D", "E", "F", "G", "H", "J", "K"), row.names = dens4.nms)
+
+log.compareZF <- bind_rows(dens1serumZF[1,], dens2serumZF[1,], dens3serumZF[1,], dens4serumZF[1,])
+log.comp.serumZF <- t(log.compareZF) %>% as.data.frame()
+log.comp.serumZF <- rownames_to_column(log.comp.serumZF)
+rm(log.compare)
+
+log.comp.serumZF$rowname <- revalue(log.comp.serumZF$rowname, c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145"))
+
+log.comp.serumZF$rowname <- as.numeric(log.comp.serumZF$rowname)
+p.serumZF.log <- pivot_longer(log.comp.serumZF, cols = (-rowname), names_to = "parameter")
+
+plot.serumZF.loglik <- ggplot(p.serumZF.log, mapping = aes(x=rowname, y=value, color = parameter, shape=parameter)) + theme_bw() + geom_point(size=3)+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="log.lik")
+
+##3 comp fit looks best
+serumZF.dist <- t(dens3serumZF) %>% as.data.frame() %>% rownames_to_column()
+serumZF.dist$rowname<- revalue(serumZF.dist$rowname,c("A"="0", "B"="8", "C"="25", "D"="33", "E"="45", "F"="70", "G"="100", "H"="125", "J"="130", "K"= "145")
+)
+serumZF.dist$rowname <- as.numeric(serumZF.dist$rowname)
+p.serumZF.dist <- pivot_longer(serumZF.dist, cols = (-rowname), names_to = "parameter")
+
+size3compZF <- filter(p.serumZF.dist, str_detect(parameter, "size3."))
+p.size3compZF<- ggplot(size3compZF, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point()+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="particle volume [nm]")
+
+dens3compZF <- filter(p.serumZF.dist, str_detect(parameter, "dens3."))
+p.dens3compZF<- ggplot(dens3compZF, mapping = aes(x=rowname, y=value, color = parameter, group = parameter)) + geom_point(aes(shape=parameter))+
+  geom_line(linetype=2)+theme_bw()+scale_y_log10()+
+  theme(legend.position = "none") + 
+  labs( x="process time [min]", y="density distribution")
+```
+
+```{r}
+# data chapter IVb
+
+coll.salt <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/colloid_full.csv", col_names = F)
+
+Diameter <- coll.salt[1, 8:77]
+coll.salt$X6 <- NULL
+coll.salt$X7 <- NULL
+colloid <- coll.salt[-1,]
+
+colnames(colloid) <- c("date", "tm", "TP", "salt", "duration", paste(Diameter))
+colloid.long <- pivot_longer(colloid, paste(Diameter), names_to = "size", values_to = "volume")
+colloid.sum <- summarySE(colloid.long, measurevar=c("volume"), groupvars=c("size", "tm", "TP","salt","duration"))
+colloid.sum$size <- as.numeric(colloid.sum$size)
+
+colloid.sum <- na.omit(colloid.sum)
+colloid.sum <- arrange(colloid.sum, duration)
+colloid.sum$duration <- as.numeric(colloid.sum$duration)
+colloid.sum <- colloid.sum %>% filter(size<2000)
+colloid.sum <- colloid.sum %>% filter(volume>0)
+
+colloid1 <- colloid.sum %>% filter(str_detect(TP, "1"))
+colloid3 <- colloid.sum %>% filter(str_detect(TP, "3"))
+
+colloid1mS <- colloid1 %>% filter(str_detect(salt, "mS"))
+colloid1oS <- colloid1 %>% filter(str_detect(salt, "oS"))
+
+colloid3mS <- colloid3 %>% filter(str_detect(salt, "mS"))
+colloid3oS <- colloid3 %>% filter(str_detect(salt, "oS"))
+
+colloid1mSZF <- colloid1mS %>% filter(str_detect(tm, "ZF"))
+colloid3mSZF <- colloid3mS %>% filter(str_detect(tm, "ZF"))
+colloid1mSnoG <- colloid1mS %>% filter(str_detect(tm, "NoG"))
+colloid3mSnoG <- colloid3mS %>% filter(str_detect(tm, "NoG"))
+
+colloid1oSZF <- colloid1oS %>% filter(str_detect(tm, "ZF"))
+colloid3oSZF <- colloid3oS %>% filter(str_detect(tm, "ZF"))
+colloid1oSnoG <- colloid1oS %>% filter(str_detect(tm, "NoG"))
+colloid3oSnoG <- colloid3oS %>% filter(str_detect(tm, "NoG"))
+
+coll0.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "0"))
+coll20.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "20"))
+coll40.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "40"))
+coll60.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "60"))
+coll80.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "80"))
+coll100.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "100"))
+coll120.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "120"))
+coll140.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "140"))
+coll160.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "160"))
+coll180.3oSnoG <- colloid3oSnoG %>% filter(str_detect(duration, "180"))
+
+coll0.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "0"))
+coll20.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "20"))
+coll40.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "40"))
+coll60.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "60"))
+coll80.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "80"))
+coll100.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "100"))
+coll120.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "120"))
+coll140.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "140"))
+coll160.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "160"))
+coll180.3oSZF <- colloid3oSZF %>% filter(str_detect(duration, "180"))
+
+coll0.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "0"))
+coll20.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "20"))
+coll40.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "40"))
+coll60.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "60"))
+coll80.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "80"))
+coll100.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "100"))
+coll120.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "120"))
+coll140.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "140"))
+coll160.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "160"))
+coll180.3mSnoG <- colloid3mSnoG %>% filter(str_detect(duration, "180"))
+
+coll0.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "0"))
+coll20.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "20"))
+coll40.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "40"))
+coll60.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "60"))
+coll80.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "80"))
+coll100.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "100"))
+coll120.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "120"))
+coll140.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "140"))
+coll160.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "160"))
+coll180.3mSZF <- colloid3mSZF %>% filter(str_detect(duration, "180"))
+
+coll0.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "0"))
+coll20.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "20"))
+coll40.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "40"))
+coll60.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "60"))
+coll80.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "80"))
+coll100.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "100"))
+coll120.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "120"))
+coll140.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "140"))
+coll160.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "160"))
+coll180.1oSnoG <- colloid1oSnoG %>% filter(str_detect(duration, "180"))
+
+coll0.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "0"))
+coll20.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "20"))
+coll40.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "40"))
+coll60.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "60"))
+coll80.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "80"))
+coll100.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "100"))
+coll120.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "120"))
+coll140.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "140"))
+coll160.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "160"))
+coll180.1oSZF <- colloid1oSZF %>% filter(str_detect(duration, "180"))
+
+coll0.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "0"))
+coll20.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "20"))
+coll40.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "40"))
+coll60.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "60"))
+coll80.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "80"))
+coll140.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "140"))
+coll160.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "160"))
+coll180.1mSnoG <- colloid1mSnoG %>% filter(str_detect(duration, "180"))
+
+coll0.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "0"))
+coll20.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "20"))
+coll40.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "40"))
+coll60.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "60"))
+coll80.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "80"))
+coll140.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "140"))
+coll160.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "160"))
+coll180.1mSZF <- colloid1mSZF %>% filter(str_detect(duration, "180"))
+
+coll.list <- list(coll0.3oSnoG ,coll20.3oSnoG ,coll40.3oSnoG,coll60.3oSnoG ,coll80.3oSnoG ,coll100.3oSnoG ,coll120.3oSnoG ,coll140.3oSnoG ,coll160.3oSnoG ,coll180.3oSnoG ,coll0.3oSZF ,coll20.3oSZF ,coll40.3oSZF ,coll60.3oSZF ,coll80.3oSZF ,coll100.3oSZF ,coll120.3oSZF ,coll140.3oSZF ,coll160.3oSZF ,coll180.3oSZF ,coll20.3mSnoG ,coll20.3mSnoG ,coll40.3mSnoG ,coll60.3mSnoG ,coll80.3mSnoG ,coll100.3mSnoG ,coll120.3mSnoG ,coll140.3mSnoG ,coll160.3mSnoG ,coll180.3mSnoG ,coll0.3mSZF ,coll20.3mSZF ,coll40.3mSZF ,coll60.3mSZF ,coll80.3mSZF ,coll100.3mSZF ,coll120.3mSZF ,coll140.3mSZF ,coll160.3mSZF ,coll180.3mSZF , coll20.1mSnoG, coll20.1mSnoG, coll40.1mSnoG,coll60.1mSnoG,coll80.1mSnoG,coll140.1mSnoG,coll160.1mSnoG,coll180.1mSnoG,coll0.1mSZF,coll20.1mSZF,coll40.1mSZF,coll60.1mSZF,coll80.1mSZF,coll140.1mSZF,coll160.1mSZF,coll180.1mSZF)
+
+##### excluded: ,coll0.1oSnoG ,coll20.1oSnoG ,coll40.1oSnoG ,coll60.1oSnoG ,coll80.1oSnoG ,coll100.1oSnoG ,coll120.1oSnoG ,coll140.1oSnoG, coll160.1oSnoG, coll180.1oSnoG, coll0.1oSZF, coll20.1oSZF, coll40.1oSZF, coll60.1oSZF, coll80.1oSZF, coll100.1oSZF, coll120.1oSZF, coll140.1oSZF, coll160.1oSZF, coll180.1oSZF
+
+colloid.results2 <- lapply(coll.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=2)
+    dens <- dens.data2(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+coll.nms <- c("coll0_3oSnoG" ,"coll20_3oSnoG" ,"coll40_3oSnoG","coll60_3oSnoG" ,"coll80_3oSnoG" ,"coll100_3oSnoG" ,"coll120_3oSnoG" ,"coll140_3oSnoG" ,"coll160_3oSnoG" ,"coll180_3oSnoG" ,"coll0_3oSZF" ,"coll20_3oSZF" ,"coll40_3oSZF" ,"coll60_3oSZF" ,"coll80_3oSZF" ,"coll100_3oSZF" ,"coll120_3oSZF" ,"coll140_3oSZF" ,"coll160_3oSZF" ,"coll180_3oSZF" ,"coll0_3mSnoG" ,"coll20_3mSnoG" ,"coll40_3mSnoG" ,"coll60_3mSnoG" ,"coll80_3mSnoG" ,"coll100_3mSnoG" ,"coll120_3mSnoG" ,"coll140_3mSnoG" ,"coll160_3mSnoG" ,"coll180_3mSnoG" ,"coll0_3mSZF" ,"coll20_3mSZF" ,"coll40_3mSZF" ,"coll60_3mSZF" ,"coll80_3mSZF" ,"coll100_3mSZF" ,"coll120_3mSZF" ,"coll140_3mSZF" ,"coll160_3mSZF" ,"coll180_3mSZF" , "coll0_1mSnoG", "coll20_1mSnoG", "coll40_1mSnoG", "coll60_1mSnoG", "coll80_1mSnoG","coll140_1mSnoG","coll160_1mSnoG","coll180_1mSnoG","coll0_1mSZF","coll20_1mSZF","coll40_1mSZF","coll60_1mSZF","coll80_1mSZF","coll140_1mSZF","coll160_1mSZF","coll180_1mSZF")
+
+###excluded: "coll0_1oSnoG" ,"coll20_1oSnoG" ,"coll40_1oSnoG" ,"coll60_1oSnoG" ,"coll80_1oSnoG" ,"coll100_1oSnoG" ,"coll120_1oSnoG" ,"coll140_1oSnoG", "coll160_1oSnoG", "coll180_1oSnoG", "coll0_1oSZF", "coll20_1oSZF", "coll40_1oSZF", "coll60_1oSZF","coll80_1oSZF" , "coll100_1oSZF", "coll120_1oSZF", "coll140_1oSZF", "coll160_1oSZF", "coll180_1oSZF",
+
+dens2coll <- as.data.frame(colloid.results2, col.names = coll.nms, row.names = dens2.nms)
+
+
+colloid.mod <- t(dens2coll) %>% as.data.frame()
+colloid.mod <- rownames_to_column(colloid.mod)
+
+cn <- coll.nms
+cn <- str_split_fixed(cn, "ll", 2)
+cn <- as.data.frame(cn)
+collmins <- cn$V2
+
+collmins <- str_split(collmins, "[[:alpha:]]+\\.[[:digit:]]+\\.[[:alpha:]]+", 2) %>% unlist()
+collmins <- str_split_fixed(collmins, "_", 2) %>% as.data.frame()
+
+colnames(collmins) <- c("time", "tm")
+
+colloid.mod <- bind_cols(collmins, colloid.mod)
+colloid.mod$time <- as.numeric(colloid.mod$time)
+
+
+colloid.dist2 <- pivot_longer(colloid.mod, cols = 4:10,  names_to = "parameter")
+colloid.dist2 <- na.omit(colloid.dist2)
+
+################################################################################
+plot.pgv.coll <-function(df) {ggplot(df, mapping = aes(x=time, y=value, color = tm, group = tm)) + geom_point(aes(shape=tm))+
+  geom_line(linetype=2)+theme_bw()+xlab("time [min]")}
+
+###############################################################################
+
+colloid.results3 <- lapply(coll.list, function(xlist){
+  if (nrow(xlist) > 0) {
+    x <- xlist$size
+    l <- xlist$volume
+    dist <- normalmixEM(x, lambda = l, k=3)
+    dens <- dens.data3(dist)
+    dens
+  } else {
+    NA
+  }
+  })
+
+
+dens3coll <- as.data.frame(colloid.results3, col.names = coll.nms, row.names = dens3.nms)
+
+colloid.mod <- t(dens3coll) %>% as.data.frame()
+colloid.mod <- rownames_to_column(colloid.mod)
+
+cn <- coll.nms
+cn <- str_split_fixed(cn, "ll", 2)
+cn <- as.data.frame(cn)
+collmins <- cn$V2
+
+collmins <- str_split(collmins, "[[:alpha:]]+\\.[[:digit:]]+\\.[[:alpha:]]+", 2) %>% unlist()
+collmins <- str_split_fixed(collmins, "_", 2) %>% as.data.frame()
+
+colnames(collmins) <- c("time", "tm")
+
+colloid.mod <- bind_cols(collmins, colloid.mod)
+colloid.mod$time <- as.numeric(colloid.mod$time)
+
+
+colloid.dist3 <- pivot_longer(colloid.mod, cols = 4:13,  names_to = "parameter")
+colloid.dist3 <- na.omit(colloid.dist3)
+
+### compare 2 and 3 component model
+
+loglik3 <- filter(colloid.dist3, parameter == "loglik.3comp")
+loglik2 <- filter(colloid.dist2, parameter == "loglik.2comp")
+log.compare <- bind_cols(loglik2$time, loglik2$tm, loglik2$value, loglik3$value)
+colnames(log.compare) <- c("time", "tm", "loglik.2comp", "loglik.3comp")
+
+log.compare <- log.compare %>% group_by(tm)
+
+plot.log <- log.compare %>% ggplot(., aes(x = time, color = tm))+ theme_bw() + geom_point(mapping = aes(y = loglik.2comp, color = tm, shape = "o", size = .1)) + geom_point(mapping = aes(y = loglik.3comp, color = tm, shape = "t", size = .1)) + xlab("process time [min]") + ylab("log.lik") + scale_color_manual(values = c("red", "orange", "blue", "green", "black", "grey")) + theme(legend.position = "none")
+
+#Viscosity of 3mS 
+c_rheo <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/colloid_rheo.csv")
+c_rheo <- c_rheo %>% select(., Zeit, coll3mS)
+c_rheo$Zeit <- c_rheo$Zeit/60
+c_rheo.plot <- c_rheo %>% ggplot(., mapping = aes(Zeit, coll3mS)) + geom_point()+ xlab("time[min]")+ylab("viscosity [1/s]")+theme_bw()
+
+#HPLC data colloid
+
+c_hplc <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/3mS_HPLC.csv")
+
+c_HPLC <- pivot_longer(c_hplc, c(kap, as2, as1, bet), names_to = "protein", values_to = "amount")
+c_HPLC <- c_HPLC %>% select(., -X6)
+
+HPLC_coll <- summarySE(c_HPLC, measurevar = "amount", groupvars = c("protein", "Sample"))
+
+sm <- HPLC_coll$Sample 
+
+sm <- str_split_fixed(sm, "_", 2) %>% as.data.frame()
+
+sm <- sm$V2
+HPLC_coll <- bind_cols(sm, HPLC_coll)
+
+HPLC_coll$...1 <- as.numeric(HPLC_coll$...1)
+
+HPLC_coll.plot <- HPLC_coll %>% ggplot(., mapping = aes(...1, amount, color=protein))+geom_point(aes(shape=protein))+
+    geom_errorbar(aes(ymin=amount-se, ymax=amount+se),linetype=1 , color= "black", width=5) +
+    geom_line(linetype=2)+theme_bw()+xlab("time[min]")+ylab("protein [mg/ml]") + theme(legend.position = "none")
+
+#coll.1oS <- colloid.dist2 %>% filter(str_detect(tm, pattern = "1oS")) -> excluded, no changes detected
+coll.1mS <- colloid.dist2 %>% filter(str_detect(tm, pattern = "1mS"))
+coll.3oS <- colloid.dist2 %>% filter(str_detect(tm, pattern = "3oS"))
+coll.3mS <- colloid.dist2 %>% filter(str_detect(tm, pattern = "3mS"))
+
+# data chapter V
+## Import NMR data
+
+# go through all files in the folder 
+files <- list.files(path="~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/NMR_fat", pattern="*.dps", full.names=TRUE, recursive=FALSE)
+
+# read them and merge them into a single table
+table_list <- lapply(files, function(x) {
+  x <- read.table(x, sep="\t", header=F)
+  colnames(x) <- c("count", "x", "y")
+  x
+})
+
+NMR_list <- table_list
+ID <- list.files(path="~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/NMR_fat", pattern="*.dps", full.names=F)
+pr.ti <- str_split_fixed(ID, "_", 3) %>% as.data.frame()
+
+names(NMR_list) <- pr.ti$V1
+
+# rbind the list of tables to get a single table
+df <- do.call("rbind", NMR_list) %>% rownames_to_column()
+
+# clean up
+rm(files, table_list, ID)
+
+NMRfull <- df %>% filter(., count < 3000)
+
+time <- str_split_fixed(NMRfull$rowname, "[:punct:]", 2) %>% as.data.frame()
+
+NMRfull <- bind_cols(time$V1, NMRfull)
+NMRfull <- select(NMRfull, c(...1, x, y))
+colnames(NMRfull) <- c("time", "x", "y")
+
+#summarise duplicate runs
+
+NMR <- summarySE(data = NMRfull, measurevar = "y", groupvars = c("time", "x") )
+```
+
+```{r}
+# data chapter VI
+
+#import:
+files <- list.files("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/tidy.data_rheo.online", pattern = ".csv", full.names = T)
+list_online <- lapply(files, read.csv)
+fi <- list.files("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/tidy.data_rheo.online", pattern = ".csv", full.names = F)
+on<- lapply(list_online, function(x) { x["X"] <- NULL; x }) #remove X1
+
+#make ID
+ID <- sapply(strsplit(fi,".csv", fixed = T), getElement, 1)
+rh_on1 <- on
+names(rh_on1) <- ID
+
+##tidy data specifically
+#remove tailings/frontings and adjust pr.time if necessary:
+#exclude outliers
+no.t_rh.on <- rh_on1
+no.t_rh.on[[2]] <- head(no.t_rh.on[[2]], -25)
+no.t_rh.on[[5]] <- head(no.t_rh.on[[5]], -30)
+no.t_rh.on[[7]] <- head(no.t_rh.on[[7]], -25)
+no.t_rh.on[[8]][530,2] <- 0.2241
+no.t_rh.on[[9]] <- head(no.t_rh.on[[9]], -40)
+no.t_rh.on[[10]] <- head(no.t_rh.on[[10]], -15)
+no.t_rh.on[[11]] <- head(no.t_rh.on[[11]], -15)
+no.t_rh.on[[14]] <- tail(no.t_rh.on[[14]], -10)
+no.t_rh.on[["cb_20170522_LC_oil_200s_alu_lowS_pH5.8_pm_toK_90C"]][["pr.time"]] <- (no.t_rh.on[["cb_20170522_LC_oil_200s_alu_lowS_pH5.8_pm_toK_90C"]][["pr.time"]] - 200)
+no.t_rh.on[[15]]<- head(no.t_rh.on[[15]], -25)
+
+
+
+my.list <-no.t_rh.on
+## since some time values are rounded wrong, or are missing, etc, I use this function to replace the 
+## measured time data with the calculated time data using this function:
+round_time_fun <- function (i){
+  c_shorten <- as.data.frame(my.list[[i]])
+s.t <- round(c_shorten$pr.time)
+a <- first(s.t, n=1L)
+z <- last(s.t, n=1L)
+l <- nrow(c_shorten)
+c.time <- seq(a, z, by=a)
+c.time <- head(c.time, l)
+c_shorten$pr.time <- c.time
+return(c_shorten)
+}
+calc.time <- lapply(seq_along(my.list), round_time_fun)
+names(calc.time) <- ID
+remove(my.list)
+
+# create full results table
+##get values from sample ID
+pr.param <- strsplit(ID, "_")
+keep <- function(i){pr.param[[i]][3:11]}
+p.p <- lapply(seq_along(pr.param), keep)
+pr.par <- unlist(p.p)
+##make table
+n <- 9
+nr <- length(pr.par)
+pro.par <- split(pr.par, rep(1:ceiling(nr/n), each=n, length.out=nr))
+pro.p <- bind_cols(pro.par) %>% t(.)
+pro.p <- pro.p %>% as.data.frame()
+pro.p[10,7] <- "highpm"
+pro.p[11,7] <- "highpm"
+pro.p[17,7] <- "highpm"
+pp <- pro.p$V8
+pp <- str_split_fixed(pp, "", 3) %>% as.data.frame()
+pp <- pp$V3
+pro.p$V8 <- pp
+pro.p$V7 <- revalue(pro.p$V7, c("pm"="normal", "pm2"="normal", "highpm"="high", "nopm"="low"))
+
+cr <- c(pro.p$V1, pro.p$V5)
+cr <- matrix(cr, ncol =2)
+cr <- as.data.frame(cr)
+source <- mutate(cr, mixture = paste(V1, V2, sep = '_'))
+source <- select(source, mixture)
+xc <- source$mixture
+xc <- factor(xc)
+cr <- ifelse(xc %in% c("LC_emS", "MC_emS", "MC_noS", "NC_emS"), xc, paste("low"))
+cr2 <- ifelse(cr %in% c("1", "3", "low"), cr, paste("no")) 
+cr3 <- ifelse(cr2 %in% c("low", "no"), cr2, paste("high"))
+pro.p <- bind_cols(pro.p, cr3)
+deltaE <- pro.p$V4 
+deltaE <- deltaE %>% revalue(., c("steel"="0.2", "alu"="0.5"))
+deltaE <- as.numeric(deltaE)
+grC <- str_split_fixed(pro.p$V9, "" , 3) %>% as.data.frame()
+grC <- mutate(grC, pr.temp = paste(V1, V2, sep = ""))
+grC <- grC$pr.temp 
+grC <- as.numeric(grC)
+dE <- deltaE*grC
+pro.p <- bind_cols(pro.p, dE)
+fric <- pro.p$V4 
+fric <- fric %>% revalue(., c("steel"="1", "alu"="2"))
+fric <- as.numeric(fric)
+shear <- str_split_fixed(pro.p$V3,"",4) %>% as.data.frame()
+shear <- mutate(shear, sr = paste(V1, V2, V3, sep = ""))
+shear <- as.numeric(shear$sr)
+fric <- fric*shear
+pro.p <- bind_cols(pro.p, fric)
+colnames(pro.p) <- c("protein", "fat", "shear rate", "cup", "salt", "initial pH", "pre-mixing intensity", "processed to", "temperature", "calcium release", "free Energy", "total shear stress" )
+## clear environment:
+remove(on, p.p, pr.param, pro.par, fric, shear, dE, grC, deltaE, cr3, cr2, cr, xc, source, pp)
+
+#calculate rest of values from data
+##rh_on <- no.t_rh.on : with measured time
+rh_on <- calc.time
+len <- function(i){
+ length(rh_on[[i]][['pr.time']])
+}
+meas <- lapply(1:29, len) %>% as.numeric()
+sam <- function(i){
+  rh_on[[i]][['pr.time']][1]
+}
+sam.ti <- lapply(seq_along(rh_on), sam) %>% as.numeric()
+pr.param_online <- bind_cols(pro.p, meas, sam.ti)
+names(pr.param_online)[13] <- "mea.points"
+names(pr.param_online)[14] <- "sampl.time"
+pr.param_online <- mutate(pr.param_online, "duration" = ((mea.points*sampl.time)/60) %>% round())
+#exclude values from cold/melting state
+low <- function(i){
+  min(rh_on[[i]][['viscosity']][(11:99) ], na.rm = T)}
+min.visco <- lapply(seq_along(rh_on), low) %>% as.numeric()
+high <- function(i){
+  max(rh_on[[i]][['viscosity']][-(1:99) ], na.rm = T)} 
+max.visco <- lapply(seq_along(rh_on), high) %>% as.numeric()
+results_online <- bind_cols(pr.param_online, min.visco, max.visco)
+names(results_online)[16] <- "min.visco"
+names(results_online)[17] <- "max.visco"
+
+results_online <- mutate(results_online, "delta.visco" = max.visco-min.visco)
+results_online$structure.form[results_online$delta.visco > results_online$min.visco] <- "yes"
+results_online$structure.form[results_online$delta.visco < results_online$min.visco] <- "no"
+## important note: counting of time starts at new t0 when values are excluded
+x.min <- function(i){(rh_on[[i]][['pr.time']])[which.min(rh_on[[i]][['viscosity']][(11:99) ])]}
+t.min <- lapply(seq_along(rh_on), x.min) %>% as.numeric()
+t.min <- (t.min+sam.ti*10)/60 
+t.min <- round(t.min)
+x.max <- function(i){(rh_on[[i]][['pr.time']])[which.max(rh_on[[i]][['viscosity']][-(1:99) ])]}
+t.max <- lapply(seq_along(rh_on), x.max) %>% as.numeric()
+t.max <- (t.max+sam.ti*99)/60 
+t.max <- round(t.max)
+results_online <- bind_cols(results_online, t.min, t.max)
+names(results_online)[20] <- "min.t"
+names(results_online)[21] <- "max.t"
+results_online <- mutate(results_online, "delta.time" = t.max-t.min)
+
+##add norm.time values:
+t.norm_fun <- function(i){
+ x <- rh_on[[i]][["pr.time"]]
+t.norm <- normalize(x, method = "range", margin = 2L)
+t.norm}
+t.norm <- sapply(seq_along(rh_on), t.norm_fun) #list of vectors t.norm
+
+add_t.norm <- function(i){x <- rh_on[[i]]
+                          y <- t.norm[[i]]
+                          x[["t.norm"]] <- y
+                          x} 
+rh_on_t.norm <- lapply(seq_along(rh_on), add_t.norm) #add column to list of data
+
+##calculate t.norm.min/max
+x.min_t.norm <- function(i){(rh_on_t.norm[[i]][['t.norm']])[which.min(rh_on_t.norm[[i]][['viscosity']][(11:99) ])]}
+t.norm.min <- lapply(seq_along(rh_on_t.norm), x.min_t.norm) %>% as.numeric()
+add_skip10 <- function (i,x){ skip <- rh_on_t.norm[[i]][['t.norm']][10]; skip}
+skipped10 <- lapply(seq_along(rh_on_t.norm), add_skip10) %>% as.numeric()
+min.t.norm <- t.norm.min+skipped10
+
+x.max_t.norm <- function(i){(rh_on_t.norm[[i]][['t.norm']])[which.max(rh_on_t.norm[[i]][['viscosity']][-(1:99) ])]}
+t.norm.max <- lapply(seq_along(rh_on_t.norm), x.max_t.norm) %>% as.numeric()
+add_skip99 <- function (i){ skip <- rh_on_t.norm[[i]][['t.norm']][99]; skip}
+skipped99 <- lapply(seq_along(rh_on_t.norm), add_skip99) %>% as.numeric()
+max.t.norm <- t.norm.max+skipped99
+
+results_online <- bind_cols(results_online, min.t.norm, max.t.norm)
+names(results_online)[23] <- "min.t.norm"
+names(results_online)[24] <- "max.t.norm"
+
+## clear environment
+remove(pro.p, pr.param_online)
+remove(max.visco, meas, min.visco, sam.ti, t.max, t.min, n, nr, max.t.norm, min.t.norm,  skipped10, skipped99, t.norm.max, t.norm.min)
+
+rheo <- mutate(results_online, mixture = paste(protein, salt, fat, sep = "_"))
+
+rheo <- rheo[,7:25]
+rheo$agg.rate[rheo$delta.visco < rheo$min.visco] <- "no"
+rheo$agg.rate <- ifelse(rheo$delta.visco < 0.7, "low", ifelse(rheo$delta.visco < 1, "medium", "high"))
+
+## create smaller table for analysis
+rheo_table <- rheo %>% select(., mixture, `pre-mixing intensity`, `processed to`, structure.form, agg.rate, `calcium release`, `free Energy`, `total shear stress`, delta.visco, delta.time)
+
+#make categorical Variables into factors
+
+rheo_table$`pre-mixing intensity` <- factor(rheo_table$`pre-mixing intensity`)
+levels(rheo_table$`pre-mixing intensity`) <- c(3,1,2)
+
+rheo_table$agg.rate <- factor(rheo_table$agg.rate)
+levels(rheo_table$agg.rate) <- c(3,1,2)
+
+rheo_table$`calcium release` <- factor(rheo_table$`calcium release`)
+levels(rheo_table$`calcium release`) <- c(3,2,1)
+
+# select only full runs
+
+rheo.f <- rheo_table %>% filter(., `processed to`=="K")
+rheo.f <- rheo.f %>% select(., -`processed to`)
+
+rheo.f$`pre-mixing intensity` <- as.numeric(rheo.f$`pre-mixing intensity`)
+rheo.f$agg.rate <- as.numeric(rheo.f$agg.rate)
+rheo.f$`calcium release` <- as.numeric(rheo.f$`calcium release`)
+
+rheo.f$mixture <- NULL
+rheo.f$structure.form <- NULL
+
+ar <- ((rheo.f$delta.visco*100) / (rheo.f$delta.time/60))
+rheo.f$agg.rate <- ar
+rheo.f$delta.time <- NULL
+rheo.f$delta.visco <- NULL
+
+rhfa <- factanal(rheo.f, factors = 2, scores = "Bartlett")
+rhfa_plot <- autoplot(rhfa, label = TRUE, label.size = 3,
+         loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4)
+
+# data chapter IIb
+
+HPLC.fa <- HPLC.full[,c(1:4, 9)]
+HPLC.fa$protein <- factor(HPLC.fa$protein)
+levels(HPLC.fa$protein) <- c(2,3,4,1) #factor hydrophobicity
+HPLC.fa$tm <- factor(HPLC.fa$tm)
+levels(HPLC.fa$tm) <- c(8,7,1,2,3,4,5,6) #factor apolarity
+HPLC.fa$source <- factor(HPLC.fa$source)
+levels(HPLC.fa$source) <- c(2,1) #factor reactivity
+
+HPLC.fa$source <- as.numeric(HPLC.fa$source)
+HPLC.fa$tm <- as.numeric(HPLC.fa$tm)
+HPLC.fa$protein <- as.numeric(HPLC.fa$protein)
+
+wafa <- factanal(HPLC.fa, factors = 2, scores = "Bartlett")
+wafa_plot <- autoplot(wafa, label = TRUE, label.size = 3,
+         loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4)
+
+```
+

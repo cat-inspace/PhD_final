@@ -1,0 +1,43 @@
+---
+title: ''
+output: pdf_document
+---
+
+\section{Numeric Analysis of Experimental Data}
+\subsection{Introduction}
+\subsection{Data and Numerical Methods}
+To get a better overview, which parameters lead to structure formation, the minimum and maximum Viscosity per experiment was calculated.
+For max values, the first 99 data points were excluded to not include the viscosity of the premix or melting phase.
+For min values after melting only the first 99 data points are used.
+
+In order to be able to numerically introduce the course of viscosity during the experiments into the data analysis, the factors aggregation rate 1 (no significant viscosity increase), 2 (structure formation up to the first log phase) and 3 (structure formation up to the second log phase) were defined.
+In addition the factors temperature and shear rate were further complemented. The temperature was extended with the specific heat capacity and relative mass of the aluminium and steel cup, using the formula dE = c * m * dT. The shear rate was adjusted using an empiric value for the observed friction; the steel cup was given the value 1, the aluminum cup the level 2.
+
+
+\subsection{Results and Discussion}
+
+\subsubsection{Process Parameters influencing the Rheological Profile}
+
+In order to explain the variance within the rheological data, a factor analysis was performed. Five factors were chosen for analysis:
+* pre-mixing intensity
+* aggregation rate
+* calcium release
+* free Energy
+* total shear stress
+
+*Describe Factors*
+
+```{r echo=FALSE, fig.cap="Factors influencing the aggregation rate represented as total increase in viscosity over processing-time-increment: The aggregation rate (agg.rate) is independent from shear stress and free Energy (i.e. heat transfer) but calcium release (induced here by emulsifying salts in native and rennet casein samples) and pre-mixing intensity affect the degree and speed of aggregation (i.e. the aggregation rate)"}
+rhfa_plot+theme_bw()
+```
+The factor analysis of the summary of the rheological data shows, that the pre-defined factor "aggregation rate" is independent from the shear or energy intake. This means, that the increase in viscosity over time can be accelerated by increasing the process temperature or shear rate. However, the occurence of an overall viscosity increase during processing is mainly dependent on the pre-treatment and composition of the samples, i.e. pre-mixing intensity and calcium release. This is in conclusion with the findings of **QUELLE** ...
+
+```{r chapII_fa, child='chapterIIadd.Rmd'}
+```
+
+\subsubsection{Principal Component Analysis (PCA) of measurement data}
+
+
+
+\subsubsection{Correlation Analysis of experimental data}
+\subsection{Conclusion and Outlook}

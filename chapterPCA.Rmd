@@ -1,0 +1,105 @@
+---
+title: ''
+output: pdf_document
+---
+```{r}
+# data provision for pca
+
+summary_rheo <- sum_t.v
+
+dM_product <- plot.dM
+dM_cream <- plot.dM.cream
+pH_process <- plot.pH
+
+HPLC_product <- HPLC.full[,c(1:4,9)]
+HPLC_product$sm <- as.character(HPLC_product$sm)
+HPLC_product$sm <- revalue(HPLC_product$sm, c("0"="A", "8"="B", "25"="C", "33"="D", "45"="E", "70"="F", "100"="G", "125"="H", "130"="J",  "145"="K"))
+HPlC_product_pca <- HPLC_product %>% pivot_wider(., id_cols = sm, values_from = value, names_from = c(source, tm, protein), names_sep = "_")
+
+pgv_cream <- dens2cream
+pgv_pellet <- dens2pellet
+pgv_serumUZ <- dens2serumUZ
+pgv_serumZF <- dens2serumZF
+pgv_colloid <- dens2coll
+colnames(pgv_colloid) <- collmins$tm
+cm <- collmins$time %>% as.numeric()
+cm <- as.data.frame(t(cm))
+colnames(cm) <- collmins$tm
+pgv_colloid <- bind_rows(cm, pgv_colloid)
+colnames(pgv_colloid) <- collmins$tm
+
+colloid_rheo <- c_rheo
+HPLC_colloid <- HPLC_coll
+
+
+```
+
+```{r}
+# data restructuring colloid
+size1_coll <- pgv_colloid[c(1,5),]
+size2_coll <- pgv_colloid[6,]
+sizes_coll <- bind_rows(size1_coll, size2_coll)
+colnames(sizes_coll) <- collmins$tm
+
+sizes_3oSnoG <- sizes_coll[-1,1:10]
+colnames(sizes_3oSnoG) <- LETTERS[c(1:8,10,11)]
+sizes_3oSZF <- sizes_coll[, 11:20]
+colnames(sizes_3oSZF) <- LETTERS[c(1:8,10,11)]
+sizes_3mSnoG <- sizes_coll[,21:30]
+colnames(sizes_3mSnoG) <- LETTERS[c(1:8,10,11)]
+sizes_3mSZF <- sizes_coll[,31:40]
+colnames(sizes_3mSZF) <- LETTERS[c(1:8,10,11)]
+sizes_1mSnoG <- sizes_coll[,41:48]
+colnames(sizes_1mSnoG) <- LETTERS[c(1:5,8,10,11)]
+sizes_1mSZF <- sizes_coll[,49:56]
+colnames(sizes_1mSZF) <- LETTERS[c(1:5,8,10,11)]
+
+## NA cols for missing values:
+F <- c(100, NA, NA)
+G <- c(120,NA, NA)
+sizes_1mSnoG <- bind_cols(sizes_1mSnoG, F, G)
+colnames(sizes_1mSnoG)[9:10] <- c("F", "G")
+sizes_1mSZF <- bind_cols(sizes_1mSZF, F, G)
+colnames(sizes_1mSZF)[9:10] <- c("F", "G")
+
+```
+
+```{r}
+# make PGV data frame for PCA: bind by A:K
+
+full_pgv <- bind_rows(sizes_1mSnoG, sizes_1mSZF, sizes_3mSnoG, sizes_3mSZF, sizes_3oSnoG, sizes_3oSZF, pgv_cream[4:5,], pgv_pellet[4:5,], pgv_serumUZ[4:5,], pgv_serumZF[4:5,])
+full_pgv <- full_pgv[c(2:3,5:6,8:9,11:14,16:25),]
+pgv.nms <- c("1mSnoG_1", "1mSnoG_2", "1mSZF_1", "1mSZF_2", "3mSnoG_1", "3mSnoG_2", "3mSZF_1", "3mSZF_2", "3oSnoG_1", "3oSnoG_2", "3oSZF_1", "3oSZF_2", "cream_1", "cream_2", "pellet_1", "pellet_2", "serumUZ_1", "serumUZ_2", "serumZF_1", "serumZF_2")
+
+row.names(full_pgv) <- pgv.nms
+
+pgv_pca <- full_pgv
+
+pgv_pca$Kk <- NULL
+pgv_pca <- pgv_pca[,c(1,2,3,4,5,9,10,6,7,8)]
+pgv_pca["pellet_1","A"] <- 0 #no pellet obtainable therefore ==0
+pgv_pca["pellet_2","A"] <- 0
+
+pgv1_pca <- pgv_pca[5:20,1:9]
+pgv1.pca <- prcomp(pgv1_pca, center = TRUE, scale. = TRUE)
+autoplot(pgv1.pca, data = pgv1_pca, label=TRUE, loadings=TRUE)
+```
+indicates that data is correlated by one factor. The samples without salt don't correlate in their particle sizes with the data from the samples that were treated with the emulsifying salt mixture used herein. Hence, we can assume that the behaviour of the colloid is correlated to the behavior of the diluted, and centrifugationally treated model process cheese samples. 
+
+
+```{r eval=FALSE, include=FALSE}
+#pca algorithm for modellation of incomplete data, works with transposed full_pgv
+pgv.pca <- estim_ncpPCA(pgv_pca,method.cv = "Kfold", verbose = FALSE)
+res.comp <- imputePCA(pgv_pca, ncp = pgv.pca$ncp) # iterativePCA algorithm
+pgv_imp <- res.comp$completeObs
+
+pgv_imp.pca <- prcomp(pgv_imp, center = TRUE, scale = TRUE)
+autoplot(pgv_imp.pca, data = pgv_imp, label=TRUE, loadings=TRUE)
+```
+
+```{r}
+#PCA of protein concentration
+
+
+```
+

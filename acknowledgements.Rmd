@@ -1,0 +1,15 @@
+---
+title: "Untitled"
+output: pdf_document
+---
+
+\begin{raggedleft}
+{\bf Acknowledgments}
+\end{raggedleft}
+
+First of all...
+UK
+staff
+students
+family
+Claus

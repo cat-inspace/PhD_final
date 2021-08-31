@@ -1,0 +1,7 @@
+---
+title: ''
+output: pdf_document
+---
+\section{General Conclusion}
+
+The main aim of this study was to elucidate the structure formation processes occuring in protein rich, dispersed on a molecular level. The driving force that lead to the destabilization of the investigated model process cheese systems was hydrophobic interaction. Concerning the plots of the hydrophobic cluster analysis as presented by @Lucey2018 and the fact that the emulsifying salts enable especially alphaS1 and beta caseins to interact on a larger hydrophobic surface, the formation of insoluble structures during the processing of casein matrices is conclusive with the data presented within this work. 

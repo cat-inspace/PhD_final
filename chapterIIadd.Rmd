@@ -1,0 +1,33 @@
+---
+title: ''
+output: pdf_document
+---
+\subsection{Factor analysis of protein concentrations in different phases}
+\subsubsection{Data}
+
+In @Horne2017, the distribution of hydrophilic and hydrophobic peptides is shown. Derived therefrom, an arbitrary factor for the hydrophobicity of caseins taking an integer from 1 to 4 is introduced. Since the investigated structure is formed under conditions with ionic strength, only the non-polar hydrophobic regions of the Caseins were taken into consideration. This results in a hydrophobicity ranking from low to high for the Caseins of:
+**kappa < alphaS2 < alphaS1 < beta**
+The investigated phases (cream, pellet, serum, washing phase 1-4) were also given a factor, responding to their respective apolarity, to match the factor hydrophobicity. Accordingly, the serum phase was given the lowest integer, followed by the wash phases 1-4. The pellet and the cream phase were given the highest integer, since it is assumed that the structures in the pellet are of hydrophobic nature.
+A further factor for the source material, according to it's reactivity in the process environment was defined. Native Casein was given the factor 2, Sodium Caseinate was given the factor 1.
+```{r include=FALSE}
+HPLC.fa <- HPLC.full[,c(1:4, 9)]
+HPLC.fa$protein <- factor(HPLC.fa$protein)
+levels(HPLC.fa$protein) <- c(2,3,4,1) #factor hydrophobicity
+HPLC.fa$tm <- factor(HPLC.fa$tm)
+levels(HPLC.fa$tm) <- c(8,7,1,2,3,4,5,6) #factor apolarity
+HPLC.fa$source <- factor(HPLC.fa$source)
+levels(HPLC.fa$source) <- c(2,1) #factor reactivity
+
+HPLC.fa$source <- as.numeric(HPLC.fa$source)
+HPLC.fa$tm <- as.numeric(HPLC.fa$tm)
+HPLC.fa$protein <- as.numeric(HPLC.fa$protein)
+
+wafa <- factanal(HPLC.fa, factors = 2, scores = "Bartlett")
+wafa_plot <- autoplot(wafa, label = TRUE, label.size = 3,
+         loadings = TRUE, loadings.label = TRUE, loadings.label.size  = 4)
+```
+\subsubsection{Result Factor Analysis}
+```{r echo=FALSE, fig.cap="Factors Analysis of data from washing experiment: protein concentration (value) is independent from the treatment of the samples (tm), i.e. centrifugational separation and washing of cream"}
+wafa_plot+theme_bw()
+```
+From this short analysis it becomes apparent, that the measured concentration of caseins (value) is independent from the treatment or polarity of the investigated phase. This adds validity to the experimental method, since it can be ensured, that the measured values are not an artifact of the measurement method.

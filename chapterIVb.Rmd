@@ -1,0 +1,93 @@
+---
+title: ''
+output: pdf_document
+---
+---
+title: ''
+output: pdf_document
+---
+\section{Colloidal aggregation of Rennet Casein under the influence of shear, heat and emulsifying salts}
+\subsection{Introduction}
+\subsection{Material and Methods}
+
+For further analysis of the swelling behaviour, casein solutions of specific concentrations, with and without melting salts, were Investigated. The solutions were prepared with rennet casein. Protein contents of 1% and 3% were investigated. For this purpose, the protein powder was dissolved in the required concentration in deionised water and then stored at 4°C  Under constant stirring for at least 12 hours. Depending on the test, the melting salts listed above were added in quantities adapted to the protein quantity Of the model cheese samples.
+After 12-hours of swelling, 35 grams of the casein solution were measured in a Rheometer MCR 302, using a rotating vane and cup geometry. The process was started and stopped at the desired process time. Afterwards, the samples were transferred into a 50ml purification tube and stored in the 4°C refrigeration until further analysis.
+
+Particle Size Analysis
+
+HPLC measurements
+\subsection{Results and Discussion}
+
+```{r echo=FALSE, fig.cap="logarithmic likelihood of the 2 (circle) and 3 (triangle) component fit: 1% TP with emulsifying salts without (red) or with (orange) centrifugational separation; 3% TP with emulsifying salts without (blue) or with (green) centrifugational separation; 3% TP without emulsifying salts without (black) or with (grey) centrifugational separation"}
+print(plot.log)
+```
+
+```{r echo=FALSE, fig.cap="Development of viscosity of 3% TP with emulsifying salts, processed at 85°C with a rotating vane geometry at a shear rate of 50/s"}
+print(c_rheo.plot)
+```
+
+```{r echo=FALSE, fig.cap="Development of protein concentration in the supernatant over processing time: alphaS1 (red circle), alphaS2 (green triangle), beta (blue square), kappa (violet line)"}
+print(HPLC_coll.plot)
+```
+
+```{r echo=FALSE, fig.cap="Particle Volume of small component over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+size2.1.1mS <- filter(coll.1mS, str_detect(parameter, "size2.1"))
+plot.pgv.coll(size2.1.1mS)+ ylab("particle volume [nm]")
+```
+
+```{r echo=FALSE, fig.cap="Particle Volume of large component over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+size2.2.1mS <- filter(coll.1mS, str_detect(parameter, "size2.2"))
+plot.pgv.coll(size2.2.1mS)+ ylab("particle volume [nm]")
+```
+
+```{r echo=FALSE, fig.cap="Particle Volume of small component over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+size2.1.3mS <- filter(coll.3mS, str_detect(parameter, "size2.1"))
+plot.pgv.coll(size2.1.3mS)+ ylab("particle volume [nm]")
+```
+
+```{r echo=FALSE, fig.cap="Particle Volume of large component over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+size2.2.3mS <- filter(coll.3mS, str_detect(parameter, "size2.2"))
+plot.pgv.coll(size2.2.3mS)+ ylab("particle volume [nm]")
+```
+
+```{r echo=FALSE, fig.cap="Particle Volume of small component over processing time of 3% TP without emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+size2.1.3oS <- filter(coll.3oS, str_detect(parameter, "size2.1"))
+plot.pgv.coll(size2.1.3oS)+ ylab("particle volume [nm]")
+```
+
+```{r echo=FALSE, fig.cap="Particle Volume of large component over processing time of 3% TP without emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+size2.2.3oS <- filter(coll.3oS, str_detect(parameter, "size2.2"))
+plot.pgv.coll(size2.2.3oS)+ ylab("particle volume [nm]")
+```
+
+```{r echo=FALSE, fig.cap="Development of Density Distribution of small components over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+dens2.1.1mS <- filter(coll.1mS, str_detect(parameter, "dens2.1"))
+plot.pgv.coll(dens2.1.1mS)+ ylab("density distribution")
+```
+
+```{r echo=FALSE, fig.cap="Development of Density Distribution of large components over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+dens2.2.1mS <- filter(coll.1mS, str_detect(parameter, "dens2.2"))
+plot.pgv.coll(dens2.2.1mS)+ ylab("density distribution")
+```
+
+```{r echo=FALSE, fig.cap="Development of Density Distribution of small components over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+dens2.1.3mS <- filter(coll.3mS, str_detect(parameter, "dens2.1"))
+plot.pgv.coll(dens2.1.3mS)+ ylab("density distribution")
+```
+
+```{r echo=FALSE, fig.cap="Development of Density Distribution of large components over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
+
+dens2.2.3mS <- filter(coll.3mS, str_detect(parameter, "dens2.2"))
+plot.pgv.coll(dens2.2.3mS)+ ylab("density distribution")
+```
+
+\subsection{Summary and Outlook}

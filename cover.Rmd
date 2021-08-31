@@ -1,0 +1,149 @@
+---
+title: " "
+output:
+  pdf_document:
+    number_sections: TRUE
+    latex_engine: xelatex
+geometry: "left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm"
+fontsize: 11pt
+header-includes:
+  - \usepackage{float}
+  - \usepackage{sectsty}
+  - \usepackage{paralist}
+  - \usepackage{setspace}\spacing{1.5}
+  - \usepackage{fancyhdr}
+  - \usepackage{lastpage}
+  - \usepackage{dcolumn}
+  - \usepackage{natbib}\bibliographystyle{agsm}
+  - \usepackage[nottoc, numbib]{tocbibind}
+  - \usepackage[utf8]{inputenc}
+bibliography: library.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(tinytex.verbose = TRUE)
+```
+
+
+\allsectionsfont{\centering}
+\subsectionfont{\raggedright}
+\subsubsectionfont{\raggedright}
+
+\pagenumbering{gobble}
+\vspace{5cm}
+\begin{raggedleft}
+\begin{minipage}[t]{0.75\textwidth}
+```{r wzw_logo, echo=F, out.width="20%"}
+knitr::include_graphics(paste0(getwd(), '/img/wzwlogo.png'))
+```
+\end{minipage}
+\end{raggedleft}
+\begin{raggedright}
+\begin{minipage}[t]{0.75\textwidth}
+```{r tum_logo, echo=F, out.width="20%"}
+knitr::include_graphics(paste0(getwd(), '/img/tumlogo.png'))
+```
+\end{minipage}
+\end{raggedright}
+
+\begin{centering}
+
+\Large
+{\bf Technische Universität München}
+
+\normalsize
+{\bf Wissenschaftszentrum Weihenstephan für Ernährung Landnutzung und Umwelt}
+
+\vspace{1cm}
+\normalsize
+{\bf Lehrstuhl für Lebensmittel- und Bioprozesstechnik}
+
+\vspace{1cm}
+\large
+{\bf Structure formation in Casein-based food systems}
+
+\small
+{\bf Mechanisms for non-covalent aggregation during thermal processing}
+
+\vspace{1cm}
+\normalsize
+{\bf Stefanie Sedlmeier}
+
+\vspace{1cm}
+\normalsize
+{\bf Vollständiger Abdruck der von der Fakultät Wissenschaftszentrum Weihenstephan für Ernährung Landnutzung und Umwelt der Technischen Universität München zur Erlangung des akademischen Grades eines}
+
+\vspace{1cm}
+\normalsize
+{\bf Doktors der Naturwissenschaften (Dr. rer. nat.)}
+
+\vspace{1cm}
+\normalsize
+{\bf genehmigten Dissertation.}
+
+\end{centering}
+
+\newpage
+
+\pagenumbering{gobble}
+\begin{raggedleft}
+{\bf Abstract}
+\end{raggedleft}
+\spacing{1.5}
+Various model process-cheese matrices using Sodium, Rennet and Native Casein as starting material were investigated in their structuring-behaviour using a Rheometer as a monitoring and processing device for the structure-build up. In sum ten different stages for structure formation were defined and the products obtained were analyzed. 
+For determination of the protein concentrations at the O/W interface, the soluble phase and the insoluble phase, a centrifugational washing procedure for separating the diluted model processed cheese matrix was developed. Thereby obtained phases were investigated with subsequent HPLC analysis for protein quantification and qualification. 
+In addition to HPLC analysis, particle sizes of the three phases were measured. The particle sizes showed bimodal distributions, therefore an algorithm for modelling normal distributions in equal mixtures of distributions ("normalmixEM" within the R programming language) was used to better estimate the particle sizes or particle volume distributions. 
+The data obtained both by the HPLC analysis and the particle size measurements were correlated with the apparent viscosity during processing in order to gain a deeper insight towards non-covalent aggregation phenomena on a macro-, meso- and microscopic scale. As a comperative example, casein solutions of 1% and 3% with aliquots of emulsifying salts and solutions of 3% casein without salts were treated equally to the model processed cheese samples. In the samples of 3% casein with emulsifying salts, hydrophobic aggregation of caseins occured that could be linked to the aggregation processes in concentrated casein systems.
+In addition, low-resolution NMR measurements were performed using the products of a continuous and therefore upscaled process. The multi-exponential decay was analyzed using a discrete, multi-exponential fit in a non-linear-least-squares (NNLS) algorithm using a four component model. 
+Data was analysed using factor analysis and correlation analysis. A general rheological profile of the model processed cheese was generated and a correlation analysis with the remaining experimental data (protein concentration, particle volume distribution, product parameters) was performed.
+Data showed correlations between protein adsorption at the interface, particle growth or shrinkage depending on the analyzed centrifugationally separated phases, water and fat binding with the viscosity during processing. 
+
+\pagenumbering{roman}
+
+\newpage
+
+\centering
+\raggedright
+\newpage
+\tableofcontents
+\newpage
+
+```{r data, child='data_wrangling.Rmd', include=FALSE}
+```
+
+```{r acknowledgments, child='acknowledgements.Rmd'}
+```
+\newpage
+\pagenumbering{arabic}
+```{r intro, child = 'intro.Rmd'}
+```
+\newpage
+```{r motivation, child = 'motivation.Rmd'}
+```
+\newpage
+```{r chapI, child='chapterI.Rmd'}
+```
+\newpage
+```{r chapII, child='chapterII.Rmd'}
+```
+\newpage
+```{r chapIII, child='chapterIIIb.Rmd'}
+```
+\newpage
+```{r chapIV, child='chapterIVb.Rmd'}
+```
+\newpage
+```{r chapV, child='chapterV.Rmd'}
+```
+\newpage
+```{r chapVI, child='chapterVI.Rmd'}
+```
+\newpage
+```{r conclusion, child='conclusion.Rmd'}
+```
+\newpage
+```{r biblio, child='bibliography.Rmd'}
+```
+
+
