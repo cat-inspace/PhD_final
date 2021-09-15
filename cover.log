@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.9.2)  15 SEP 2021 21:01
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.9.2)  15 SEP 2021 23:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -509,7 +509,9 @@ Package upgreek Info: Using Euler Roman for upright Greek on input line 31.
 \symugrf@m=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `ugrf@m' in version `bold'
 (Font)                  U/eur/m/n --> U/eur/b/n on input line 38.
-) (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 87.
+(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2020/10/26 v3.5g Customizing captions (AR)
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
@@ -589,40 +591,40 @@ Package tocloft Info: The document has section divisions on input line 51.
 (./cover.aux)
 \openout1 = `cover.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 121.
+LaTeX Font Info:    ... okay on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/lmr/m/n --> TU/lmr/m/n on input line 119.
+(Font)                  OT1/lmr/m/n --> TU/lmr/m/n on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> TU/lmr/m/it on input line 119.
+(Font)                  OT1/lmr/m/it --> TU/lmr/m/it on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> TU/lmr/bx/n on input line 119.
+(Font)                  OT1/lmr/bx/n --> TU/lmr/bx/n on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 119.
+(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> TU/lmss/bx/n on input line 119.
+(Font)                  OT1/lmss/bx/n --> TU/lmss/bx/n on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 119.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 121.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/bx/n on input line 119.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/bx/n on input line 121.
 
 Package fontspec Info: latinmodern-math scale = 0.9999967668407183.
 
@@ -651,7 +653,7 @@ pt=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(0)/m/n' will be
-(Font)              scaled to size 10.95pt on input line 119.
+(Font)              scaled to size 10.95pt on input line 121.
 
 Package fontspec Info: latinmodern-math scale = 0.9999967668407183.
 
@@ -690,18 +692,18 @@ pt=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.95pt on input line 119.
+(Font)              scaled to size 10.95pt on input line 121.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 119.
+(Font)              `operators' in the math version `normal' on input line 121.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
- line 119.
+ line 121.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 119.
+(Font)              `operators' in the math version `bold' on input line 121.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
-t line 119.
+t line 121.
 
 Package fontspec Info: latinmodern-math scale = 0.9999967668407183.
 
@@ -788,15 +790,15 @@ t=math;language=dflt;"
 (fontspec)             =0pt\relax \fontdimen 21\font =0pt\relax 
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 119.
+(Font)              `symbols' in the math version `normal' on input line 121.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
-t line 119.
+t line 121.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 119.
+(Font)              `symbols' in the math version `bold' on input line 121.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
-t line 119.
+t line 121.
 
 Package fontspec Info: latinmodern-math scale = 0.9999967668407183.
 
@@ -866,17 +868,17 @@ pt=math;language=dflt;"
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 1
-19.
+21.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
-t line 119.
+t line 121.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 119
+(Font)              `largesymbols' in the math version `bold' on input line 121
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
-t line 119.
-Package hyperref Info: Link coloring OFF on input line 119.
+t line 121.
+Package hyperref Info: Link coloring ON on input line 121.
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -888,9 +890,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count321
 )
-LaTeX Info: Redefining \ref on input line 119.
-LaTeX Info: Redefining \pageref on input line 119.
-LaTeX Info: Redefining \nameref on input line 119.
+LaTeX Info: Redefining \ref on input line 121.
+LaTeX Info: Redefining \pageref on input line 121.
+LaTeX Info: Redefining \nameref on input line 121.
 (./cover.out) (./cover.out)
 \@outlinefile=\write3
 \openout3 = `cover.out'.
@@ -931,7 +933,7 @@ LaTeX Info: Redefining \nameref on input line 119.
 
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 119.
+(lastpage)             ! on input line 121.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 File: /Users/catinspace/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/PhD_final/im
@@ -943,12 +945,12 @@ g/tumlogo_n.png Graphic file (type bmp)
 </Users/catinspace/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/PhD_final/img/tum
 logo_n.png>
 
-Overfull \hbox (371.98593pt too wide) in paragraph at lines 128--139
+Overfull \hbox (371.98593pt too wide) in paragraph at lines 130--141
 [][]   []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 128--139
+Underfull \hbox (badness 10000) in paragraph at lines 130--141
 
  []
 
@@ -1027,56 +1029,265 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 
-LaTeX Warning: Hyper reference `acro:O/W ' on page VIII undefined on input line
- 329.
+LaTeX Warning: Hyper reference `acro:CCP' on page VIII undefined on input line 
+332.
 
 
-LaTeX Warning: Hyper reference `acro:O/W ' on page VIII undefined on input line
- 329.
-
-
-LaTeX Warning: Hyper reference `acro:HPLC' on page VIII undefined on input line
- 330.
-
-
-LaTeX Warning: Hyper reference `acro:HPLC' on page VIII undefined on input line
- 330.
-
-
-LaTeX Warning: Hyper reference `acro:NNLS' on page VIII undefined on input line
- 331.
-
-
-LaTeX Warning: Hyper reference `acro:NNLS' on page VIII undefined on input line
- 331.
+LaTeX Warning: Hyper reference `acro:CCP' on page VIII undefined on input line 
+332.
 
 
 LaTeX Warning: Hyper reference `acro:CLSM' on page VIII undefined on input line
- 332.
+ 333.
 
 
 LaTeX Warning: Hyper reference `acro:CLSM' on page VIII undefined on input line
- 332.
-
-
-LaTeX Warning: Hyper reference `acro:CPMG' on page VIII undefined on input line
  333.
 
 
+LaTeX Warning: Hyper reference `acro:CMP' on page VIII undefined on input line 
+334.
+
+
+LaTeX Warning: Hyper reference `acro:CMP' on page VIII undefined on input line 
+334.
+
+
 LaTeX Warning: Hyper reference `acro:CPMG' on page VIII undefined on input line
- 333.
+ 335.
 
 
-LaTeX Warning: Hyper reference `acro:Test Eintrag' on page VIII undefined on in
-put line 334.
+LaTeX Warning: Hyper reference `acro:CPMG' on page VIII undefined on input line
+ 335.
 
 
-LaTeX Warning: Hyper reference `acro:Test Eintrag' on page VIII undefined on in
-put line 334.
+LaTeX Warning: Hyper reference `acro:CitAc' on page VIII undefined on input lin
+e 336.
+
+
+LaTeX Warning: Hyper reference `acro:CitAc' on page VIII undefined on input lin
+e 336.
+
+
+LaTeX Warning: Hyper reference `acro:DAD' on page VIII undefined on input line 
+337.
+
+
+LaTeX Warning: Hyper reference `acro:DAD' on page VIII undefined on input line 
+337.
+
+
+LaTeX Warning: Hyper reference `acro:DLS' on page VIII undefined on input line 
+338.
+
+
+LaTeX Warning: Hyper reference `acro:DLS' on page VIII undefined on input line 
+338.
+
+
+LaTeX Warning: Hyper reference `acro:DSP' on page VIII undefined on input line 
+339.
+
+
+LaTeX Warning: Hyper reference `acro:DSP' on page VIII undefined on input line 
+339.
+
+
+LaTeX Warning: Hyper reference `acro:DTT' on page VIII undefined on input line 
+340.
+
+
+LaTeX Warning: Hyper reference `acro:DTT' on page VIII undefined on input line 
+340.
+
+
+LaTeX Warning: Hyper reference `acro:EFG' on page VIII undefined on input line 
+341.
+
+
+LaTeX Warning: Hyper reference `acro:EFG' on page VIII undefined on input line 
+341.
+
+
+LaTeX Warning: Hyper reference `acro:FTIR' on page VIII undefined on input line
+ 342.
+
+
+LaTeX Warning: Hyper reference `acro:FTIR' on page VIII undefined on input line
+ 342.
+
+
+LaTeX Warning: Hyper reference `acro:HCA' on page VIII undefined on input line 
+343.
+
+
+LaTeX Warning: Hyper reference `acro:HCA' on page VIII undefined on input line 
+343.
+
+
+LaTeX Warning: Hyper reference `acro:IEP' on page VIII undefined on input line 
+344.
+
+
+LaTeX Warning: Hyper reference `acro:IEP' on page VIII undefined on input line 
+344.
+
+
+LaTeX Warning: Hyper reference `acro:IR' on page VIII undefined on input line 3
+45.
+
+
+LaTeX Warning: Hyper reference `acro:IR' on page VIII undefined on input line 3
+45.
+
+
+LaTeX Warning: Hyper reference `acro:IUP' on page VIII undefined on input line 
+346.
+
+
+LaTeX Warning: Hyper reference `acro:IUP' on page VIII undefined on input line 
+346.
+
+
+LaTeX Warning: Hyper reference `acro:LM' on page VIII undefined on input line 3
+47.
+
+
+LaTeX Warning: Hyper reference `acro:LM' on page VIII undefined on input line 3
+47.
+
+
+LaTeX Warning: Hyper reference `acro:MFGM' on page VIII undefined on input line
+ 348.
+
+
+LaTeX Warning: Hyper reference `acro:MFGM' on page VIII undefined on input line
+ 348.
+
+
+LaTeX Warning: Hyper reference `acro:NMR' on page VIII undefined on input line 
+349.
+
+
+LaTeX Warning: Hyper reference `acro:NMR' on page VIII undefined on input line 
+349.
+
+
+LaTeX Warning: Hyper reference `acro:NNLS' on page VIII undefined on input line
+ 350.
+
+
+LaTeX Warning: Hyper reference `acro:NNLS' on page VIII undefined on input line
+ 350.
+
+
+LaTeX Warning: Hyper reference `acro:O/W' on page VIII undefined on input line 
+351.
+
+
+LaTeX Warning: Hyper reference `acro:O/W' on page VIII undefined on input line 
+351.
+
+
+LaTeX Warning: Hyper reference `acro:PAGE' on page VIII undefined on input line
+ 352.
+
+
+LaTeX Warning: Hyper reference `acro:PAGE' on page VIII undefined on input line
+ 352.
+
+
+LaTeX Warning: Hyper reference `acro:PCP' on page VIII undefined on input line 
+353.
+
+
+LaTeX Warning: Hyper reference `acro:PCP' on page VIII undefined on input line 
+353.
+
+
+LaTeX Warning: Hyper reference `acro:PP' on page VIII undefined on input line 3
+54.
+
+
+LaTeX Warning: Hyper reference `acro:PP' on page VIII undefined on input line 3
+54.
+
+
+LaTeX Warning: Hyper reference `acro:RP-HPLC' on page VIII undefined on input l
+ine 355.
+
+
+LaTeX Warning: Hyper reference `acro:RP-HPLC' on page VIII undefined on input l
+ine 355.
+
+
+LaTeX Warning: Hyper reference `acro:SDS' on page VIII undefined on input line 
+356.
+
+
+LaTeX Warning: Hyper reference `acro:SDS' on page VIII undefined on input line 
+356.
 
 [8
 
-] [1
+]
+
+LaTeX Warning: Hyper reference `acro:SEM' on page IX undefined on input line 35
+7.
+
+
+LaTeX Warning: Hyper reference `acro:SEM' on page IX undefined on input line 35
+7.
+
+
+LaTeX Warning: Hyper reference `acro:TEM' on page IX undefined on input line 35
+8.
+
+
+LaTeX Warning: Hyper reference `acro:TEM' on page IX undefined on input line 35
+8.
+
+
+LaTeX Warning: Hyper reference `acro:TP' on page IX undefined on input line 359
+.
+
+
+LaTeX Warning: Hyper reference `acro:TP' on page IX undefined on input line 359
+.
+
+
+LaTeX Warning: Hyper reference `acro:TSC' on page IX undefined on input line 36
+0.
+
+
+LaTeX Warning: Hyper reference `acro:TSC' on page IX undefined on input line 36
+0.
+
+
+LaTeX Warning: Hyper reference `acro:dM' on page IX undefined on input line 361
+.
+
+
+LaTeX Warning: Hyper reference `acro:dM' on page IX undefined on input line 361
+.
+
+
+LaTeX Warning: Hyper reference `acro:emS' on page IX undefined on input line 36
+2.
+
+
+LaTeX Warning: Hyper reference `acro:emS' on page IX undefined on input line 36
+2.
+
+
+LaTeX Warning: Hyper reference `acro:gam' on page IX undefined on input line 36
+3.
+
+
+LaTeX Warning: Hyper reference `acro:gam' on page IX undefined on input line 36
+3.
+
+[9] [1
 
 ]
 File: images/scales_cheese_Lamichhane2018.jpg Graphic file (type bmp)
@@ -1135,13 +1346,13 @@ File: images/str.form_Vollmer.jpg Graphic file (type bmp)
 File: images/str.frm_Lee.jpg Graphic file (type bmp)
 <images/str.frm_Lee.jpg>
 
-Overfull \hbox (9.7632pt too wide) in paragraph at lines 1556--1556
+Overfull \hbox (9.7632pt too wide) in paragraph at lines 1584--1584
 \TU/lmr/m/n/10.95 al. (2008(1), 
  []
 
 
-Overfull \hbox (4.02539pt too wide) in paragraph at lines 1561--1562
-\TU/lmr/m/n/10.95 Marangoni[] 
+Overfull \hbox (4.02539pt too wide) in paragraph at lines 1589--1590
+\TU/lmr/m/n/10.95 Marangoni[][] 
  []
 
 [24] [25] [26] [27]
@@ -1257,7 +1468,7 @@ File: plots/2.7_s.pellet.jpeg Graphic file (type bmp)
 <plots/2.7_s.pellet.jpeg>
 [64]
 
-LaTeX Warning: Reference `fig:pel.vol' on page 65 undefined on input line 3048.
+LaTeX Warning: Reference `fig:pel.vol' on page 65 undefined on input line 3076.
 
 
 File: plots/2.8_pH.jpeg Graphic file (type bmp)
@@ -1412,16 +1623,16 @@ Package rerunfilecheck Info: File `cover.out' has not changed.
  )
 (\end occurred inside a group at level 2)
 
-### semi simple group (level 2) entered at line 199 (\begingroup)
+### semi simple group (level 2) entered at line 201 (\begingroup)
 ### semi simple group (level 1) entered at line 76 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 21578 strings out of 478532
- 399304 string characters out of 5861726
- 858185 words of memory out of 5000000
- 41382 multiletter control sequences out of 15000+600000
+ 21632 strings out of 478532
+ 399739 string characters out of 5861726
+ 859351 words of memory out of 5000000
+ 41436 multiletter control sequences out of 15000+600000
  407830 words of font info for 64 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,120p,794b,10544s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,120p,794b,10566s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on cover.pdf (145 pages).
+Output written on cover.pdf (146 pages).

@@ -9,11 +9,37 @@ header-includes:
 
 
 \begin{acronym}
- \acro{O/W }{asdfasdf}
- \acro{HPLC}{asdfasdf}
- \acro{NNLS}{asdfasdf}
- \acro{CLSM}{}
- \acro{CPMG}{dfasdfasdfasdfasd}
- \acro{Test Eintrag}{asdfasdfasdfasdf}
+\acro{CCP}{colloidal calcium phosphate}
+\acro{CLSM}{Confocal laser scanning microscopy}
+\acro{CMP}{casein macro peptide}
+\acro{CPMG}{Carr-Purcell-Meiboom-Gill}
+\acro{CitAc}{citric acid}
+\acro{DAD}{diode array detector}
+\acro{DLS}{dynamic light scattering}
+\acro{DSP}{Disodium phosphate, dihydrate}
+\acro{DTT}{Dithiothreitol}
+\acro{EFG}{emulsion filled gel}
+\acro{FTIR}{Fourier transform infrared spectroscopy}
+\acro{HCA}{hydrophobic cluster anlysis}
+\acro{IEP}{iso electric point}
+\acro{IR}{infrared}
+\acro{IUP}{intrinsically unstructured protein}
+\acro{LM}{light microscopy}
+\acro{MFGM}{milk fat globule membrane}
+\acro{NMR}{Nuclear Magnetic Resonance}
+\acro{NNLS}{Non linear least squares}
+\acro{O/W}{oil/water}
+\acro{PAGE}{poly acrylamide gel electrophoresis}
+\acro{PCP}{primary casein particle}
+\acro{PP}{Pentasodium triphosphate}
+\acro{RP-HPLC}{reversed phase high performance liquid chromatography}
+\acro{SDS}{sodium dodecyl sulfate}
+\acro{SEM}{scanning electron microscopy}
+\acro{TEM}{transmission electron microscopy}
+\acro{TP}{total protein}
+\acro{TSC}{Trisodium citrate, dibasic}
+\acro{dM}{dry matter}
+\acro{emS}{emulsifying salts}
+\acro{gam}{general additive model}
 
 \end{acronym}
