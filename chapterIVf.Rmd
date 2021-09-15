@@ -94,7 +94,6 @@ Fibrils from other molecules like *beta-lactoglobulin* are known to have translu
 
 This suggests a mechanism for the hydrophobic aggregation occuring here. The mechanism takes into account, that kappa casein will be the first to get released from its CCP, since it sits on the outside of the micelle. Hence, the formation of the primary aggregate, so to say a kappa casein seed that might also be seen in the needles in @Vollmer2021 after 415 minutes of processing (which then become visible due to fragmentation of the network), becomes plausible. @Nogueira2020 showed the aggregation mechanisms of demineralized casein micelles next to native micelles upon rehydration. It could be shown that the partly demineralized casein micelles had a higher resistance to stirring than native micelles. It was found that this was due to exposition of reactive groups and increase in the tryptophan hydrophobicity, which then led to hydrophobic aggregation. In addition it was found that removing 15% of the CCP led to a larger pore size of the casein micelle.
 
-
 ```{r mech1, echo=FALSE, out.width="100%", fig.cap="Proposed reaction mechanism for hydrophobic aggregation and consequential phase separation: full lines are insoluble aggregation or ionic-bond, dashed lines indicate association. Grey box indicates phase separation.", fig.scap="Proposed reaction mechanism"}
 knitr::include_graphics("images/reaction.001.jpg")
 ```

@@ -23,7 +23,11 @@ header-includes:
   - \usepackage{upgreek}
   - \usepackage[labelfont=bf]{caption}
   - \captionsetup[figure]{labelfont={bf},name={Fig.},labelsep=period}
-  - \usepackage[backend=biber,natbib,style=chem-acs, citestyle=chem-acs]{biblatex}
+  - \usepackage{natbib}\bibliographystyle{agsm}
+  - \usepackage{acronym}
+  - \usepackage{tocloft}
+
+
   
 bibliography: library.bib
 link-citations: true
@@ -116,9 +120,6 @@ knitr::opts_chunk$set(fig.pos = "!h", out.extra = "", fig.align='center')
 \centering
 \raggedright
 \newpage
-```{r acknowledgments, child='acknowledgements.Rmd'}
-```
-\newpage
 \pagenumbering{gobble}
 \begin{raggedleft}
 {\bf Summary}
@@ -144,14 +145,23 @@ Low-resolution NMR measurements were performed using the products of a continuou
 In summary, the results of this study revealed matrix separation phenomena in a dense, heated and sheared casein matrix on a compositional level and gave mechanistic explanations as to why they occurred. Kappa casein was suggested to be the seed for hydrophobic aggregation, wherein beta and alphaS1 casein participated strongly in hydrophobic network formation. 
 The hydrophobic aggregation was increased by depletion of alphaS2 casein, water and ions from the hydrophobic network. The caseins beta and alphaS1 interacted with the initially aggregated kappa casein to form large aggregates via hydrophobic interaction. The alphaS2 casein is suspected to show a special calcium sensitivity that the other caseins lack which could give important insights for the binding of the casein micelle.
 
-
+\tocloftpagestyle{fancy}
 \newpage
-
+\pagenumbering{Roman}
 \tableofcontents
-\newpage
+\clearpage
 
 \listoffigures
-\newpage
+\clearpage
+
+\listoftables
+\clearpage
+
+\section*{Abbreviations}
+\addcontentsline{toc}{section}{Abbreviations}
+```{r abbreviations, child='abbreviations.Rmd'}
+```
+\cleardoublepage
 
 \pagenumbering{arabic}
 ```{r intro, child = 'intro.Rmd'}

@@ -1,0 +1,19 @@
+---
+output: pdf_document
+header-includes:
+  - \usepackage{longtable}
+
+---
+
+
+
+
+\begin{acronym}
+ \acro{O/W }{asdfasdf}
+ \acro{HPLC}{asdfasdf}
+ \acro{NNLS}{asdfasdf}
+ \acro{CLSM}{}
+ \acro{CPMG}{dfasdfasdfasdfasd}
+ \acro{Test Eintrag}{asdfasdfasdfasdf}
+
+\end{acronym}
