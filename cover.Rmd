@@ -117,18 +117,26 @@ knitr::opts_chunk$set(fig.pos = "!h", out.extra = "", fig.align='center')
 
 \newpage
 \raggedright
+\pagenumbering{gobble}
+*Für Claus, der den roten Faden wiederfand.*
 
-*Für Claus, der den roten Faden wiederfand*
 
-*Man muss Chaos in sich tragen,*
-    *um einen tanzenden Stern gebären zu können.*
-        *F. Nietzsche*
+\begin{verse}
+    Man muss Chaos in sich tragen,\\
+    um einen tanzenden Stern gebären zu können.\\
+     - F. Nietzsche
+\end{verse}        
+
 
 \newpage
 
 \centering
 \raggedright
 \newpage
+\pagenumbering{gobble}
+```{r acknowledgments, child='acknowledgements.Rmd'}
+```
+\clearpage
 \pagenumbering{gobble}
 \begin{raggedleft}
 {\bf Summary}

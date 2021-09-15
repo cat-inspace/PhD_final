@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.9.2)  15 SEP 2021 23:00
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.9.2)  15 SEP 2021 23:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -956,36 +956,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 130--141
 
 [1
 
-] [1] [1] [2] [3] (./cover.toc
+] [1]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.665pt on input line 1.
+(Font)              scaled to size 7.665pt on input line 211.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.475pt on input line 1.
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-.
+(Font)              scaled to size 5.475pt on input line 211.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+11.
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.95099pt on input line 1.
+(Font)              scaled to size 10.95099pt on input line 211.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.66568pt on input line 1.
+(Font)              scaled to size 7.66568pt on input line 211.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.4755pt on input line 1.
+(Font)              scaled to size 5.4755pt on input line 211.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 10.94882pt on input line 1.
+(Font)              scaled to size 10.94882pt on input line 211.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 7.66417pt on input line 1.
+(Font)              scaled to size 7.66417pt on input line 211.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.47441pt on input line 1.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
+(Font)              scaled to size 5.47441pt on input line 211.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 211
+.
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 211
+.
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 9.0pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 6.0pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 5.0pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 9.00082pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 6.00055pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 5.00046pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 8.99904pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 5.99936pt on input line 211.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 4.99947pt on input line 211.
+[1] [1
+
+] [2] [3] (./cover.toc
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1030,262 +1053,262 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 
 LaTeX Warning: Hyper reference `acro:CCP' on page VIII undefined on input line 
-332.
+378.
 
 
 LaTeX Warning: Hyper reference `acro:CCP' on page VIII undefined on input line 
-332.
+378.
 
 
 LaTeX Warning: Hyper reference `acro:CLSM' on page VIII undefined on input line
- 333.
+ 379.
 
 
 LaTeX Warning: Hyper reference `acro:CLSM' on page VIII undefined on input line
- 333.
+ 379.
 
 
 LaTeX Warning: Hyper reference `acro:CMP' on page VIII undefined on input line 
-334.
+380.
 
 
 LaTeX Warning: Hyper reference `acro:CMP' on page VIII undefined on input line 
-334.
+380.
 
 
 LaTeX Warning: Hyper reference `acro:CPMG' on page VIII undefined on input line
- 335.
+ 381.
 
 
 LaTeX Warning: Hyper reference `acro:CPMG' on page VIII undefined on input line
- 335.
+ 381.
 
 
 LaTeX Warning: Hyper reference `acro:CitAc' on page VIII undefined on input lin
-e 336.
+e 382.
 
 
 LaTeX Warning: Hyper reference `acro:CitAc' on page VIII undefined on input lin
-e 336.
+e 382.
 
 
 LaTeX Warning: Hyper reference `acro:DAD' on page VIII undefined on input line 
-337.
+383.
 
 
 LaTeX Warning: Hyper reference `acro:DAD' on page VIII undefined on input line 
-337.
+383.
 
 
 LaTeX Warning: Hyper reference `acro:DLS' on page VIII undefined on input line 
-338.
+384.
 
 
 LaTeX Warning: Hyper reference `acro:DLS' on page VIII undefined on input line 
-338.
+384.
 
 
 LaTeX Warning: Hyper reference `acro:DSP' on page VIII undefined on input line 
-339.
+385.
 
 
 LaTeX Warning: Hyper reference `acro:DSP' on page VIII undefined on input line 
-339.
+385.
 
 
 LaTeX Warning: Hyper reference `acro:DTT' on page VIII undefined on input line 
-340.
+386.
 
 
 LaTeX Warning: Hyper reference `acro:DTT' on page VIII undefined on input line 
-340.
+386.
 
 
 LaTeX Warning: Hyper reference `acro:EFG' on page VIII undefined on input line 
-341.
+387.
 
 
 LaTeX Warning: Hyper reference `acro:EFG' on page VIII undefined on input line 
-341.
+387.
 
 
 LaTeX Warning: Hyper reference `acro:FTIR' on page VIII undefined on input line
- 342.
+ 388.
 
 
 LaTeX Warning: Hyper reference `acro:FTIR' on page VIII undefined on input line
- 342.
+ 388.
 
 
 LaTeX Warning: Hyper reference `acro:HCA' on page VIII undefined on input line 
-343.
+389.
 
 
 LaTeX Warning: Hyper reference `acro:HCA' on page VIII undefined on input line 
-343.
+389.
 
 
 LaTeX Warning: Hyper reference `acro:IEP' on page VIII undefined on input line 
-344.
+390.
 
 
 LaTeX Warning: Hyper reference `acro:IEP' on page VIII undefined on input line 
-344.
+390.
 
 
 LaTeX Warning: Hyper reference `acro:IR' on page VIII undefined on input line 3
-45.
+91.
 
 
 LaTeX Warning: Hyper reference `acro:IR' on page VIII undefined on input line 3
-45.
+91.
 
 
 LaTeX Warning: Hyper reference `acro:IUP' on page VIII undefined on input line 
-346.
+392.
 
 
 LaTeX Warning: Hyper reference `acro:IUP' on page VIII undefined on input line 
-346.
+392.
 
 
 LaTeX Warning: Hyper reference `acro:LM' on page VIII undefined on input line 3
-47.
+93.
 
 
 LaTeX Warning: Hyper reference `acro:LM' on page VIII undefined on input line 3
-47.
+93.
 
 
 LaTeX Warning: Hyper reference `acro:MFGM' on page VIII undefined on input line
- 348.
+ 394.
 
 
 LaTeX Warning: Hyper reference `acro:MFGM' on page VIII undefined on input line
- 348.
+ 394.
 
 
 LaTeX Warning: Hyper reference `acro:NMR' on page VIII undefined on input line 
-349.
+395.
 
 
 LaTeX Warning: Hyper reference `acro:NMR' on page VIII undefined on input line 
-349.
+395.
 
 
 LaTeX Warning: Hyper reference `acro:NNLS' on page VIII undefined on input line
- 350.
+ 396.
 
 
 LaTeX Warning: Hyper reference `acro:NNLS' on page VIII undefined on input line
- 350.
+ 396.
 
 
 LaTeX Warning: Hyper reference `acro:O/W' on page VIII undefined on input line 
-351.
+397.
 
 
 LaTeX Warning: Hyper reference `acro:O/W' on page VIII undefined on input line 
-351.
+397.
 
 
 LaTeX Warning: Hyper reference `acro:PAGE' on page VIII undefined on input line
- 352.
+ 398.
 
 
 LaTeX Warning: Hyper reference `acro:PAGE' on page VIII undefined on input line
- 352.
+ 398.
 
 
 LaTeX Warning: Hyper reference `acro:PCP' on page VIII undefined on input line 
-353.
+399.
 
 
 LaTeX Warning: Hyper reference `acro:PCP' on page VIII undefined on input line 
-353.
+399.
 
 
-LaTeX Warning: Hyper reference `acro:PP' on page VIII undefined on input line 3
-54.
+LaTeX Warning: Hyper reference `acro:PP' on page VIII undefined on input line 4
+00.
 
 
-LaTeX Warning: Hyper reference `acro:PP' on page VIII undefined on input line 3
-54.
-
-
-LaTeX Warning: Hyper reference `acro:RP-HPLC' on page VIII undefined on input l
-ine 355.
+LaTeX Warning: Hyper reference `acro:PP' on page VIII undefined on input line 4
+00.
 
 
 LaTeX Warning: Hyper reference `acro:RP-HPLC' on page VIII undefined on input l
-ine 355.
+ine 401.
+
+
+LaTeX Warning: Hyper reference `acro:RP-HPLC' on page VIII undefined on input l
+ine 401.
 
 
 LaTeX Warning: Hyper reference `acro:SDS' on page VIII undefined on input line 
-356.
+402.
 
 
 LaTeX Warning: Hyper reference `acro:SDS' on page VIII undefined on input line 
-356.
+402.
 
 [8
 
 ]
 
-LaTeX Warning: Hyper reference `acro:SEM' on page IX undefined on input line 35
-7.
-
-
-LaTeX Warning: Hyper reference `acro:SEM' on page IX undefined on input line 35
-7.
-
-
-LaTeX Warning: Hyper reference `acro:TEM' on page IX undefined on input line 35
-8.
-
-
-LaTeX Warning: Hyper reference `acro:TEM' on page IX undefined on input line 35
-8.
-
-
-LaTeX Warning: Hyper reference `acro:TP' on page IX undefined on input line 359
-.
-
-
-LaTeX Warning: Hyper reference `acro:TP' on page IX undefined on input line 359
-.
-
-
-LaTeX Warning: Hyper reference `acro:TSC' on page IX undefined on input line 36
-0.
-
-
-LaTeX Warning: Hyper reference `acro:TSC' on page IX undefined on input line 36
-0.
-
-
-LaTeX Warning: Hyper reference `acro:dM' on page IX undefined on input line 361
-.
-
-
-LaTeX Warning: Hyper reference `acro:dM' on page IX undefined on input line 361
-.
-
-
-LaTeX Warning: Hyper reference `acro:emS' on page IX undefined on input line 36
-2.
-
-
-LaTeX Warning: Hyper reference `acro:emS' on page IX undefined on input line 36
-2.
-
-
-LaTeX Warning: Hyper reference `acro:gam' on page IX undefined on input line 36
+LaTeX Warning: Hyper reference `acro:SEM' on page IX undefined on input line 40
 3.
 
 
-LaTeX Warning: Hyper reference `acro:gam' on page IX undefined on input line 36
+LaTeX Warning: Hyper reference `acro:SEM' on page IX undefined on input line 40
 3.
+
+
+LaTeX Warning: Hyper reference `acro:TEM' on page IX undefined on input line 40
+4.
+
+
+LaTeX Warning: Hyper reference `acro:TEM' on page IX undefined on input line 40
+4.
+
+
+LaTeX Warning: Hyper reference `acro:TP' on page IX undefined on input line 405
+.
+
+
+LaTeX Warning: Hyper reference `acro:TP' on page IX undefined on input line 405
+.
+
+
+LaTeX Warning: Hyper reference `acro:TSC' on page IX undefined on input line 40
+6.
+
+
+LaTeX Warning: Hyper reference `acro:TSC' on page IX undefined on input line 40
+6.
+
+
+LaTeX Warning: Hyper reference `acro:dM' on page IX undefined on input line 407
+.
+
+
+LaTeX Warning: Hyper reference `acro:dM' on page IX undefined on input line 407
+.
+
+
+LaTeX Warning: Hyper reference `acro:emS' on page IX undefined on input line 40
+8.
+
+
+LaTeX Warning: Hyper reference `acro:emS' on page IX undefined on input line 40
+8.
+
+
+LaTeX Warning: Hyper reference `acro:gam' on page IX undefined on input line 40
+9.
+
+
+LaTeX Warning: Hyper reference `acro:gam' on page IX undefined on input line 40
+9.
 
 [9] [1
 
@@ -1307,9 +1330,9 @@ File: images/micelle_Dalgleish.jpg Graphic file (type bmp)
 [5]
 File: images/calcium_dumpler.jpg Graphic file (type bmp)
 <images/calcium_dumpler.jpg>
-[6]
 File: images/gelation_intro.jpg Graphic file (type bmp)
 <images/gelation_intro.jpg>
+[6]
 File: images/EFG.jpg Graphic file (type bmp)
 <images/EFG.jpg>
 
@@ -1336,9 +1359,16 @@ File: images/NMR.jpg Graphic file (type bmp)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[19] [20] [21]
+[19] [20]
 File: images/lenze_findings.jpg Graphic file (type bmp)
 <images/lenze_findings.jpg>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[21]
+
+LaTeX Warning: Text page 22 contains only floats.
+
 [22]
 File: images/str.form_Vollmer.jpg Graphic file (type bmp)
 <images/str.form_Vollmer.jpg>
@@ -1346,12 +1376,12 @@ File: images/str.form_Vollmer.jpg Graphic file (type bmp)
 File: images/str.frm_Lee.jpg Graphic file (type bmp)
 <images/str.frm_Lee.jpg>
 
-Overfull \hbox (9.7632pt too wide) in paragraph at lines 1584--1584
+Overfull \hbox (9.7632pt too wide) in paragraph at lines 1628--1628
 \TU/lmr/m/n/10.95 al. (2008(1), 
  []
 
 
-Overfull \hbox (4.02539pt too wide) in paragraph at lines 1589--1590
+Overfull \hbox (4.02539pt too wide) in paragraph at lines 1633--1634
 \TU/lmr/m/n/10.95 Marangoni[][] 
  []
 
@@ -1468,14 +1498,11 @@ File: plots/2.7_s.pellet.jpeg Graphic file (type bmp)
 <plots/2.7_s.pellet.jpeg>
 [64]
 
-LaTeX Warning: Reference `fig:pel.vol' on page 65 undefined on input line 3076.
+LaTeX Warning: Reference `fig:pel.vol' on page 65 undefined on input line 3119.
 
 
 File: plots/2.8_pH.jpeg Graphic file (type bmp)
 <plots/2.8_pH.jpeg>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
 [65]
 File: plots/2.9_dM.cream.jpeg Graphic file (type bmp)
 <plots/2.9_dM.cream.jpeg>
@@ -1566,6 +1593,9 @@ File: plots/5.3_pc.ser.jpeg Graphic file (type bmp)
 <plots/5.3_pc.ser.jpeg>
 File: plots/5.5_all.pgv.nmr.jpeg Graphic file (type bmp)
 <plots/5.5_all.pgv.nmr.jpeg>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [101]
 File: plots/5.7_size.nmr.linear.jpeg Graphic file (type bmp)
 <plots/5.7_size.nmr.linear.jpeg>
@@ -1623,16 +1653,16 @@ Package rerunfilecheck Info: File `cover.out' has not changed.
  )
 (\end occurred inside a group at level 2)
 
-### semi simple group (level 2) entered at line 201 (\begingroup)
+### semi simple group (level 2) entered at line 247 (\begingroup)
 ### semi simple group (level 1) entered at line 76 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 21632 strings out of 478532
- 399739 string characters out of 5861726
- 859351 words of memory out of 5000000
- 41436 multiletter control sequences out of 15000+600000
- 407830 words of font info for 64 fonts, out of 8000000 for 9000
+ 21670 strings out of 478532
+ 400886 string characters out of 5861726
+ 859378 words of memory out of 5000000
+ 41459 multiletter control sequences out of 15000+600000
+ 411592 words of font info for 87 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,120p,794b,10566s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,120p,794b,10575s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on cover.pdf (146 pages).
+Output written on cover.pdf (147 pages).

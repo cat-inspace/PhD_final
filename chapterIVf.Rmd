@@ -28,7 +28,7 @@ The so obtained data was processed using the R programming environment. Componen
 
 **HPLC measurements**
 \newline
-The supernatants of the processed samples after ultra centrifugation at 70.000g were analyzed using the HPLC procedure as described in section 4. To obtain a suitable concentration, the samples were first diluted 1:1 (v/v) with deionised water. Afterwards, 200 micronl of sample was mixed with 800 micronl of guanidine buffer (see chapter 4), filtered into a vial and measured with RP-HPLC according to the method displayed in @Dumpler2018.
+The supernatants of the processed samples after ultra centrifugation at 70.000g were analyzed using the HPLC procedure as described in section 4. To obtain a suitable concentration, the samples were first diluted 1:1 (v/v) with deionised water. Afterwards, 200 ul of sample was mixed with 800 ul of guanidine buffer (see chapter 4), filtered into a vial and measured with RP-HPLC according to the method displayed in @Dumpler2018.
 
 \subsection{Results and Discussion}
 
