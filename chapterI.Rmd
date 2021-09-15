@@ -1,6 +1,8 @@
 ---
 title: ''
-output: pdf_document
+output: 
+  pdf_document: 
+    latex_engine: xelatex
 ---
 
 
@@ -155,17 +157,18 @@ The flow curve was fitted using a generalized additive model. Such "gam" models 
 The 'gam' function for basic model fitting takes into account any quadratically penalized general linear model. This means that the regression of every data point or linear sets therefrom are considered within the model. To prevent from over-fitting, the degree of smoothness of model terms is estimated as part of fitting.
 In more detail, a generalized additive model of the form
 
-*g(mu_i) = b0 + b1x1i + b2x2i + f(x3i) + f2(x4i, x5i)* 
 
-wherein the response variable, in our example the viscosity, is represented as an expectation *mu_i* withing a link function *g()*. The general additive model ("gam") of this formula would then be
+$$g(\mu_{i}) = \text{f2}(i \text{x4},i \text{x5})+\text{b0}+i \text{b1} \text{x1}+i \text{b2} \text{x2}+f(i \text{x3})$$
 
-*y ~ x1 + x2 + s(x3) + s(x4,x5)*.
+
+wherein the response variable, in our example the viscosity, is represented as an expectation $\mu_{i}$ withing a link function ${g(x)}$. The general additive model ("gam") of this formula would then be $$y = x1 + x2 + s(x3) + s(x4,x5)$$
 
 Per definition of "gam" within R, a maximum smoothing term is applied and the fitted 
 
-*y(x) = g(s(x))*
 
-resulted in an R^2 = 0.71. As it is the case for many built-in numeric operations in R, the algorithm for the general additive model has an implemented, nested two-side ANOVA test.
+$${y(x)} = g(s(x))$$
+
+resulted in an $R^2 = 0.71$. As it is the case for many built-in numeric operations in R, the algorithm for the general additive model has an implemented, nested two-side ANOVA test.
 The fitted values are displayed in Fig.\ref{fig:visco.mod}.
 
 ```{r visco.mod, echo=FALSE, out.width="75%", fig.cap="Fitted residuals from the function from the general additive model, applied with internal cubic spline smoothing term; yellow is the data, grey is thes standard deviation from the data and the red line represents the fitted values.", fig.scap="fitted model flow curve"}

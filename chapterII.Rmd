@@ -1,6 +1,8 @@
 ---
 title: ''
-output: pdf_document
+output: 
+  pdf_document: 
+    latex_engine: xelatex
 ---
 
 \section{Quantitative matrix distribution of Caseinates during thermal processing of model process cheese}
@@ -157,8 +159,8 @@ The kappa casein however increases at the interphase up to a process time of 35 
 Fig.\ref{fig:s.cream} indicates that the fat particle which is formed in systems with sodium caseinate is of different characteristics than those formed from native casein. This is also represented by the morphology of the cream phases, Fig.\ref{fig:real.cream} shows an image of the two separated cream disks. In addition the hypothesis that with this compositional analysis, indications for structure formation can be obtained, cannot be falsified. This leads to the theory, that during structure formation processes in composite gels like processed cheese, either the aggregation phenomena occur at, with or in favour for the interphase. 
 This theory of a hydrophobic network formation will be explored later in this work in further detail, however regarding the cream phases of the two investigated types of model cheeses within this section, they appear different.
 
-```{r real.cream, echo=FALSE, out.width="50%", fig.cap="Comparison of centrifugationally isolated fat phases in model processed cheese samples made either from \ native casein (A) or sodium caseinate (B)", fig.scap="Fat disks from native casein and sodium caseinate"}
-knitr::include_graphics("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/images/cream_disc_compare.jpeg")
+```{r real.cream, echo=FALSE, out.width="50%", fig.cap="Comparison of centrifugationally isolated fat phases in model processed cheese samples made either from \ native casein (A) or sodium caseinate (B)", fig.scap="from native  casein and sodium caseinate"}
+knitr::include_graphics("images/cream_disc_compare.jpeg")
 ```
 Fig.\ref{fig:real.cream}(B) shows the coarse structure of the cream obtained from samples made with sodium caseinate. Fig.\ref{fig:real.cream}(A) displays the fine emuslion of a native cream disk. Free oil seems apparent in the sample made from sodium caseinate. The cream phase isolated from samples made from native casein on the other hand shows no free oil and a homogenous texture. 
 The difference in the emulsion stability of the samples could be explained due to the absence of calcium ions in sodium caseinate cheeses as connecting agent for the proteins to form a particulate shell around the fat globule. 

@@ -94,8 +94,8 @@ During the end of the investigated process, the smaller components form the larg
 @KeesdeKruif2015a determined the water holding capacity of casein gels by comparison of the swelling and de-swelling behaviour under different process conditions (like temperature) and salt concentrations. Gels that were linked with transglutaminase were also investigated. It was found, that enzymatically linked gels swell to a lesser extend than physically linked casein gels. 
 Also the water binding and water release behaviour of highly concentrated renneted casein gels were the same as in casein micelles. The network formed in the pellet shrinks overall in particle size, however the volume of the pellet after dilution and centrifugational seperation incresed. Below is an image of the increasing swollen pellet volume from model processed cheese after various processing times (Fig.\ref{fig:vol.pel}.
 
-```{r vol.pel, echo=FALSE, out.width="75%", fig.cap="Volume of a diluted and centrifugationally separated aliquot of model processed cheese: left to right: \ increase of apparent water binding capacity of insoluble aggregates after 125, 135 and 145 minutes of processing.", fig.scap="Swelling properties of pellet at later processing stages"}
-knitr::include_graphics("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/images/swelling_pellet.jpg")
+```{r vol.pel, echo=FALSE, out.width="75%",fig.align='center', fig.cap="Volume of a diluted and centrifugationally separated aliquot of model processed cheese: left to right: \ increase of apparent water binding capacity of insoluble aggregates after 125, 135 and 145 minutes of processing.", fig.scap="Swelling properties of pellet at later processing stages"}
+knitr::include_graphics("images/swelling_pellet.jpg")
 ```
 
 In contrast to @KeesdeKruif2015a, the casein particles that are formed during the structure formation of model processed cheeses investigated herein didn't dissolve completely after dilution. This leads to the conclusion, that the emulsifying salt mixture used herein leads to a formation of a more hydrophobic network, that can't be easily dissolved by water.

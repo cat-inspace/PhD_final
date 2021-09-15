@@ -37,16 +37,10 @@ The envelope curve obtained by the decaying signal of the nuclear magnetig spins
 
 During the curve fitting process, an envelope curve of three exponential terms in the form of 
 
-y(k) = f1 * exp(-(t/(2 * k1))^2) + f2 * exp(-t/k2) + f3 * exp(-t/k3)
 
-------FIXME ! ------
 
-Innerhalb eines Absatz nutzt man $5-4\alpha$ Dollarzeichen.
-$\delta$ Variant is on the way !!!
+$$y(k)=\text{f1} e^{-1/4 \text{k1}^2 t^2}+\text{f2} e^{-t/\text{k2}}+\text{f3} e^{-t/\text{k3}}$$
 
-$$y(k) = f1 * exp(-(t/(2 * k1))^2) + f2 * exp(-t/k2) + f3 * exp(-t/k3)$$
-wenn du hilfe beim Latex Formel erstellen hast: hiermit gehts ganz einfach: https://www.zahlen-kern.de/editor/
-------FIXME ! ------
 
 
 fitted all the obtained data best. This means that three different fractions of protons, which differ in their T2 relaxation time, could be detected. The amount or fractions *f* as fitted with formula xx for the measured relaxation signal for the samples was plotted over the process times of the samples (Fig.\ref{fig:frac}).
