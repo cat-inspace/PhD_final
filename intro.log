@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.9.2)  7 SEP 2021 21:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.9.2)  15 SEP 2021 18:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -482,6 +482,9 @@ LaTeX Info: Redefining \nameref on input line 77.
 
 {/Users/catinspace/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 }]
+
+LaTeX Warning: Reference `fig:ch.sc' on page 2 undefined on input line 161.
+
 <images/scales_cheese_Lamichhane2018.jpg, id=12, 556.479pt x 172.2435pt>
 File: images/scales_cheese_Lamichhane2018.jpg Graphic file (type jpg)
 <use images/scales_cheese_Lamichhane2018.jpg>
@@ -493,135 +496,59 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 (/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2 <./images/scales_cheese_Lamichhane2018.jpg>]
-<images/micelle_Walstra.jpg, id=20, 556.0775pt x 338.26375pt>
+<images/micelle_Walstra.jpg, id=21, 556.0775pt x 338.26375pt>
 File: images/micelle_Walstra.jpg Graphic file (type jpg)
 <use images/micelle_Walstra.jpg>
 Package pdftex.def Info: images/micelle_Walstra.jpg  used on input line 255.
 (pdftex.def)             Requested size: 234.8831pt x 142.88014pt.
-<images/micelle_Dalgleish.jpg, id=21, 761.84625pt x 734.745pt>
+<images/micelle_Dalgleish.jpg, id=22, 761.84625pt x 734.745pt>
 File: images/micelle_Dalgleish.jpg Graphic file (type jpg)
 <use images/micelle_Dalgleish.jpg>
 Package pdftex.def Info: images/micelle_Dalgleish.jpg  used on input line 275.
 (pdftex.def)             Requested size: 234.86792pt x 226.51292pt.
+
+LaTeX Warning: Reference `fig:dual-b' on page 3 undefined on input line 279.
+
+
+LaTeX Warning: Reference `fig:ca' on page 3 undefined on input line 300.
+
 [3 <./images/micelle_Walstra.jpg>]
-<images/calcium_dumpler.jpg, id=28, 1093.08376pt x 620.3175pt>
+<images/calcium_dumpler.jpg, id=29, 1093.08376pt x 620.3175pt>
 File: images/calcium_dumpler.jpg Graphic file (type jpg)
 <use images/calcium_dumpler.jpg>
-Package pdftex.def Info: images/calcium_dumpler.jpg  used on input line 302.
+Package pdftex.def Info: images/calcium_dumpler.jpg  used on input line 303.
 (pdftex.def)             Requested size: 352.31248pt x 199.9349pt.
-<images/gelation_intro.jpg, id=29, 1708.3825pt x 800.9925pt>
+
+LaTeX Warning: Reference `fig:gels' on page 4 undefined on input line 321.
+
+<images/gelation_intro.jpg, id=30, 1708.3825pt x 800.9925pt>
 File: images/gelation_intro.jpg Graphic file (type jpg)
 <use images/gelation_intro.jpg>
-Package pdftex.def Info: images/gelation_intro.jpg  used on input line 323.
+Package pdftex.def Info: images/gelation_intro.jpg  used on input line 324.
 (pdftex.def)             Requested size: 375.79318pt x 176.19444pt.
+
+LaTeX Warning: Reference `fig:efg' on page 4 undefined on input line 341.
+
 [4 <./images/micelle_Dalgleish.jpg>] [5 <./images/calcium_dumpler.jpg> <./image
 s/gelation_intro.jpg>]
 <images/EFG.jpg, id=44, 1503.6175pt x 670.505pt>
 File: images/EFG.jpg Graphic file (type jpg)
 <use images/EFG.jpg>
-Package pdftex.def Info: images/EFG.jpg  used on input line 346.
+Package pdftex.def Info: images/EFG.jpg  used on input line 347.
 (pdftex.def)             Requested size: 234.87082pt x 104.73546pt.
 [6 <./images/EFG.jpg>]
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
-97.
-(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
-97.
-(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-497.
-(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-497.
-(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 497.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 497.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 497.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 497
-.
-(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 497
-.
-(/Users/catinspace/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [7]
-<images/HCA_serin.jpg, id=58, 770.88pt x 709.65125pt>
-File: images/HCA_serin.jpg Graphic file (type jpg)
-<use images/HCA_serin.jpg>
-Package pdftex.def Info: images/HCA_serin.jpg  used on input line 501.
-(pdftex.def)             Requested size: 469.75385pt x 432.44266pt.
-[8 <./images/HCA_serin.jpg>]
-<images/Ca_chelat.jpeg, id=64, 679.53876pt x 461.725pt>
-File: images/Ca_chelat.jpeg Graphic file (type jpg)
-<use images/Ca_chelat.jpeg>
-Package pdftex.def Info: images/Ca_chelat.jpeg  used on input line 546.
-(pdftex.def)             Requested size: 140.92389pt x 95.75331pt.
-[9 <./images/Ca_chelat.jpeg>] [10] [11] [12]
-<images/elution_casein.jpg, id=86, 1259.70625pt x 800.9925pt>
-File: images/elution_casein.jpg Graphic file (type jpg)
-<use images/elution_casein.jpg>
-Package pdftex.def Info: images/elution_casein.jpg  used on input line 828.
-(pdftex.def)             Requested size: 469.75534pt x 298.697pt.
-[13 <./images/elution_casein.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 912--916
-
- []
-
-
-Overfull \hbox (29.94452pt too wide) in paragraph at lines 936--936
-[]|\T1/lmr/m/n/10 Investigated 
- []
-
-
-Overfull \hbox (29.94452pt too wide) in paragraph at lines 940--940
-[]|\T1/lmr/m/n/10 Investigated 
- []
-
-
-Overfull \hbox (10.49971pt too wide) in paragraph at lines 943--943
-[]|\T1/lmr/m/n/10 Stirring 
- []
-
-
-Overfull \hbox (1.33313pt too wide) in paragraph at lines 943--943
-\T1/lmr/m/n/10 speed|  
- []
-
-
-Overfull \hbox (33.27715pt too wide) in paragraph at lines 945--945
-[]|\T1/lmr/m/n/10 Temperature|  
- []
-
-
-! Package inputenc Error: Unicode character ≥ (U+2265)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.945 Temperature & ≥
-                        70°C necessary to initiate creaming reaction \\ 
+! TeX capacity exceeded, sorry [input stack size=5000].
+\curr@fontshape ->\f@encoding 
+                              /\f@family /\f@series /\f@shape 
+l.498 ...ot.fr/cgi-bin/portal.py?form¼HCA\#forms}
+                                                  ::HCA 
 Here is how much of TeX's memory you used:
- 10788 strings out of 480559
- 158811 string characters out of 5902200
- 469515 words of memory out of 5000000
- 28193 multiletter control sequences out of 15000+600000
- 438292 words of font info for 51 fonts, out of 8000000 for 9000
+ 10631 strings out of 480559
+ 155179 string characters out of 5902200
+ 665816 words of memory out of 5000000
+ 28092 multiletter control sequences out of 15000+600000
+ 426037 words of font info for 35 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,6n,66p,546b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 5000i,6n,9993p,487b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 !  ==> Fatal error occurred, no output PDF file produced!

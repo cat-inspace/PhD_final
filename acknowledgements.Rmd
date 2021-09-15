@@ -7,7 +7,7 @@ output: pdf_document
 {\bf Acknowledgments}
 \end{raggedleft}
 
-First of all I would like to thank Prof. Dr. Ulrich Kulozik for his advise and supervistion for this project as well as for his patience and giving me the possibility to perform this work. In addition, I would like to thank the whole ZIEL Institute for Food and Health as well as the Institute for Food- and Bio-process Engineering for their support and scientific insight during the experimental part of this work. A special thanks goes to Mrs. Heidi Wohlschläger who gave much needed insight towards the HPLC measurement methods performed in this study. 
+First of all I would like to thank Prof. Dr. Ulrich Kulozik for his advise and supervistion for this project as well as for his patience and giving me the possibility to perform this work. In addition, I would like to thank the whole ZIEL\footnote{Zentralinstitut für Ernährungs- und Lebensmittelforschung}  Institute for Food and Health as well as the Institute for Food- and Bio-process Engineering for their support and scientific insight during the experimental part of this work. A special thanks goes to Mrs. Heidi Wohlschläger who gave much needed insight towards the HPLC measurement methods performed in this study. 
 
 Also, I would like to thank my office colleagues, Dr. Martin Hartinger, Dr. Christian Kleemann, Franz Fraunhofer and Michael Reitmeier for the good communication and collaboration. A special thanks goes to Mrs. Franziska Kurz, who was always available as a sometimes needed friend during this work, as well as a discussion partner in scientific terms. I will miss the hours in E.25 dearly. 
 

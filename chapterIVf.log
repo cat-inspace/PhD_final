@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.9.2)  10 SEP 2021 14:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.9.2)  15 SEP 2021 19:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -426,71 +426,44 @@ File: plots/4.1_1.all.jpeg Graphic file (type jpg)
 <use plots/4.1_1.all.jpeg>
 Package pdftex.def Info: plots/4.1_1.all.jpeg  used on input line 176.
 (pdftex.def)             Requested size: 469.74944pt x 236.1109pt.
-
-Package hyperref Warning: Suppressing empty link on input line 184.
-
-
-Overfull \hbox (65.29984pt too wide) in paragraph at lines 175--192
-[]\T1/lmr/m/n/10 \begin{figure} []
- []
-
-
-Package hyperref Warning: Suppressing empty link on input line 199.
-
 [2 <./plots/4.1_1.all.jpeg>]
-<plots/4.2_3mS.all.jpeg, id=38, 722.7pt x 582.175pt>
+<plots/4.2_3mS.all.jpeg, id=41, 722.7pt x 582.175pt>
 File: plots/4.2_3mS.all.jpeg Graphic file (type jpg)
 <use plots/4.2_3mS.all.jpeg>
-Package pdftex.def Info: plots/4.2_3mS.all.jpeg  used on input line 202.
+Package pdftex.def Info: plots/4.2_3mS.all.jpeg  used on input line 197.
 (pdftex.def)             Requested size: 469.76045pt x 378.41815pt.
-
-Overfull \hbox (65.31085pt too wide) in paragraph at lines 201--221
-[]\T1/lmr/m/n/10 \begin{figure} []
- []
-
-<plots/4.3_3mS.size.jpeg, id=39, 542.025pt x 431.6125pt>
+<plots/4.3_3mS.size.jpeg, id=42, 542.025pt x 431.6125pt>
 File: plots/4.3_3mS.size.jpeg Graphic file (type jpg)
 <use plots/4.3_3mS.size.jpeg>
-Package pdftex.def Info: plots/4.3_3mS.size.jpeg  used on input line 231.
+Package pdftex.def Info: plots/4.3_3mS.size.jpeg  used on input line 221.
 (pdftex.def)             Requested size: 469.77148pt x 374.07729pt.
 [3 <./plots/4.2_3mS.all.jpeg>] [4 <./plots/4.3_3mS.size.jpeg>]
-
-Package hyperref Warning: Suppressing empty link on input line 258.
-
-<plots/4.5_coll.rheo.jpeg, id=51, 572.1375pt x 437.635pt>
+<plots/4.5_coll.rheo.jpeg, id=57, 572.1375pt x 437.635pt>
 File: plots/4.5_coll.rheo.jpeg Graphic file (type jpg)
 <use plots/4.5_coll.rheo.jpeg>
-Package pdftex.def Info: plots/4.5_coll.rheo.jpeg  used on input line 284.
+Package pdftex.def Info: plots/4.5_coll.rheo.jpeg  used on input line 274.
 (pdftex.def)             Requested size: 469.75816pt x 359.32378pt.
-
-Package hyperref Warning: Suppressing empty link on input line 287.
-
-<plots/4.4_coll.HPLC.jpeg, id=52, 637.38126pt x 481.8pt>
+[5 <./plots/4.5_coll.rheo.jpeg>]
+<plots/4.4_coll.HPLC.jpeg, id=64, 637.38126pt x 481.8pt>
 File: plots/4.4_coll.HPLC.jpeg Graphic file (type jpg)
 <use plots/4.4_coll.HPLC.jpeg>
-Package pdftex.def Info: plots/4.4_coll.HPLC.jpeg  used on input line 303.
+Package pdftex.def Info: plots/4.4_coll.HPLC.jpeg  used on input line 293.
 (pdftex.def)             Requested size: 469.75824pt x 355.09283pt.
-
-Overfull \hbox (65.30864pt too wide) in paragraph at lines 302--311
-[]\T1/lmr/m/n/10 \begin{figure} []
- []
-
-[5] [6 <./plots/4.5_coll.rheo.jpeg>]
-<images/colloid_aggregate.jpg, id=63, 744.7825pt x 996.72375pt>
+<images/colloid_aggregate.jpg, id=66, 744.7825pt x 996.72375pt>
 File: images/colloid_aggregate.jpg Graphic file (type jpg)
 <use images/colloid_aggregate.jpg>
-Package pdftex.def Info: images/colloid_aggregate.jpg  used on input line 321.
+Package pdftex.def Info: images/colloid_aggregate.jpg  used on input line 305.
 (pdftex.def)             Requested size: 234.88048pt x 314.33466pt.
 
-LaTeX Warning: Reference `fig:HCA' on page 7 undefined on input line 346.
+LaTeX Warning: Reference `fig:HCA' on page 6 undefined on input line 330.
 
-[7 <./plots/4.4_coll.HPLC.jpeg>] [8 <./images/colloid_aggregate.jpg>]
-<images/reaction.001.jpg, id=74, 1210.5225pt x 744.7825pt>
+[6 <./plots/4.4_coll.HPLC.jpeg>] [7 <./images/colloid_aggregate.jpg>]
+<images/reaction.001.jpg, id=77, 1210.5225pt x 744.7825pt>
 File: images/reaction.001.jpg Graphic file (type jpg)
 <use images/reaction.001.jpg>
-Package pdftex.def Info: images/reaction.001.jpg  used on input line 376.
+Package pdftex.def Info: images/reaction.001.jpg  used on input line 360.
 (pdftex.def)             Requested size: 469.75606pt x 289.02072pt.
-[9 <./images/reaction.001.jpg>] [10] (./chapterIVf.aux)
+[8 <./images/reaction.001.jpg>] [9] (./chapterIVf.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -498,23 +471,23 @@ Package rerunfilecheck Info: File `chapterIVf.out' has not changed.
 (rerunfilecheck)             Checksum: 9B508663CDD4E7E38B9919BB3FC71A5D;1157.
  ) 
 Here is how much of TeX's memory you used:
- 10045 strings out of 480559
- 147626 string characters out of 5902200
- 457348 words of memory out of 5000000
- 27502 multiletter control sequences out of 15000+600000
+ 10049 strings out of 480559
+ 147657 string characters out of 5902200
+ 457505 words of memory out of 5000000
+ 27504 multiletter control sequences out of 15000+600000
  426037 words of font info for 35 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,6n,66p,604b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,6n,66p,604b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/catinspace/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/
 Users/catinspace/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</Use
 rs/catinspace/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Use
 rs/catinspace/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Use
 rs/catinspace/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></User
 s/catinspace/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb>
-Output written on chapterIVf.pdf (10 pages, 608960 bytes).
+Output written on chapterIVf.pdf (9 pages, 608234 bytes).
 PDF statistics:
- 116 PDF objects out of 1000 (max. 8388607)
- 87 compressed objects within 1 object stream
- 20 named destinations out of 1000 (max. 500000)
+ 119 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
+ 22 named destinations out of 1000 (max. 500000)
  76 words of extra memory for PDF output out of 10000 (max. 10000000)
 

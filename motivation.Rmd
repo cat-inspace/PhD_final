@@ -34,7 +34,7 @@ knitr::include_graphics("images/rework_lenze.jpeg")
 ```
 
 Therefore, the model cheese is processed using a Rheometer with a custom made stirring rod and processing cup up to distinct sampling times during structure formation. The set-up is further equipped with a lid, to diminish water evaporation during processing.
-The optimum parameters for processing the model cheese mass are chosen from the process and compositional analysis preceding this work in @Roeck2010, and were a shear-rate of 200/s of the stirrer, which is ~16 min^-1 stirring speed. The temperature was chosen to be 90 C, the total protein concentration is set to be 15% and only derived from casein, the pH for the educt was set to 5.88.
+The optimum parameters for processing the model cheese mass are chosen from the process and compositional analysis preceding this work in @Rock2010, and were a shear-rate of 200/s of the stirrer, which is ~16 min^-1 stirring speed. The temperature was chosen to be 90 C, the total protein concentration is set to be 15% and only derived from casein, the pH for the educt was set to 5.88.
 
 The data obtained from this procedure is herein referred to as either measured apparent viscosity, rheological profile or flow curve. However it is important to note, that the measured apparent viscosity in no way represents the dynamic or complex viscosity Eta or Eta* respectively, which is measured with standard geometry, and protocols. The increase in overall cohesiveness of the matrix is displayed as an increase in rotating resistance induced by the sample, or the torque of the stirring rod. Accordingly, the apparent viscosities presented herein were presented as a unitless but integer value.
 

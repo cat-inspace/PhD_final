@@ -7,6 +7,7 @@ output:
 geometry: "left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm"
 fontsize: 11pt
 header-includes:
+  - \usepackage{lmodern} 
   - \usepackage{float}
   - \usepackage{sectsty}
   - \usepackage{paralist}
@@ -14,10 +15,18 @@ header-includes:
   - \usepackage{fancyhdr}
   - \usepackage{lastpage}
   - \usepackage{dcolumn}
-  - \usepackage{natbib}\bibliographystyle{agsm}
   - \usepackage[nottoc, numbib]{tocbibind}
   - \usepackage[utf8]{inputenc}
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{amsfonts}
+  - \usepackage{upgreek}
+  - \usepackage[labelfont=bf]{caption}
+  - \captionsetup[figure]{labelfont={bf},name={Fig.},labelsep=period}
+  - \usepackage[backend=biber,natbib,style=chem-acs, citestyle=chem-acs]{biblatex}
+  
 bibliography: library.bib
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}
@@ -88,7 +97,7 @@ knitr::include_graphics(paste0(getwd(), '/img/tumlogo_n.png'))
 \pagenumbering{roman}
 
 ```{r setupfloat, include=FALSE}
-knitr::opts_chunk$set(fig.pos = "!h", out.extra = "")
+knitr::opts_chunk$set(fig.pos = "!h", out.extra = "", fig.align='center')
 ```
 
 \newpage
