@@ -12,14 +12,9 @@ knitr::include_graphics("plots/1.1_sum.rheo.jpeg")
 ```{r, echo=FALSE, out.width="75%", fig.cap="Comparison of Rheological profile during structure formation of pre-homogenised (red, blue) or non-homogenised (violet, green) samples and of pre-emulsified (green, blue) fat (in form of milkfat) or unemulsified (red, violet) fat (in form of oil). Note that the red and violet curves are identical in their composition but vary in terms of pre-homogenisation."}
 knitr::include_graphics("plots/1.2_fatvar.rheo.jpeg")
 ```
-comparison of fat-type
+Fig
 
 
-
-```{r, echo=FALSE, out.width="75%", fig.cap="Overview of Rheological Profile of samples made from sodium caseinate with either the mixture of emulsifying salts used herein (green), HCl (blue) or Citric Acid (red) for pH adjustmment (for more details see down below)"}
-knitr::include_graphics("plots/1.3_sodium.rheo.sum.jpeg")
-```
-For more detail see Figure below.
 
 
 ```{r , echo=FALSE, out.width="75%", fig.cap="Rheological Profile of samples made from native (red) or rennet (blue) casein, processed in a steel cup"}

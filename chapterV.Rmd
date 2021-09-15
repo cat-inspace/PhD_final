@@ -4,302 +4,119 @@ output: pdf_document
 ---
 \section{Upscaling and NMR relaxometry of model process cheese}
 \subsection{Introduction}
-The basis of nuclear magnetic resonance spectroscopy (NMR) is the fact that atoms have magnetic fields characteristics. Subatomic particles, such as neutrons, electrons, and protons, revolve around their axis, which in particle physics is called spin. Atomic nuclei with an odd number of protons, e.g., 1H, have a total spin (I). Atoms with an even number of protons, e.g., C, have no total spin due to the pairing of the protons. A parallel orientation of the magnetic moment results in the energetically preferred orientation of it. The difference in occupation that occurs creates a magnetisation vector which is the basis of a successful NMR measurement [@Schuh1982].
+The basis of nuclear magnetic resonance spectroscopy (NMR) is the fact that atoms have magnetic fields characteristics. Subatomic particles, such as neutrons, electrons, and protons, revolve around their axis, which in particle physics is called spin. Atomic nuclei with an odd number of protons, e.g., 1H, have a total spin (I). Atoms with an even number of protons, e.g., C, have no total spin due to the pairing of the protons. A parallel orientation of the magnetic moment results in the energetically preferred orientation of it. The difference in occupation that occurs creates a magnetisation vector which is the basis of a successful NMR measurement (@Schuh1982).
 
 The NMR measurements were used to investigate the mobile water phase of the processed cheese system at different process times. The interpretation of the relaxation times can determine the chemical and physical, bound or unbound state of 1H protons and thus of water.
-1H nuclei from immobilised water have considerably shorter relaxation times than nuclei from the mobile water phase. This can be attributed to the interactions of the immobile protons with their environment, which are much more frequent than those of the mobile phase of the system. By measuring the decaying signal intensity over the relaxation time, a spectrum of the different water phases in the melted cheese system was obtained [@Hinrichs2004]. Studies on the water-binding capacity of protein microparticles using time-domain nuclear magnetic resonance were performed also by @Peters2016. Water immobilization by whey protein concentrate was investigated by NMR in @Hinrichs2004a.
-NMR measurements on food and model systems thereof, especially low-resolution experiments on cheese, are a common practice[@Gotz2004]. @Chen2012 investigated the effect of different types and amounts of emulsifying salts on the chemical and physical properties of processed cheese samples. Furthermore, signal components were also be attributed to the fat protons. @Noronha2008c identified four stages of hydration and/or matrix development in the preparation of imitation cheese made from casein. Two stages could be attributed to hydrophilic interactions of caseins with the bulk as well as two later stages, where the interactions of proteins with fat dominated the matrix formation. @Hinrichs2007 investigated changes in water mobility during renneting or acidification of solutions from casein micelles, using low resolution NMR. Here, a method was presented to fit the signal to relaxation times of differently bound fractions of water - immobile, weakly mobile, mobile and very mobile protons from water were detected. In @Khanal2018, different low fat cheddar cheeses were investigated during ripening. Using low-field NMR, different stages of water mobility could be identified in samples containing alginate as additive.
-Further use of time-domain or low-resolution NMR measurements can be found as well in composite science. @Besghini2019 present NMR measurements for the investigation of polymerization or crystallization kinetics in rubber. Gelation and sol-gel phase transition phenomena in non-biogenic, organic materials like Poloxamers are investigated via T2 relaxation by @Shaikhullina2020. @Testamanti2019 gives use of low-field or low-resolution magnetic resonance for the evaluation of reservoirs for the petroleum industry and is especially focussed on the provision of a regularization algorithm for the determination of T2 relaxation spectra from shells.
-Determination of the T2 distribution from the decaying signal can be obtained by  the CONTIN Computer Program, where an inverse Laplace transformation of the signal is performed, in order to find the T2 distribution [@Moody2004, @Whittall1996, @Borgia1998, @Handling]. Another possibility to obtain the relaxation and diffusion distributions in two dimensions is the use of the Fredholm integral equation of the first kind [@Mitchell2012]. However, this can lead to a regularization bias, since the inverse Laplace transform represents an ill-posed problem [@Berman2013, @Giovannelli2015], especially for a multi-component environment as it is the case in processed-cheese samples. 
-Fitting the envelope curve of the exponential decay with discrete parameters as in @Hinrichs2007 leads to unbiased T2 distributions, however only for the discrete parameters. Least-squares and linear programming algorithms can help to reduce the non-uniqueness of the fitted solution, meaning that the fit is not constrained by initially given discrete parameters and can therefore represent the spectrum in a more accurate way [@Whittall1989].
+1H nuclei from immobilised water have considerably shorter relaxation times than nuclei from the mobile water phase. This can be attributed to the interactions of the immobile protons with their environment, which are much more frequent than those of the mobile phase of the system. By measuring the decaying signal intensity over the relaxation time, a spectrum of the different water phases in the melted cheese system was obtained (@Hinrichs2004). Studies on the water-binding capacity of protein microparticles using time-domain nuclear magnetic resonance were performed also by @Peters2016. Water immobilization by whey protein concentrate was investigated by NMR in @Hinrichs2004a.
+
+NMR measurements on food and model systems thereof, especially low-resolution experiments on cheese, are a common practice (@Gotz2004). @Chen2012 investigated the effect of different types and amounts of emulsifying salts on the chemical and physical properties of processed cheese samples. Furthermore, signal components were also be attributed to the fat protons. @Noronha2008c identified four stages of hydration and/or matrix development in the preparation of imitation cheese made from casein. Two stages could be attributed to hydrophilic interactions of caseins with the bulk as well as two later stages, where the interactions of proteins with fat dominated the matrix formation. 
+@Hinrichs2007 investigated changes in water mobility during renneting or acidification of solutions from casein micelles, using low resolution NMR. Here, a method was presented to fit the signal to relaxation times of differently bound fractions of water - immobile, weakly mobile, mobile and very mobile protons from water were detected. In @Khanal2018, different low fat cheddar cheeses were investigated during ripening. Using low-field NMR, different stages of water mobility could be identified in samples containing alginate as additive.
+@El-Bakry2011 investigated a processed cheese matrix at multiple subsequent steps of preparation, besides other methods, using a T2 relaxation NMR protocol. The different sample stages showed a multi staged structure formation from a liquid dispersion to a cohesive mass.
+
+Further use of time-domain or low-resolution NMR measurements can be found as  well in composite science. @Besghini2019 present NMR measurements for the investigation of polymerization or crystallization kinetics in rubber. Gelation and sol-gel phase transition phenomena in non-biogenic, organic materials like Poloxamers are investigated via T2 relaxation by @Shaikhullina2020. @Testamanti2019 gives use of low-field or low-resolution magnetic resonance for the evaluation of reservoirs for the petroleum industry and is especially focussed on the provision of a regularization algorithm for the determination of T2 relaxation spectra from shells.
+Determination of the T2 distribution from the decaying signal can be obtained by  the CONTIN Computer Program, where an inverse Laplace transformation of the signal is performed, in order to find the T2 distribution (@Moody2004, @Whittall1996, @Borgia1998). Another possibility to obtain the relaxation and diffusion distributions in two dimensions is the use of the Fredholm integral equation of the first kind (@Mitchell2012). However, this can lead to a regularization bias, since the inverse Laplace transform represents an ill-posed problem (@Berman2013, @Giovannelli2015), especially for a multi-component environment as it is the case in processed-cheese samples. 
+Fitting the envelope curve of the exponential decay with discrete parameters as in @Hinrichs2007 leads to unbiased T2 distributions, however only for the discrete parameters. Least-squares and linear programming algorithms can help to reduce the non-uniqueness of the fitted solution, meaning that the fit is not constrained by initially given discrete parameters and can therefore represent the spectrum in a more accurate way (@Whittall1989).
+
+Therefore a fitting function, using a non-linear least squares algorithm was programmed within the R programming language. First a parameter estimate for the fraction *f* of the polyexponential decay was applied, with a subsequent fit using the nls of the measured decay over the timespan, to determine the T2 relaxation also outside the given range as displayed in the starting values, as seen in the code snippet in section 5.2.3. 
 
 \subsection{Material and Methods}
 
 \subsubsection{Preparation of cheese samples}
 Composition of the cheese premix can be found in Chapter 3. Only samples from rennet casein were produced for the NMR measurements, since they appeared to deliver the most homogenous product samples. In order to speed up the analysis time, the model process cheese was processed in a 500g batch, the matrix was processed in a Vorwerk Thermomix processing machine. Samples were taken every five minutes and cooled at 4 C.
+
 \subsubsection{NMR measurement}
-The measurement was carried out in the sample tubes provided. The processed cheese sample was punched out with the open end of the sample tube and slightly compacted with a plastic rod to avoid air inclusions. The initial analysis was performed at 10°C using the NMR analyser mq20 minispec (Bruker Corporation , Billerica, USA). Each sample was measured in duplicate for different process times (0- 360 min, in 5 min steps).
-Measurement parameters were adapted from @Hinrichs2007 
+The measurement was carried out in the sample tubes provided. The processed cheese sample was punched out with the open end of the sample tube and slightly compacted with a plastic rod to avoid air inclusions. The initial analysis was performed at 10°C using the NMR analyser mq20 minispec (Bruker Corporation , Billerica, USA). Each sample was measured in duplicate for different process times (0- 225 min, in 2.5 to 5 min steps), resulting in a total of 132 measurements. 
+Measurement parameters for the NMR experiment were adapted from @Hinrichs2007, which resulted in 20.000 measurement points per sample. The reason for this high number of sampling points was to ensure inclusion of possibly late relaxing proton fractions.
 
 \subsubsection{Curve-fitting}
-The envelope curve obtained by the decaying signal of the nuclear magnetig spins was fitted using the R Programming Environment. The curve was fitted using a non-linear least squares (NLS) algorithm, where the parameters were estimated in a two step fitting protocol (see code snippet and explanation below). 
+The envelope curve obtained by the decaying signal of the nuclear magnetig spins was fitted using the R Programming Environment. The curve was fitted using a non-linear least squares (NLS) algorithm, where the parameters were estimated in a two step fitting protocol (see code snippet and explanation below). Documentation of the mathematical basis for the used R code can be found in @Borchers2021.
 
 \subsection{Results and Discussion}
-```{r include=FALSE}
-#library
-library(tidyverse)
-library(data.table)
-library(plyr)
-library(readr)
-library(BBmisc)
-library(stringr)
-library(plot3D)
-library(ggfortify)
-library(ggforce)
-library(reshape2)
-library(mixtools)
-library(pracma)
-library(missMDA)
-library(cluster)
 
-#summarySE
-## Summarizes data.
-## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
-##   data: a data frame.
-##   measurevar: the name of a column that contains the variable to be summarized
-##   groupvars: a vector containing names of columns that contain grouping variables
-##   na.rm: a boolean that indicates whether to ignore NA's
-##   conf.interval: the percent range of the confidence interval (default is 95%)
-summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
-                      conf.interval=.95, .drop=TRUE) {
-    library(plyr)
+\subsubsection{T2 relaxation in model processed cheese}
 
-    # New version of length which can handle NA's: if na.rm==T, don't count them
-    length2 <- function (x, na.rm=FALSE) {
-        if (na.rm) sum(!is.na(x))
-        else       length(x)
-    }
+During the curve fitting process, an envelope curve of three exponential terms in the form of 
 
-    # This does the summary. For each group's data frame, return a vector with
-    # N, mean, and sd
-    datac <- ddply(data, groupvars, .drop=.drop,
-      .fun = function(xx, col) {
-        c(N    = length2(xx[[col]], na.rm=na.rm),
-          mean = mean   (xx[[col]], na.rm=na.rm),
-          sd   = sd     (xx[[col]], na.rm=na.rm)
-        )
-      },
-      measurevar
-    )
+y(k) = f1 * exp(-(t/(2 * k1))^2) + f2 * exp(-t/k2) + f3 * exp(-t/k3)
 
-    # Rename the "mean" column    
-    datac <- rename(datac, c("mean" = measurevar))
+------FIXME ! ------
 
-    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+Innerhalb eines Absatz nutzt man $5-4\alpha$ Dollarzeichen.
+$\delta$ Variant is on the way !!!
 
-    # Confidence interval multiplier for standard error
-    # Calculate t-statistic for confidence interval: 
-    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
-    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
-    datac$ci <- datac$se * ciMult
+$$y(k) = f1 * exp(-(t/(2 * k1))^2) + f2 * exp(-t/k2) + f3 * exp(-t/k3)$$
+wenn du hilfe beim Latex Formel erstellen hast: hiermit gehts ganz einfach: https://www.zahlen-kern.de/editor/
+------FIXME ! ------
 
-    return(datac)
-}
+
+fitted all the obtained data best. This means that three different fractions of protons, which differ in their T2 relaxation time, could be detected. The amount or fractions *f* as fitted with formula xx for the measured relaxation signal for the samples was plotted over the process times of the samples (Fig.\ref{fig:frac}).
+
+```{r frac, echo=FALSE, out.width="60%", warning=FALSE, fig.cap="Development of the fractions of T2 relaxation times of fatty phase (red) and modile water phase (blue) \ with respective linear model fit: fraction of bound fat increases, while fraction of mobile water decreases.", fig.scap="Development of detected fractions over processing time"}
+knitr::include_graphics("plots/5.2_fractions.jpeg")
+```
+The fraction of the immobile water phase was in the range as presented in @Hinrichs2007. The fraction of the mobile water phase however is far below the values for the respective phase from the adapted model data in Hinrichs. This seems reasonable, since the amount of mobile water is far lower in the present study, which is by design and due to the high dry matter. A fraction of T2 relaxation components is apparen in Fig.\ref{fig:frac} as indicated by the green colour, which wasn't detected in fat-free systems.
+
+```{r T2, echo=FALSE, out.width="60%", fig.cap="Development of T2 relaxation times of fatty phase (red) and modile water phase (blue) with respective linear model fit: \ Increase in water mobility and decrease of mobility of the fatty phase", fig.scap="T2 relaxation of fat and mobile water over process time" }
+knitr::include_graphics("plots/5.1_T2.fat.mob.jpeg")
 ```
 
-```{r include=FALSE}
-#T2 distributions
-# data chapter V
-## Import NMR data
+Fig.\ref{fig:T2} shows the development of T2 distributions for the detected fatty and mobile water-phase. In @Noronha2008c, cheese prepared in a blade cooker was investigated using T2 relaxation. Three proton fractions were found after numeric inversion, with relaxtion times of 15-20 ms, 60-80 ms and 350-500 ms. The thre fractions were attributed to the protons of imobile water, fat, and moderately bound water, respectively.
+@El-Bakry2011 analyzed the formation of a processed cheese matrix from a liquid dispersion that was formed to a cohesive mass using a Farinograph. The T2 relaxation times attributed to the protons of fat were between 80 and 120 ms, depending on the process time. An increase in T2 relaxation for the fat protons was reported, followed by a decrease of fat T2 relaxation time. Hence a two step emuslification process was reported, next two a two step structure build up indicated by two peaks in the Farinograph.
+The fraction that can be attributed to the fat phase in this study is the one obtaining between 15 and 25% as indicated in Fig.xx and a T2 relaxation time of ~20 ms. The differing relaxation T2 relaxation times regarding the T2 relaxations displayed in Tablexx are due to differing NMR protocols, which are adapted towards the macro-scaled matrices. Since the matrix in this study was a fine dispersion and a fine emulsion after melting, the long-time measurement protocol of @Hinrichs2007 was chosen to display the changes on the investigated micro-scale.
 
-# go through all files in the folder 
-files <- list.files(path="~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/NMR_fat", pattern="*.dps", full.names=TRUE, recursive=FALSE)
+The biggest fraction of the model cheese matrix is the dispersed phase, as represented by Fig.\ref{fig:frac}. Also the volume fraction of the fatty phase increases, which is consistent with the data obtained by @Vollmer2021 and chapters 4 and 5 of the present study. Also, the amount of mobile water protons decreases, which is also in conclusion with previous findings.
 
-# read them and merge them into a single table
-table_list <- lapply(files, function(x) {
-  x <- read.table(x, sep="\t", header=F)
-  colnames(x) <- c("count", "x", "y")
-  x
-})
-
-NMR_list <- table_list
-ID <- list.files(path="~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/NMR_fat", pattern="*.dps", full.names=F)
-pr.ti <- str_split_fixed(ID, "[:digit:].dps", 2) %>% as.data.frame()
-pr.ti$V1 <- str_split_fixed(pr.ti$V1, "_[:digit:]", 2) 
-pr.tim <- pr.ti$V1 
-pr.tim <- str_split_fixed(pr.tim, "_", 3) %>% as.data.frame()
-pr.tim$V2 <- revalue(pr.tim$V2, c("DB"="2"))
-NMR.ID <- mutate(pr.tim, ID = paste(pr.tim$V1, pr.tim$V2, sep = "_"))
-NMR.ID <- NMR.ID[1:132,4]
-names(NMR_list) <- NMR.ID
-
-NMR_short <- function(xlist){
-  xlist <- xlist[][1:2000, ]
-}
-NMR_list <- lapply(NMR_list, NMR_short)
-
-NMRfit3 <- function(xlist){
-  t <- xlist[["x"]]
-  y <- xlist[["y"]]
-  p0 <- c(-.01, -10, -100)
-  modnew <- mexpfit(t, y, p0)
-  fit1 <- nls(y ~ cbind(exp(-(t/(2*k1))^2), exp(-t/k2), exp(-t/k3)), algorithm = "plinear", data = xlist,
-              start = list(k1 = .01, k2 = 10, k3= 100), nls.control(maxiter = 500, warnOnly = TRUE))
-  k1_predict <-summary(fit1)$coefficients[1,1]
-  k2_predict <-summary(fit1)$coefficients[2,1]
-  k3_predict <-summary(fit1)$coefficients[3,1]
-  fo <- y ~ f1*exp(-(t/(2*k1))^2)+f2*exp(-t/k2)+f3*exp(-t/k3);
-  f1_predict <- modnew$a[1]
-  f2_predict <- modnew$a[2]
-  f3_predict <- modnew$a[3]
-  fit2 <- nls(fo, data = xlist, 
-              start = list(k1 = k1_predict, k2 = k2_predict, k3 = k3_predict, 
-                           f1 = f1_predict, f2 = f2_predict, f3 = f3_predict), nls.control(maxiter = 500, warnOnly = TRUE))
-  fit.param <- as.data.frame(fit2$m$getPars())
-  fit.param}
-
-
-fit.full3 <- lapply(NMR_list, NMRfit3)
-```
-
-```{r include=FALSE}
-fit3res <- do.call("cbind", fit.full3)
-colnames(fit3res) <- NMR.ID
-fit3res <- as.data.frame(t(fit3res))
-NMR.time <- str_split_fixed(NMR.ID, "min", 2) %>% as.data.frame()
-timeNMR <- NMR.time$V1
-timeNMR <- gsub(",",".",timeNMR)
-fit3res <- bind_cols(timeNMR, fit3res)
-colnames(fit3res)[1] <- "time"
-fit3res$time <- as.numeric(fit3res$time)
-fit3res <- arrange(fit3res, time)
-fit3res <- fit3res[c(1:32, 36:128),] #outlier and last value exclusion by Grubb's test
-
-longfit3 <- fit3res %>% pivot_longer(., c(k1, k2, k3, f1, f2, f3), 
-                                     names_to = "parameter", values_to = "value")
-T2 <- filter(longfit3, str_detect(parameter, "k"))
-T2mean <- summarySE(data = T2, measurevar = "value", groupvars = c("time", "parameter") )
-T21 <- filter(T2mean, str_detect(parameter, "1"))
-T2f3 <- filter(T2mean, str_detect(parameter, c("2", "3")))
-T2f <- filter(T2mean, str_detect(parameter, "2"))
-T23 <- filter(T2mean, str_detect(parameter, "3"))
-
-plot.T2 <- function(df){ggplot(df, mapping = aes(x = time, y = value, color = parameter, group = parameter))+ geom_point(aes(shape=parameter))+ theme_bw() + scale_y_log10()+ theme(legend.position = "none")+
-    geom_errorbar(aes(ymin=value-se, ymax=value+se),linetype=1 , color= "black", width=5) + 
-    geom_smooth(method = lm, se = FALSE)+xlab("process time [min]")+ylab("T2 [ms]")}
-
-T2f3.p <- plot.T2(T2f3)
-```
-
-\subsubsection{NMR measurements}
-
-```{r , echo=FALSE, warning=FALSE}
-T2dist <- filter(longfit3, str_detect(parameter, "f")) #c("f2","f3")
-T2meandist <- summarySE(data = T2dist, measurevar = "value", groupvars = c("time", "parameter") )
-plot.T2dist <- function(df){ggplot(df, mapping = aes(x = time, y = value, color = parameter, group = parameter))+ geom_smooth(method=lm, se=FALSE)+
-    geom_point(aes(shape=parameter))+ theme_bw() + 
-    geom_errorbar(aes(ymin=value-se, ymax=value+se),linetype=1 , color= "black", width=5) +
-    xlab("process time [min]")+ylab("fraction [%]")}
-p.T2meandist <- plot.T2dist(T2meandist)
-```
-
-```{r , echo=FALSE, warning=FALSE, fig.cap="Development of the fractions of T2 relaxation times of fatty phase (red) and modile water phase (blue) with respective linear model fit: fraction of bound fat increases, while fraction of mobile water decreases."}
-p.T2meandist
-```
-
-The biggest fraction of the model cheese matrix is the dispersed phase, as represented by Fig.xx. Also the volume fraction of the fatty phase increases, which is consistent with the data obtained by @Vollmer2021 and chapters 4 and 5 of the present study. Also, the amount of mobile water protons decreases, which is also in conclusion with previous findings.
-
-```{r , echo=FALSE, warning=FALSE, fig.cap="Development of T2 relaxation times of fatty phase (red) and modile water phase (blue) with respective linear model fit: Increase in water mobility and decrease of mobility of the fatty phase" }
-T2f3.p
-```
-Fig.xx shows the development of T2 distributions for the detected fatty- and mobile-water-phase. No changes were detectable in the immobile-water-phase (data not shown). 
-Analogous to the distribution of the relaxation times (Gig.xx), the relaxation time for the watery phase shows an overall increase over the process time, whereas the the T2 relaxation time for the fatty phase decreases. A decrease in T2 relaxation time indicates a stronger interaction of the magnetized protons with their environment, here the gel matrix. An increase in T2 relaxation represents a lesser interaction. Hence it can be concluded, that over the course of processing of the model processed cheese matrix, fat gets bound more tightly by the matrix, whereas mobile water is released. 
-
-The T2 relaxation time data was analyzed using a linear model, accuracy of the fit was determined by an  R^2 of 0.93:
-```{r, echo=FALSE}
-XX <-lm(value ~ parameter + time, data = T2f3)
-summary(XX) 
-```
+ 
+Analogous to the distribution of the relaxation times (Fig.\ref{fig:T2}), the relaxation time for the watery phase shows an overall increase over the process time, whereas the the T2 relaxation time for the fatty phase decreases. A decrease in T2 relaxation time indicates a stronger interaction of the magnetized protons with their environment, here the gel matrix. An increase in T2 relaxation represents a lesser interaction. Hence it can be concluded, that over the course of processing of the model processed cheese matrix, fat gets bound more tightly by the matrix, whereas mobile water is released. 
+The T2 relaxation time data was analyzed using a linear model, accuracy of the fit was determined by an  R^2 of 0.93.
 
 \subsubsection{Protein concentration in the serum phase}
 
-```{r include=FALSE}
-pc.nmr <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/offline_serum_hplc.csv")
-pc.nmr.time <- str_split_fixed(pc.nmr$sm, "_", 3) %>% as.data.frame()
-pc.nmr.time <- str_split_fixed(pc.nmr.time$V2, "min", 2) %>% as.data.frame()
-pc.nmr <- bind_cols(pc.nmr.time, pc.nmr[,2:6])
+The protein concentration in the serum phase was measured after dilution and centrifugation of the matrix and subsequent centrifugation of the liquid components at 500g. The by RP-HPLC measured protein concentrations were compared to the concentrations of the serum.
 
-pc.nmr.l <- pivot_longer(pc.nmr, c(kap, as2, as1, bet, TP), names_to = "protein", values_to = "amount")
-pc.nmr.l$amount <- pc.nmr.l$amount*5 #dilution factor HPLC
-mean.pc.nmr <- summarySE(pc.nmr.l, measurevar = "amount", groupvars = c("V1", "protein"))
-mean.pc.nmr$V1 <- as.numeric(mean.pc.nmr$V1)
-mean.pc.nmr <- arrange(mean.pc.nmr, V1) %>% filter(str_detect(protein,"TP"))
-pd = .5
-
-#TP from chapter 3
-file_list <- list.files("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/HPLC_raw", recursive = T, full.names = T)
-
-data_list <- lapply(file_list, function(x) {
-  x <- read_csv2(x, col_names = T)
-  x})
-
-df <- bind_rows(data_list)
-HPLC_TP <- df
-kap <- HPLC_TP$kap 
-as1 <- HPLC_TP$as1
-as2 <- HPLC_TP$as2
-bet <- HPLC_TP$bet
-TP <- kap+as1+as2+bet %>% as.numeric()
-
-HPLC_TP <- bind_cols(HPLC_TP, TP)
-colnames(HPLC_TP)[11] <- "TP"
-
-HPLCtp<- pivot_longer(HPLC_TP, c(kap, as2, as1, bet, TP), names_to = "protein", values_to = "amount")
-
-calculate_HPLC <- function(data=NULL, dil.Volume){
-  cream <- filter(data, str_detect(tm, "Cream")) %>% mutate(., value = amount*0.5)
-  pellet <- filter(data, str_detect(tm, "Pellet")) %>% mutate(., value = amount*5*dil.Volume)
-  serum <- filter(data, str_detect(tm, "Serum")) %>% mutate(., value = amount*10)
-  wash <- filter(data, str_detect(tm, "Waschung")) %>% mutate(., value = amount*1)
-  
-  calc <- bind_rows(cream, pellet, serum, wash)
-  calc <- select(calc, -amount)
-  
-  return(calc)
-}
-
-HPLC.TP <- calculate_HPLC(HPLCtp, dil.Volume = 5)
-
-HPLCall <- summarySE(HPLC.TP, measurevar = "value", groupvars = c("source", "tm", "sm", "protein", "mea.type", "data.type"))
-TPs3 <- filter(HPLCall, str_detect(tm, "Serum"))
-TPs3 <- filter(TPs3, str_detect(protein, "TP"))
-TPs3 <- TPs3[1:10, c(3,4,7:11)]
-TPs3$sm <- revalue(TPs3$sm, c("A"="0", "B"="8", "C"="45", "D"="60", "E"="85", "F"="105", "G"="140", "H"="160", "J"="180", "K"= "200"))
-TPs3$sm <- as.numeric(TPs3$sm)
-
-colnames(TPs3) <- paste(colnames(mean.pc.nmr))
-mean.pc.nmr <- bind_rows(mean.pc.nmr, TPs3)
-nmr.pc <- ggplot(mean.pc.nmr, mapping = aes(x = V1, y = amount, color=N, group=N)) + geom_point()+ geom_smooth(method=lm,se=FALSE, linetype=2)+theme_bw()+theme(legend.position = "none")+
-      geom_errorbar(aes(ymin=amount-se, ymax=amount+se),linetype=1 , color= "black", width=5) + 
-    xlab("process time [min]")+ylab("protein concentration [mg/ml]")
+```{r pc, echo=FALSE, warning=FALSE, out.width="50%", fig.cap="Development of measured protein concentration in the  \ centrifugationally separated serum phase (500g) \ over the course of processing (black), with a linear fit (dashed line), compared to the development of the total protein concentration in the serum phase processed in a batch process in a rheometer (see chapter 3) and centrifugationally separated at 6000g (blue, see chapter 4)", fig.scap="Protein concentrations in serum phases separated with different centrifugation speeds"}
+knitr::include_graphics("plots/5.3_pc.ser.jpeg")
 ```
 
-```{r , echo=FALSE, warning=FALSE, fig.cap="Development of measured protein concentration in the centrifugationally separated serum phase (500g) over the course of processing, with a linear fit (dashed line), compared to the development of the total protein concentration in the serum phase processed as a batch in a rheometer (see chapter 3) and centrifugationally separated at 6000g (blue)"}
-nmr.pc
-```
-FIg.xx shows the development of the total protein concentration of the processed cheese matrix used for the NMR measurements, compared to the total protein concentration in the serum as presented in chapter 3.
-The difference in the measured samples lies in the centrifugational separation speed (6000g or 500g respectively) as well as in the mode of preparation (batch, or continous upscaled process). Overall the protein concentrations measured in both preparation modi are in the same range of ~30-50 mg/ml. Also, both measurements show a general trend of a decreasing concentration of soluble protein during processing.
-Interestingly, the separation at 500g (black) gives a more dynamic representation of the changes in the soluble protein concentration, as explained in more detail in the following section:
-The initial increase in the protein concentration can be explained by the dissociation of the casein micelle, induced by the melting salts. After reaching a maximum concentration, the amount of protein detectable in the serum phase decreases up to a processing time of ~145 minutes to a minimum value of ~28mg/ml. Towards the end of processing, an increase in soluble protein was measured. 
-EXPLANATION
+Fig.\ref{fig:pc} shows the development of the total protein concentration of the processed cheese matrix used for the NMR measurements, compared to the total protein concentration in the serum as presented in chapter 3.
+The difference in the measured samples lies in the centrifugational separation speed (6000g or 500g respectively) as well as in the mode of preparation (batch, or continuous upscaled process). Overall the protein concentrations measured in both preparation modi are in the same range of ~30-50 mg/ml. Also, both measurements show a general trend of a decreasing concentration of soluble protein during processing.
+The initial increase in the protein concentration can be explained by the dissociation of the casein micelle, induced by the melting salts. After reaching a maximum concentration, the amount of protein detectable in the serum phase decreases up to a processing time of ~145 minutes to a minimum value of ~28mg/ml. The increase in protein concentration towards the end of the continuous process can be explained by the appearance of reactive aggregates which are already associated but are not separable by the relatively low G-Force of 500g.
 
 \subsubsection{Particle size distribution in the serum phase of the upscaled, continous process}
 
-```{r include=FALSE}
-pgv.nmr <- read_csv2("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/serum_offline_500g.csv")
+```{r pgv.nmr, echo=FALSE, out.width="90%", warning=FALSE, fig.cap="Overview of particle size distribution of centrifugationally (500g) separated cream phase, \ obtained from the continous, upscaled process; darker colours indicate shorter, lighter colours indicate longer processing times.", fig.scap="Measured particle size for serum phases separated at 500g"}
+knitr::include_graphics("plots/5.5_all.pgv.nmr.jpeg")
 ```
+
+Fig.\ref{fig:pgv.nmr} gives an overview of the particle size distribution measured in the serum phase as obtained by the protocol first described in section 4 of this work. The general trend was again, that smaller particles were apparent at later processing stages. 
+To get a deeper insight towards the dynamic process, the modellation protocol for bimodal particle size distributions as first described in section 5 was applied towards the raw measurement data. 
+
+```{r pgv.nmr.mod, echo=FALSE, out.width="50%", fig.cap="Development of modelled particle volume in the serum phase obtained by the centrifugation protocol described in section 4 \ from samples prepared for NMR measurements over process time: \ Decrease in small (red) and large component (blue) detectable, with a steep decrease of the small particles at the end of processing (180 - 200 minutes)", fig.scap="Modelled particle sizes for serum phase separated at 500g" }
+knitr::include_graphics("plots/5.7_size.nmr.linear.jpeg")
+```
+In Fig.\ref{fig:pgv.nmr.mod} the development of the mesured and subsequently modeled particle sizes is displayed over the process time. As already found in the pellet of the model processed cheese, and in the 3% TP solutions prepared from rennet casein with the respective aliquot of emulsifying salts as displayed in section 6. 
+The development of particle sizes here differed however with the particle sizes from the serum after ultracentrifugation. This can be explained by the applied G-force: 500g to 70.000g seems a reasonable explanation as to why the development of particle size distribution is reversed in the respective "soluble" phases. It can be theorized, that 70.000g is a strong enough force, to separate the mainly hydrophobic, from the mainly hydrophilic structures.
 
 \subsubsection{"Offline" Rheology of continous process}
-```{r include=FALSE}
-rheo.off<- read.csv("~/Desktop/PhD/data/Rstudio/Rdata_diss/thesis/as_20180119_LC_CP-dV.csv")
-rheo.off.norm <- rheo.off[,-1]
 
-col.m <- colMeans(rheo.off.norm) %>% as.data.frame()
-col.m <- col.m[1:13,]
-time.offline <- c(300/60, 1500/60, 3000/60, 4200/60, 4800/60, 5400/60, 6000/60, 7800/60, 9000/60, 10200/60, 11400/60, 13200/60, 14400/60)
-
-offline <- bind_cols(time.offline, col.m)
-colnames(offline) <- c("time", "viscosity")
-offline <- offline[c(1:4,6:9,11,12),]
-p.offline <- ggplot(offline, mapping = aes(x=time, y=viscosity))+geom_point()+theme_bw()+
-  theme(legend.position = "none")+ ylab("apparent viscosity [Pa*s]")+ xlab("time [min]")
+```{r rheo.nmr, echo=FALSE, out.width="50%", fig.cap="Rheological profile of the samples prepared for NMR measurements: \ measured mean viscosity of the samples processed continously in the Thermomix, measured with a cone-plate geometry. Data from single measurements of the samples was mean centered before plotting.", fig.scap="Rheological profile of the upscaled process"}
+knitr::include_graphics("plots/5.4_nmr.rheo.jpeg")
 ```
 
-
-```{r, echo=FALSE, warning=FALSE, fig.cap="Rheological profile of the samples prepared for NMR measurements: measured mean viscosity of the samples processed continously in the Thermomix, measured with a cone-plate geometry"}
-p.offline+geom_line(linetype=2)
-```
+The measured apparent viscosity Eta as displayed in Fig.\ref{fig:rheo.nmr} was measured after sampling an aliquot from the continuous process and measuring it with a cone-plate geometry at a shear rate of 50 s^-1 and 85 C. Comparing the viscosity of the upscaled process, the viscosity is higher in range but follows a step-wise structure build-up, as reported before here and elsewhere.
+The decrease in the last measurement point at 225 min can be attributed to high fluctuations in the measurement and indicate an adherent, string forming or particulate, but however more dense matrix and not a liquidation or any of the such, as discussed extensively in section 3 and elsewhere in this work.
 
 \subsection{Conclusion and Outlook}
 
-Further insight towards the aggregation phenomena of soft-solids like processed or cream cheese could be obtained via pulsed field gradient-nuclear magnetic resonance (PFG-NMR). @LeFeunteun2012 distinguished dissolved casein monomers besides casein particles during the rennet coagulation of highly concentrated casein suspensions. The concentration of monomers increased during the experiments, while the amount of casein particles decreased. @Salami2013 also permormed PFG-NMR measurements to measure the diffusion of non-micellar phosphocaseinate and sodium caseinate preparations in environments with different Polyethylene glycols.
+The relative comparison of T2 relaxation times for different proton fractions in model processed cheese systems during manufacture or processing showed to be a good protocol for measuring the different stages of formation in macroscopic scaled systems as displayed in @Noronha2008c and @El-Bakry2011.
+This study showed, that with an adapted NMR protocol, the changes in microstructure could be detected following the detailed processing of a model processed cheese matrix, that was targeted to investigate casein interactions. In analogy with the studies mentioned above, a multi-step structure formation was detectable, comprising a restructuring of the mobile water phase, as well as a two step emulsification phase of the fat. 
+The obtained T2 relaxation times from the model processed cheeses were compared to their particle sizes in their soluble fraction, the protein concentration in the same fraction and the viscosity at specific processing times as measured with a cone-plate geometry using a Rheometer.
+
+The detected step-wise rise in viscosity corresponded with a shrinking particle size in the serum as well as a decreasing protein concentration measured in the serum. The T2 relation time of mobile protons from mobile water fractions increased, while the respective fraction *f* decreased. This is in conclusion with the measurement data from the serum phase, since less soluble protein correspond with less bound water molecules , hence the increase in T2 relaxation time and the general eviction of water from the system, as indicated by a slightly decreasing water fraction *f*.
+T2 relaxation times for the protons corresponding to fat [T2f] were conclusive in a similar way. The viscosity increase corresponded with an overall decrease of T2f, which indicates a stronger interaction of the protons with the matrix, i.e. a stronger interaction of fat particles with the matrix. In a similar way, the fraction of protons relaxing from the fat phase increased, which leads to the conclusion that the fatglobules grow in number and shrink in size.
+A matrix comprising of ripened mozzarella, corresponding to peptidized rennet casein, butter and whey protein concentrate was analyzed, varying in amount and type of emulsification in @Chen2012. The obtained NMR data was fitted to a Gaussian distribution using a numeric inversion program. Four components were fitted, T2 relaxation times were numerically in the range of this study. However, the two middle T2 relaxation times were attributed to immobile protons from water. No explanation was given, as to why the immobile water phase should display two signals. It is indicated, that the fraction of this large component in the relaxing signal is due to the immobile phase interacting with the protons in and adsorbed to the fat phase.
+
+It can be concluded, that T2 relaxation time determination can lead to specific insight towards the compositional changes during the processing of composite materials. However, signal processing and signal identification is a crucial and admittedly somewhat arbitrary process, that relies mainly on empiric observations of previous works. 
+Hence, especially changes in T2 relaxation during manufacture and processing can't give absolute results but comparable results for the individual investigated systems.
+Larger insight on composition can be gained by the use of other, special types of NMR measurements.The aggregation phenomena of soft-solids like processed or cream cheese could be obtained via pulsed field gradient-nuclear magnetic resonance (PFG-NMR). @LeFeunteun2012 distinguished dissolved casein monomers besides casein particles during the rennet coagulation of highly concentrated casein suspensions. The concentration of monomers increased during the experiments, while the amount of casein particles decreased. @Salami2013 also performed PFG-NMR measurements to measure the diffusion of non-micellar phosphocaseinate and sodium caseinate preparations in environments with different Polyethylene glycols.
+However, the T2 relaxation time experiments of this study gave conclusive results in combination with the other experimental data throughout this work.

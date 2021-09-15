@@ -2,10 +2,6 @@
 title: ''
 output: pdf_document
 ---
----
-title: ''
-output: pdf_document
----
 \section{Colloidal aggregation of Rennet Casein under the influence of shear, heat and emulsifying salts}
 \subsection{Introduction}
 \subsection{Material and Methods}
@@ -18,76 +14,61 @@ Particle Size Analysis
 HPLC measurements
 \subsection{Results and Discussion}
 
-```{r echo=FALSE, fig.cap="logarithmic likelihood of the 2 (circle) and 3 (triangle) component fit: 1% TP with emulsifying salts without (red) or with (orange) centrifugational separation; 3% TP with emulsifying salts without (blue) or with (green) centrifugational separation; 3% TP without emulsifying salts without (black) or with (grey) centrifugational separation"}
-print(plot.log)
+```{r , echo=FALSE, out.width="100%", fig.cap="Overview of measured particle size distribution in solutions made from 1% (*c(TP)*) casein,  processed with melting salts, after ultracentrifugation (70.000g) and subsequent filtration (2500 nm): darker areas indicate shorter, lighter areas longer processing times. In-situ reaggregation after filtration at ~4000 nm"}
+knitr::include_graphics("plots/4.1_1.all.jpeg")
+```
+no indication for seed formation apparent, even distribution throughout. Tendency for larger aggregates at later processing times indicates a tendency to reaggregate, since the samples have undergone filtration before measurement. A conclusion therefrom is, that at later processing times, highly active or 'reactive monomers' are present, that tend to aggregate, especially in the ionically charged environment present here. 
+Such monomers were already described in [@reactive_monomers]. 
+The findings of @Vollmer2021 and @Vollmer2021a indicate that. However in an environment with a total protein concentration [TP] of 1% casein, the monomers might not reach a certain number to form singular, potentially small structures, that could be identified as seeds.
+In an environment with a protein concentration of 3% casein, however, such small structures are visible (Fig.xx).
+
+```{r , echo=FALSE, out.width="100%", fig.cap="Overview of measured particle size distribution in solutions made from 3% (*c(TP)*) casein,  processed with melting salts, after ultracentrifugation (70.000g) and subsequent filtration (2500 nm): darker areas indicate shorter, lighter areas longer processing times. Strong indication for seed development at later processing stages visible at ~10 nm"}
+knitr::include_graphics("plots/4.2_3mS.all.jpeg")
+```
+As already seen in 1% TP solutions, the 3% TP solutions also showed reaggregation phenomena after longer processing times. Even more so, a critical concentration seems to be reached, to form a substructure on their own. This is in accordance with previous studies of aggregation phenomena in a mixed protein environment. 
+**Quellen insert WPI fibrils aus Irland usw** presented the formation of fibrils made from WPI, after long incubation times (12-24 hours) and pH=2. This environment breaks the globular beta-lactoglobulin down into string like substructures. Acoordingly, a mixed environment is present, with different peptidic residues or proteinogenic strings. At certain cencentrations, fibrils or ribbon like structures are formed. Also, a certain length of incubation is necessary, to induce the aggregation.
+This can be compared to the aggregation phenomena seen here, since a strong ionic environment next to string like proteins are present. Also, a certain incubation time seems to be needed to "kick-start" the aggregation. 
+A more conclusive answer can be found in the modelled distribution.
+
+```{r , echo=FALSE, out.width="100%", fig.cap="Development of modelled particle volume, plotted over processing time; small particles indicated by red sphere, large particles indicated by blue sphere with an applied 'loess fit' (y~x, dashed line). Data suggests formation of a very small aggregate of ~14nm after 140 min of incubation"}
+knitr::include_graphics("plots/4.3_3mS.size.jpeg")
+```
+The modeled distribution (Fix.xx) represents the experimental data well. A two component model (k=2) seems sufficient and prevents over-fitting, in particular when the medium sized aggregates at ~150 nm seem to disappear after the formation of the small aggregates. In addition, the large particles seem to decrease as well, while the small particles in between 140 and 160 minutes of processing don't decrease any further. 
+The density distribution or proportion of small and large measured particles is seen in Tab.xx.
+density 1 / 140 / 38
+          / 160 / 36
+The density of the small component increases at the end, which is probably due to reaggregation of the reactive seed into larger structures, hypothetically similar or commpareable to the small structures apparent in @Vollmer2021. 
+
+
+This theory can be supported by the additional data obtained from the system of 3% TP processed with emulsifying salts. The flow-curve obtained by the set-up in the processing in a rheometer shows a steep increase, beginning at xx minutes, with a maximum at xx minutes and a stabilization at a higher level than prior to the exponential aggregation phase (Fig.xx).
+        
+```{r , echo=FALSE, out.width="100%", fig.cap="Flow curve of a 3% Tp casein solution processed with a vane blade geometry"}
+knitr::include_graphics("plots/4.5_coll.rheo.jpeg")
 ```
 
-```{r echo=FALSE, fig.cap="Development of viscosity of 3% TP with emulsifying salts, processed at 85°C with a rotating vane geometry at a shear rate of 50/s"}
-print(c_rheo.plot)
+
+Fig.xx shows the composition of the aggregate. At 100 minutes, alphaS1 begins to decrease significantly in the supernatant, showing that an aggregate is formed. Prior to this, a steady increase of soluble particles can be detected. After 120 minutes beta casein also decreases significantly up to the end of the process.
+
+```{r , echo=FALSE, out.width="100%", fig.cap="Development of measured particle concentration in supernatant of samples made from 3% TP, processed with emulsifying salts; beta casein (blue), alphaS1 casein (red), kappa casein (violet) and alphaS2 casein (green)"}
+knitr::include_graphics("plots/4.4_coll.HPLC.jpeg")
 ```
 
-```{r echo=FALSE, fig.cap="Development of protein concentration in the supernatant over processing time: alphaS1 (red circle), alphaS2 (green triangle), beta (blue square), kappa (violet line)"}
-print(HPLC_coll.plot)
+In accordance with the appearence of insoluble visibly large aggregates at the stirrer of the rheometer (Fig.xx) after 140 minutes of processing it can be stated, that this aggregate is primarily formed by alphaS1 casein and secondarily by beta casein. The slight increase in beta casein proir to the decrease at the end might be due to a release from an aggregate, which those two caseins happily form [@casein_interactions].
+
+```{r , echo=FALSE, out.width="50%", fig.cap="Visible large flocculated aggregate at the stirrer of the vane geometry after 140 minutes of processing"}
+knitr::include_graphics("images/colloid_aggregate.jpg")
 ```
-
-```{r echo=FALSE, fig.cap="Particle Volume of small component over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-size2.1.1mS <- filter(coll.1mS, str_detect(parameter, "size2.1"))
-plot.pgv.coll(size2.1.1mS)+ ylab("particle volume [nm]")
-```
-
-```{r echo=FALSE, fig.cap="Particle Volume of large component over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-size2.2.1mS <- filter(coll.1mS, str_detect(parameter, "size2.2"))
-plot.pgv.coll(size2.2.1mS)+ ylab("particle volume [nm]")
-```
-
-```{r echo=FALSE, fig.cap="Particle Volume of small component over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-size2.1.3mS <- filter(coll.3mS, str_detect(parameter, "size2.1"))
-plot.pgv.coll(size2.1.3mS)+ ylab("particle volume [nm]")
-```
-
-```{r echo=FALSE, fig.cap="Particle Volume of large component over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-size2.2.3mS <- filter(coll.3mS, str_detect(parameter, "size2.2"))
-plot.pgv.coll(size2.2.3mS)+ ylab("particle volume [nm]")
-```
-
-```{r echo=FALSE, fig.cap="Particle Volume of small component over processing time of 3% TP without emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-size2.1.3oS <- filter(coll.3oS, str_detect(parameter, "size2.1"))
-plot.pgv.coll(size2.1.3oS)+ ylab("particle volume [nm]")
-```
-
-```{r echo=FALSE, fig.cap="Particle Volume of large component over processing time of 3% TP without emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-size2.2.3oS <- filter(coll.3oS, str_detect(parameter, "size2.2"))
-plot.pgv.coll(size2.2.3oS)+ ylab("particle volume [nm]")
-```
-
-```{r echo=FALSE, fig.cap="Development of Density Distribution of small components over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-dens2.1.1mS <- filter(coll.1mS, str_detect(parameter, "dens2.1"))
-plot.pgv.coll(dens2.1.1mS)+ ylab("density distribution")
-```
-
-```{r echo=FALSE, fig.cap="Development of Density Distribution of large components over processing time of 1% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-dens2.2.1mS <- filter(coll.1mS, str_detect(parameter, "dens2.2"))
-plot.pgv.coll(dens2.2.1mS)+ ylab("density distribution")
-```
-
-```{r echo=FALSE, fig.cap="Development of Density Distribution of small components over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-dens2.1.3mS <- filter(coll.3mS, str_detect(parameter, "dens2.1"))
-plot.pgv.coll(dens2.1.3mS)+ ylab("density distribution")
-```
-
-```{r echo=FALSE, fig.cap="Development of Density Distribution of large components over processing time of 3% TP with emulsifying salts: without (red circle) or with (blue triangle) centrifugational separation prior to filtration (cutoff 2500 nm)"}
-
-dens2.2.3mS <- filter(coll.3mS, str_detect(parameter, "dens2.2"))
-plot.pgv.coll(dens2.2.3mS)+ ylab("density distribution")
-```
+The decrease in kappa casein which couldn't be found in the pellets analyzed in their composition in chapter 4 is due to the use of rennet casein in this study instead of native casein in chapter 4. this further supports the formation of a largely hydrophobic aggregate, where a lesser solubility in water leads to the formation of an insoluble, flocculated aggregate, which can be also described as depletion flocculation. This is fulfilled by the kappa casein in rennet casein, since the hydrophilic glycosylated part is missing, therefore it starts to deplete from the solution into the flocculated state.
 
 \subsection{Summary and Outlook}
+
+To the authors knowledge, no aggregation phenomenon similar to this has been presented from casein. In conclusion with the works of @Vollmer, where a casein fibrilization in the equal model processed cheese matrix was detected, it can be theorized, that in this study the primary aggregate, or "seed" for fibrilazation might be displayed. 
+Regarding the "Rework" effect as described in detail by @Lenze2019, it can be theorized, that the formation of a hydrophobic aggregate, mainly comprising of alphaS1 and beta casein is formed at late processing stages. Adding such material to a "fresh" matrix then includes the primary aggregate. Since the emulsification of the fat into fine particles is enhanced during these stages of processing as well, it can be stated, that those structures are also better at emulsifying fat, than otherwise aggregated casein particles or monomers therein. This is also in conclusion with the theory of a hydrophobic particle.
+
+In order to form fibrils without any degree of covalent interaction, one must consider the possible connection points for this type of interactions in the respective casein.
+**HCA PLOTS**
+
+If the strong charge from the phosphoserine residue isn't overcome, the caseins are not able to reach a close enough range to form this kind of strong hydrophobic interactions. This is due to the effect, that hydrophobic interactions have the smallest size range, as indicated by DLVO theory. An electrostatic bridge or even crystallization under the chelation of calcium ions could explain the occurence of such a close range. 
+Considering this, it seems interesting that the hydrophobic forces are stronger than the energy derived from solving the electrostatic bond in water. 
+
+**Find data to electrostatic Casein bridge**

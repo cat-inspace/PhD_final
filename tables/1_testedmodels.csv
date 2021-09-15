@@ -1,0 +1,12 @@
+casein,salt,fat,premix,cup-applied shear
+native,emulsifying salt mixture (emS),oil,yes,alu-200
+native,emulsifying salt mixture (emS),oil,yes,steel-200
+rennet,emulsifying salt mixture (emS),oil,yes,alu-200
+rennet,emulsifying salt mixture (emS),oil,yes,alu-100
+rennet,emulsifying salt mixture (emS),oil,yes,steel-200
+rennet,emulsifying salt mixture (emS),milkfat,no,alu-100
+rennet,emulsifying salt mixture (emS),milkfat,yes,alu-100
+rennet,emulsifying salt mixture (emS),oil,no,alu-100
+sodium,citric acid (CitAc),oil,yes,alu-200
+sodium,emulsifying salt mixture (emS),oil,yes,alu-200
+sodium,Hydrochloric Acid (HCl),oil,yes,alu-200

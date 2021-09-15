@@ -1,0 +1,8 @@
+Tested sample;Used salt;Flow curve;Structure formation
+Sodium caseinate control ;no;linear;moderate
+Native casein control;no;linear;very low
+Rennet casein;emS;2nd log phase;high
+Native casein;emS;2nd_log;high
+Sodium caseinate;HCl;1st_log;high
+Sodium caseinate;CitAc;linear;medium
+Sodium caseinate;emS;scattered;low

@@ -7,9 +7,12 @@ output: pdf_document
 {\bf Acknowledgments}
 \end{raggedleft}
 
-First of all...
-UK
-staff
-students
-family
-Claus
+First of all I would like to thank Prof. Dr. Ulrich Kulozik for his advise and supervistion for this project as well as for his patience and giving me the possibility to perform this work. In addition, I would like to thank the whole ZIEL Institute for Food and Health as well as the Institute for Food- and Bio-process Engineering for their support and scientific insight during the experimental part of this work. A special thanks goes to Mrs. Heidi Wohlschläger who gave much needed insight towards the HPLC measurement methods performed in this study. 
+
+Also, I would like to thank my office colleagues, Dr. Martin Hartinger, Dr. Christian Kleemann, Franz Fraunhofer and Michael Reitmeier for the good communication and collaboration. A special thanks goes to Mrs. Franziska Kurz, who was always available as a sometimes needed friend during this work, as well as a discussion partner in scientific terms. I will miss the hours in E.25 dearly. 
+
+A special honoration goes to my students, Christina Baumeister, Alexander Schmieder and Viktoria Heitler for their tireless work during method development and their fierce interest in the science that is processed cheese. The liberating discussions as well as their considerations towards the experimental results helped a lot to shape this work.
+
+Also, I want to thank my family and friends, wo are always true believers in me and never doubt me to achieve my goals. Without them, this thesis would not have been possible.
+
+Last but not least, I want to thank my partner, best friend and soon to be husband Claus Peter Pfeilschifter, on the one hand for giving me the impulse to learn to code for this work as well as for loving and supporting me all the way. 

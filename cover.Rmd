@@ -40,9 +40,9 @@ knitr::include_graphics(paste0(getwd(), '/img/wzwlogo.png'))
 \end{minipage}
 \end{raggedleft}
 \begin{raggedright}
-\begin{minipage}[t]{0.75\textwidth}
+\begin{minipage}[t]{1\textwidth}
 ```{r tum_logo, echo=F, out.width="20%"}
-knitr::include_graphics(paste0(getwd(), '/img/tumlogo.png'))
+knitr::include_graphics(paste0(getwd(), '/img/tumlogo_n.png'))
 ```
 \end{minipage}
 \end{raggedright}
@@ -64,7 +64,7 @@ knitr::include_graphics(paste0(getwd(), '/img/tumlogo.png'))
 {\bf Structure formation in Casein-based food systems}
 
 \small
-{\bf Mechanisms for non-covalent aggregation during thermal processing}
+{\bf Analysis of aggregation phenomena in model processed cheese systems}
 
 \vspace{1cm}
 \normalsize
@@ -85,36 +85,65 @@ knitr::include_graphics(paste0(getwd(), '/img/tumlogo.png'))
 \end{centering}
 
 \newpage
-
-\pagenumbering{gobble}
-\begin{raggedleft}
-{\bf Abstract}
-\end{raggedleft}
-\spacing{1.5}
-Various model process-cheese matrices using Sodium, Rennet and Native Casein as starting material were investigated in their structuring-behaviour using a Rheometer as a monitoring and processing device for the structure-build up. In sum ten different stages for structure formation were defined and the products obtained were analyzed. 
-For determination of the protein concentrations at the O/W interface, the soluble phase and the insoluble phase, a centrifugational washing procedure for separating the diluted model processed cheese matrix was developed. Thereby obtained phases were investigated with subsequent HPLC analysis for protein quantification and qualification. 
-In addition to HPLC analysis, particle sizes of the three phases were measured. The particle sizes showed bimodal distributions, therefore an algorithm for modelling normal distributions in equal mixtures of distributions ("normalmixEM" within the R programming language) was used to better estimate the particle sizes or particle volume distributions. 
-The data obtained both by the HPLC analysis and the particle size measurements were correlated with the apparent viscosity during processing in order to gain a deeper insight towards non-covalent aggregation phenomena on a macro-, meso- and microscopic scale. As a comperative example, casein solutions of 1% and 3% with aliquots of emulsifying salts and solutions of 3% casein without salts were treated equally to the model processed cheese samples. In the samples of 3% casein with emulsifying salts, hydrophobic aggregation of caseins occured that could be linked to the aggregation processes in concentrated casein systems.
-In addition, low-resolution NMR measurements were performed using the products of a continuous and therefore upscaled process. The multi-exponential decay was analyzed using a discrete, multi-exponential fit in a non-linear-least-squares (NNLS) algorithm using a four component model. 
-Data was analysed using factor analysis and correlation analysis. A general rheological profile of the model processed cheese was generated and a correlation analysis with the remaining experimental data (protein concentration, particle volume distribution, product parameters) was performed.
-Data showed correlations between protein adsorption at the interface, particle growth or shrinkage depending on the analyzed centrifugationally separated phases, water and fat binding with the viscosity during processing. 
-
 \pagenumbering{roman}
+
+```{r setupfloat, include=FALSE}
+knitr::opts_chunk$set(fig.pos = "!h", out.extra = "")
+```
+
+\newpage
+
+\newpage
+\raggedright
+
+*Für Claus, der den roten Faden wiederfand*
+
+*Man muss Chaos in sich tragen,*
+    *um einen tanzenden Stern gebären zu können.*
+        *F. Nietzsche*
 
 \newpage
 
 \centering
 \raggedright
 \newpage
-\tableofcontents
-\newpage
-
-```{r data, child='data_wrangling.Rmd', include=FALSE}
-```
-
 ```{r acknowledgments, child='acknowledgements.Rmd'}
 ```
 \newpage
+\pagenumbering{gobble}
+\begin{raggedleft}
+{\bf Summary}
+\end{raggedleft}
+\spacing{1.5}
+In a highly concentrated protein systems, such as processed or cream cheese, wherein large protein aggregates are present next to a dispersed phase, the inner structure is usually very complex and influenced by numerous factors. In order to elucidate these inner structure in compositional terms and in the micro and nano scale of protein interaction, a model processed cheese matrix was reiterated and further developed from previous work (@Lenze2019). This matrix consisted of store-type plant oil as dispersed phase and different casein powders with protein concentrations ~90%, from which < 1% was from whey proteins. The casein displayed the continous phase, which is suspected to form the gelled matrix. 
+As it is typical in processed cheese, emulsifying salts were used in the mixture, resulting in a dry matter of the non-processed matrix of ~40%. To formulate a homogenous matrix, the samples were homogenized before processing, using a laboratory mixing device. This process was further referred to herein as premixing, since the processing of processed cheese, of course involves mixing, kneading, stirring or however an applied shear force during heating.
+
+Various model process-cheese matrices using Sodium, Rennet and Native Casein as starting material were investigated in their structuring-behaviour using a Rheometer as a monitoring and processing device for the structure-build up. In sum ten different stages for structure formation were defined and the products obtained were analyzed. In gneral a two-step increase in viscosity, as it is typical also for the industrial processing of such cheeses, could be observed.
+For determination of the protein concentrations at the O/W interface, the soluble phase and the insoluble phase, a centrifugational washing procedure for separating the diluted model processed cheese matrix was developed. In addition, a procedure for washing the cream phase and subsequent desorption of proteins from the interphase, using a chaotropic salt, was put together. Thereby obtained phases were investigated afterwards with RP-HPLC for protein quantification and qualification, giving compositional and quantitative data for the the distribution of caseins in the matrix. It could be shown, that the emulsification of fat primarily happens during the second step of structuring. This step was considered to be *inter alia* the second exponential or second log phase of structure formation, i.e. processing.
+
+In addition to HPLC analysis, particle sizes of the three phases were measured. The particle sizes showed bimodal distributions, therefore an algorithm for modelling normal distributions in equal mixtures of distributions ("normalmixEM" within the R programming language) was used in the programming of a fit function. This was done to better estimate the particle sizes or particle volumes and their respective density distributions in the analyzed samples. By doing so, a close approximation of distribution and development of large components next to small components in the analyzed samples could be given. 
+The particle sizes in the pellet gave indications for the formation of a more and more hydrophobically aggregated network, especially during the second half of structure formation. In addition, the separation of the dense matrix in compositional terms could be found. The particle size distributions in combination especially with the compositional data from RP-HPLC analysis indicated the formation of two different types of protein networks. The measurement data hinted towards the formation of a hydrophilic network surrounding alphaS2 caseins and its minor interactions with other caseins. 
+The second network was indicated to be a hydrophobic network mainly comprising of kappa, alphaS1 and beta casein. This network was in close contact with the dispersed phase and showed behavior to form a particulated network. 
+This behavior of the casein matrix also showed itself in its morphology at later processing stages, where the model processed cheese became more and more incoherent or even particulate, if processed long enough.
+
+Previous studies showed the accelerating effect of the addition of pre-processed cheese to the freshly matrix, or chemically spoken, a catalytic seed was given to the educt. This auto catalytic effect was described in previous works in phenomenological terms. In this study, it was tried to find the 'seed' that could start such an autocatalytic reaction. Therefore, 1% and 3% solutions of rennet casein were produced with an aliquot of the emulsification salts. These solutions were referred to as colloidal solutions. The formation of a flocculated, insoluble aggregate could be documented in samples with a total protein concentration of 3% after 140 minutes of processing. 
+The colloidal solutions were further processed using ultra centrifugation at 70.000g. The supernatants were analyzed compositionally using RP-HPLC and showed a decrease first in kappa and alphaS1 casein subsequented by beta casein before  and during the appearence of the flocculated aggregate. The supernatants were also analyzed in their particle volume using dynamic light scattering. Both concentrations, 1% and 3% showed the phenomenon of reaggregation after filtration. In addition in samples made with 3% total casein, at late processing times, the formation of a large proportion of small aggregates was measured with roughly ~14 nm in size.
+
+Low-resolution NMR measurements were performed using the products of a continuous and therefore upscaled process. The multi-exponential decay was analyzed using a discrete, multi-exponential fit in a non-linear-least-squares (NNLS) algorithm using a three component model. The components found could be attributed to a mobile and immobile water fraction. One component could be attributed to the fatty phase of the matrix, that showed a gradual decrease in T2 relaxation time. The mobile phase of the water increased slightly over a process time of 225 minutes. In addition to the NMR measurements, the samples from the upscaled process were centrifuged at 500g and the remaining serum was analyzed with RP-HPLC. Also, particle sizes of the mixture were determined using laser diffraction. Analogies to the particle devolpment in the pellet could be found.
+
+
+In summary, the results of this study revealed matrix separation phenomena in a dense, heated and sheared casein matrix on a compositional level and gave mechanistic explanations as to why they occurred. Kappa casein was suggested to be the seed for hydrophobic aggregation, wherein beta and alphaS1 casein participated strongly in hydrophobic network formation. 
+The hydrophobic aggregation was increased by depletion of alphaS2 casein, water and ions from the hydrophobic network. The caseins beta and alphaS1 interacted with the initially aggregated kappa casein to form large aggregates via hydrophobic interaction. The alphaS2 casein is suspected to show a special calcium sensitivity that the other caseins lack which could give important insights for the binding of the casein micelle.
+
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\listoffigures
+\newpage
+
 \pagenumbering{arabic}
 ```{r intro, child = 'intro.Rmd'}
 ```
@@ -131,19 +160,22 @@ Data showed correlations between protein adsorption at the interface, particle g
 ```{r chapIII, child='chapterIIIb.Rmd'}
 ```
 \newpage
-```{r chapIV, child='chapterIVb.Rmd'}
+```{r chapIV, child='chapterIVf.Rmd'}
 ```
 \newpage
 ```{r chapV, child='chapterV.Rmd'}
 ```
 \newpage
-```{r chapVI, child='chapterVI.Rmd'}
+```{r chapIV, child='ChapterVI.Rmd'}
 ```
 \newpage
 ```{r conclusion, child='conclusion.Rmd'}
 ```
 \newpage
+\newpage
 ```{r biblio, child='bibliography.Rmd'}
 ```
+
+
 
 
