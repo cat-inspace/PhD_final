@@ -11,3 +11,8 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: XeLaTeX
+
+BuildType: Package
+PackageUseDevtools: Yes
+PackagePath: /private/var/folders/dk/s7q7znxj6jl707v4n6dnch100000gn/T/RtmppjqpPa/downloaded_packages/bookdown
+PackageInstallArgs: --no-multiarch --with-keep.source

@@ -7,7 +7,7 @@ output:
 geometry: "left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm"
 fontsize: 11pt
 header-includes:
-  - \usepackage{lmodern} 
+  - \usepackage{lmodern}
   - \usepackage{float}
   - \usepackage{sectsty}
   - \usepackage{paralist}
@@ -22,7 +22,7 @@ header-includes:
   - \usepackage{amsfonts}
   - \usepackage{upgreek}
   - \usepackage{hyperref}
-  -  \hypersetup{
+  - \hypersetup{
         colorlinks=true,
         linkcolor=blue,
         filecolor=magenta,      
@@ -35,11 +35,18 @@ header-includes:
   - \usepackage{natbib}\bibliographystyle{agsm}
   - \usepackage{acronym}
   - \usepackage{tocloft}
+  - \usepackage{multirow}
+  - \usepackage[T1]{fontenc}	
+  - \usepackage{tabularx}
+  - \usepackage{calc}
+  - \usepackage{makecell}
+  - \usepackage{textcomp}
+  - \usepackage{lscape}
+  - \usepackage{longtable}
 
-
-  
 bibliography: library.bib
 link-citations: true
+
 ---
 
 ```{r setup, include=FALSE}
@@ -122,7 +129,7 @@ knitr::opts_chunk$set(fig.pos = "!h", out.extra = "", fig.align='center')
 
 
 \begin{verse}
-    Man muss Chaos in sich tragen,\\
+    Man muss noch Chaos in sich tragen,\\
     um einen tanzenden Stern gebären zu können.\\
      - F. Nietzsche
 \end{verse}        
@@ -142,10 +149,10 @@ knitr::opts_chunk$set(fig.pos = "!h", out.extra = "", fig.align='center')
 {\bf Summary}
 \end{raggedleft}
 \spacing{1.5}
-In a highly concentrated protein systems, such as processed or cream cheese, wherein large protein aggregates are present next to a dispersed phase, the inner structure is usually very complex and influenced by numerous factors. In order to elucidate these inner structure in compositional terms and in the micro and nano scale of protein interaction, a model processed cheese matrix was reiterated and further developed from previous work (@Lenze2019). This matrix consisted of store-type plant oil as dispersed phase and different casein powders with protein concentrations ~90%, from which < 1% was from whey proteins. The casein displayed the continous phase, which is suspected to form the gelled matrix. 
+In a highly concentrated protein systems, such as processed or cream cheese, wherein large protein aggregates are present next to a dispersed phase, the inner structure is usually very complex and influenced by numerous factors. In order to elucidate these inner structures in compositional terms and in the micro and nano scale of protein interaction, a model processed cheese matrix was reiterated and further developed from previous work (@Lenze2019). This matrix consisted of store-type plant oil as dispersed phase and different casein powders with protein concentrations ~90%, from which < 1% was from whey proteins. The casein displayed the continous phase, which is suspected to form the gelled matrix. 
 As it is typical in processed cheese, emulsifying salts were used in the mixture, resulting in a dry matter of the non-processed matrix of ~40%. To formulate a homogenous matrix, the samples were homogenized before processing, using a laboratory mixing device. This process was further referred to herein as premixing, since the processing of processed cheese, of course involves mixing, kneading, stirring or however an applied shear force during heating.
 
-Various model process-cheese matrices using sodium, rennet and native casein as starting material were investigated in their structuring-behaviour using a rheometer as a monitoring and processing device for the structure-build up. In sum ten different stages for structure formation were defined and the products obtained were analyzed. In gneral a two-step increase in viscosity, as it is typical also for the industrial processing of such cheeses, could be observed.
+Various model process-cheese matrices using sodium, rennet and native casein as starting material were investigated in their structuring-behaviour using a rheometer as a monitoring and processing device for the structure-build up. In sum ten different stages for structure formation were defined and the products obtained were analyzed. In general a two-step increase in viscosity, as it is typical also for the industrial processing of such cheeses, could be observed.
 For determination of the protein concentrations at the O/W interface, the soluble phase and the insoluble phase, a centrifugational washing procedure for separating the diluted model processed cheese matrix was developed. In addition, a procedure for washing the cream phase and subsequent desorption of proteins from the interphase, using a chaotropic salt, was put together. Thereby obtained phases were investigated afterwards with RP-HPLC for protein quantification and qualification, giving compositional and quantitative data for the the distribution of caseins in the matrix. It could be shown, that the emulsification of fat primarily happens during the second step of structuring. This step was considered to be *inter alia* the second exponential or second log phase of structure formation, i.e. processing.
 
 In addition to HPLC analysis, particle sizes of the three phases were measured. The particle sizes showed bimodal distributions, therefore an algorithm for modelling normal distributions in equal mixtures of distributions ("normalmixEM" within the R programming language) was used in the programming of a fit function. This was done to better estimate the particle sizes or particle volumes and their respective density distributions in the analyzed samples. By doing so, a close approximation of distribution and development of large components next to small components in the analyzed samples could be given. 
