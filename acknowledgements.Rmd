@@ -16,5 +16,3 @@ Also, I would like to thank my office colleagues, Dr. Martin Hartinger, Dr. Chri
 A special honoration goes to my students, Christina Baumeister, Alexander Schmieder and Viktoria Heitler for their tireless work during method development and their fierce interest in the science that is processed cheese. The liberating discussions as well as their considerations towards the experimental results helped a lot to shape this work.
 
 Also, I want to thank my family and friends, who are always true believers in me and never doubt me to achieve my goals. Without them, this thesis would not have been possible.
-
-Last but not least, I want to thank my partner, best friend and soon to be husband Claus Peter Pfeilschifter, on the one hand for giving me the impulse to learn to code for this work as well as for loving and supporting me all the way. 
